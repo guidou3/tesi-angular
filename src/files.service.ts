@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { host } from './net.json';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,8 @@ export class FilesService {
 
   addModel(model : File) {
     this.files.model = model;
-    // this.http.post('http://localhost:9000/', model)
-    this.http.get('http://192.168.1.133:9000/', { observe: 'response' })
+    // this.http.post('http://localhost:9000/api/prova', model)
+    this.http.get<String>(host + 'api/prova')
     .subscribe(resp => console.log(resp))
     
   }

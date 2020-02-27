@@ -9,6 +9,9 @@ import { InitialComponent } from './initial/initial.component';
 import { AgGridModule } from 'ag-grid-angular';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+import { UploadModule } from './upload/upload.module'
+import { UploadComponent } from './upload/upload.component'
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -18,7 +21,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
       { path: '', component: InitialComponent },
     ]),
     AgGridModule.withComponents([]),
-    FlexLayoutModule 
+    FlexLayoutModule,
+    UploadModule
   ],
   declarations: [ 
      AppComponent,
