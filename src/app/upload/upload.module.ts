@@ -6,7 +6,7 @@ import {
   MatListModule,
   MatProgressBarModule,
 } from '@angular/material'
-import { DialogComponent } from './dialog/dialog.component'
+import { DialogComponent } from './dialogue/dialogue.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { UploadService } from './upload.service'

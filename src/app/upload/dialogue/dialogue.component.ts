@@ -5,8 +5,8 @@ import { forkJoin } from 'rxjs/observable/forkJoin'
 
 @Component({
   selector: 'app-dialog',
-  templateUrl: './dialog.component.html',
-  styleUrls: ['./dialog.component.css'],
+  templateUrl: './dialogue.component.html',
+  styleUrls: ['./dialogue.component.css'],
 })
 export class DialogComponent {
   @ViewChild('file') file
