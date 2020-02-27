@@ -18,7 +18,7 @@ import { UploadComponent } from './upload/upload.component'
     HttpClientModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', component: InitialComponent },
+      { path: '', component: UploadComponent },
     ]),
     AgGridModule.withComponents([]),
     FlexLayoutModule,
