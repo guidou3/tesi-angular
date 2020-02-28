@@ -21,9 +21,9 @@ export class UploadService {
 
     // this will be the our resulting map
     const status: { [key: string]: { progress: Observable<number> } } = {};
-
     files.forEach(file => {
       // create a new multipart-form for every file
+      console.log(file.name)
       const formData: FormData = new FormData();
       formData.append('file', file, file.name);
 
@@ -38,6 +38,7 @@ export class UploadService {
 
       // send the http-request and subscribe for progress-updates
       this.http.request(req).subscribe(event => {
+        console.log(event)
         if (event.type === HttpEventType.UploadProgress) {
 
           // calculate the progress percentage
@@ -45,6 +46,9 @@ export class UploadService {
 
           // pass the percentage into the progress-stream
           progress.next(percentDone);
+
+          if(event.loaded === event.total)
+            progress.complete();
         } else if (event instanceof HttpResponse) {
 
           // Close the progress-stream if we get an answer form the API

@@ -9,7 +9,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin'
   styleUrls: ['./dialogue.component.css'],
 })
 export class DialogComponent {
-  @ViewChild('file') file
+  @ViewChild('file', {static: false}) file
   public files: Set<File> = new Set()
 
   constructor(public dialogRef: MatDialogRef<DialogComponent>, public uploadService: UploadService) {}
