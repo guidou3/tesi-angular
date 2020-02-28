@@ -8,7 +8,9 @@ import {
 import { Subject } from 'rxjs/Subject'
 import { Observable } from 'rxjs/Observable'
 
-const url = 'http://localhost:8000/upload'
+import { host } from '../../net.json';
+
+const url = host + '/api/uploadModel'
 
 @Injectable()
 export class UploadService {
