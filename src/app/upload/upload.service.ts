@@ -10,7 +10,7 @@ import { Observable } from 'rxjs/Observable'
 
 import { host } from '../../net.json';
 
-const url = host + '/api/uploadModel'
+const url = host + '/uploadModel'
 
 @Injectable()
 export class UploadService {
@@ -30,7 +30,8 @@ export class UploadService {
       // create a http-post request and pass the form
       // tell it to report the upload progress
       const req = new HttpRequest('POST', url, formData, {
-        reportProgress: true
+        reportProgress: true,
+        responseType: 'text'
       });
 
       // create a new progress-subject for every file
@@ -47,8 +48,6 @@ export class UploadService {
           // pass the percentage into the progress-stream
           progress.next(percentDone);
 
-          if(event.loaded === event.total)
-            progress.complete();
         } else if (event instanceof HttpResponse) {
 
           // Close the progress-stream if we get an answer form the API
