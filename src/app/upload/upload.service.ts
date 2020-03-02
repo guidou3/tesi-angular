@@ -8,7 +8,7 @@ import {
 import { Subject } from 'rxjs/Subject'
 import { Observable } from 'rxjs/Observable'
 
-import { host } from '../../net.json';
+const host = "https://guido-t235.localhost.run"
 
 const url = host + '/uploadModel'
 
