@@ -21,6 +21,13 @@ export class UploadService {
 
     // this will be the our resulting map
     const status: { [key: string]: { progress: Observable<number> } } = {};
+
+    let index=0;
+    let url = new Map()
+      .set(0, host + '/uploadModel')
+      .set(1, host + '/uploadCustomElements')
+      .set(2, host + '/uploadLog')
+
     files.forEach(file => {
       // create a new multipart-form for every file
       const formData: FormData = new FormData();
@@ -28,10 +35,12 @@ export class UploadService {
 
       // create a http-post request and pass the form
       // tell it to report the upload progress
-      const req = new HttpRequest('POST', url, formData, {
+      const req = new HttpRequest('POST', url[index], formData, {
         reportProgress: true,
         responseType: 'text'
       });
+      
+      index +=1
 
       // create a new progress-subject for every file
       const progress = new Subject<number>();

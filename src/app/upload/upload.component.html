@@ -49,14 +49,14 @@
   
 </form>
 <mat-list>
-      <mat-list-item *ngFor="let file of files">
-        <h4 mat-line>{{file.name}}</h4>
-        <mat-progress-bar
-          *ngIf="progress"
-          mode="determinate"
-          [value]="progress[file.name].progress | async"
-        ></mat-progress-bar>
-      </mat-list-item>
-    </mat-list>
+  <mat-list-item *ngFor="let file of files">
+    <h4 mat-line>{{file.name}}</h4>
+    <mat-progress-bar
+      *ngIf="progress"
+      mode="determinate"
+      [value]="progress[file.name].progress | async"
+    ></mat-progress-bar>
+  </mat-list-item>
+</mat-list>
 
 <button mat-raised-button (click)="openUploadDialog()">Upload</button>
