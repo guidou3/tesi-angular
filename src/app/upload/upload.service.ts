@@ -23,7 +23,6 @@ export class UploadService {
     const status: { [key: string]: { progress: Observable<number> } } = {};
     files.forEach(file => {
       // create a new multipart-form for every file
-      console.log(file.name)
       const formData: FormData = new FormData();
       formData.append('file', file, file.name);
 

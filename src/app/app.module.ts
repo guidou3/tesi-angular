@@ -12,6 +12,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { UploadModule } from './upload/upload.module'
 import { UploadComponent } from './upload/upload.component'
 
+import { InputsModule, WavesModule, ButtonsModule } from 'angular-bootstrap-md'
+
 @NgModule({
   imports: [
     BrowserModule,
