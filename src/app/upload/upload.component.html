@@ -1,7 +1,9 @@
 <form>
-  <div>
-    <label>Model</label>
-    <button 
+  <h1>Upload files</h1>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <label fxFlex="30">Model</label>
+    <div fxFlex="70">
+      <button 
       type="button"
       mat-raised-button 
       (click)="getModel()" 
@@ -10,35 +12,51 @@
         CHOOSE FILE
       </button>
       <label class="input-file-label">{{modelLabel}}</label>
+    </div>
+    
     <input type="file" #modelInput value="upload" (change)="subModel()"/>
   </div>
-  <div>
-    <label>Custom Elements</label>
-    <button 
-      type="button"
-      mat-raised-button 
-      (click)="getCustomElements()" 
-      color="primary" 
-      class="input-file-button">
-        CHOOSE FILE
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <label fxFlex="30">Custom Elements</label>
+    <div fxFlex="70">
+      <button 
+        type="button"
+        mat-raised-button 
+        (click)="getCustomElements()" 
+        color="primary" 
+        class="input-file-button">
+          CHOOSE FILE
       </button>
       <label class="input-file-label">{{ceLabel}}</label>
+    </div>
     <input type="file" #ceInput value="upload" (change)="subCustomElements()"/>
   </div>
-  <div>
-    <label>Log</label>
-    <button 
-      type="button"
-      mat-raised-button 
-      (click)="getLog()" 
-      color="primary" 
-      class="input-file-button">
-        CHOOSE FILE
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <label fxFlex="30">Log</label>
+    <div fxFlex="70">
+      <button 
+        type="button"
+        mat-raised-button 
+        (click)="getLog()" 
+        color="primary" 
+        class="input-file-button">
+          CHOOSE FILE
       </button>
       <label class="input-file-label">{{logLabel}}</label>
+    </div>
     <input type="file" #logInput value="upload" (change)="subLog()"/>
   </div>
   
 </form>
+<mat-list>
+      <mat-list-item *ngFor="let file of files">
+        <h4 mat-line>{{file.name}}</h4>
+        <mat-progress-bar
+          *ngIf="progress"
+          mode="determinate"
+          [value]="progress[file.name].progress | async"
+        ></mat-progress-bar>
+      </mat-list-item>
+    </mat-list>
 
 <button mat-raised-button (click)="openUploadDialog()">Upload</button>

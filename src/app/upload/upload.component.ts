@@ -14,39 +14,37 @@ export class UploadComponent {
   @ViewChild('modelInput', {static: false}) modelInput
   @ViewChild('ceInput', {static: false}) ceInput
   @ViewChild('logInput', {static: false}) logInput
-  modelLabel:String = "Upload model"
-  ceLabel:String = "Upload custom elements"
-  logLabel:String = "Upload log"
+  modelLabel:String = ""
+  ceLabel:String = ""
+  logLabel:String = ""
 
-  model:File
-  customElements:File
-  log:File
+  files:Set<File> = new Set()
 
   public getModel() {
     this.modelInput.nativeElement.click();
   }
 
-  public subModel(string:String) {
-    this.customElements = this.modelInput.nativeElement.files[0]
-    this.modelLabel = this.model.name
+  public subModel() {
+    this.files[0] = this.modelInput.nativeElement.files[0]
+    this.modelLabel = this.files[0].name
   }
 
   public getCustomElements() {
-    this.modelInput.nativeElement.click();
+    this.ceInput.nativeElement.click();
   }
 
-  public subCustomElements(string:String) {
-    this.customElements = this.ceInput.nativeElement.files[0]
-    this.ceLabel = this.customElements.name
+  public subCustomElements() {
+    this.files[1] = this.ceInput.nativeElement.files[0]
+    this.ceLabel = this.files[1].name
   }
 
   public getLog() {
     this.logInput.nativeElement.click();
   }
 
-  public subLog(string:String) {
-    this.log = this.logInput.nativeElement.files[0]
-    this.logLabel = this.log.name
+  public subLog() {
+    this.files[2] = this.logInput.nativeElement.files[0]
+    this.logLabel = this.files[2].name
   }
 
   public openUploadDialog() {
