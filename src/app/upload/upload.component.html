@@ -48,15 +48,21 @@
   </div>
   
 </form>
-<mat-list>
-  <mat-list-item *ngFor="let file of files">
-    <h4 mat-line>{{file.name}}</h4>
-    <mat-progress-bar
-      *ngIf="progress"
-      mode="determinate"
-      [value]="progress[file.name].progress | async"
-    ></mat-progress-bar>
-  </mat-list-item>
-</mat-list>
 
-<button mat-raised-button (click)="openUploadDialog()">Upload</button>
+<button class="submitButton" type="button" mat-raised-button (click)="upload()">Upload</button>
+
+<div *ngIf="files.length > 0">
+  
+  <mat-list class="uploadProgess" >
+    <h3 mat-subheader>Upload progress</h3>
+    <mat-list-item *ngFor="let file of files">
+      <mat-icon mat-list-icon>keyboard_arrow_right</mat-icon>
+      <h4 mat-line>{{file.name}}</h4>
+      <mat-progress-bar
+        *ngIf="progress"
+        mode="determinate"
+        [value]="progress[file.name].progress | async"
+      ></mat-progress-bar>
+    </mat-list-item>
+  </mat-list>
+</div>

@@ -5,6 +5,7 @@ import {
   MatDialogModule,
   MatListModule,
   MatProgressBarModule,
+  MatIconModule
 } from '@angular/material'
 import { DialogComponent } from './dialogue/dialogue.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
@@ -23,6 +24,7 @@ import { UploadComponent } from './upload.component'
     HttpClientModule,
     BrowserAnimationsModule,
     MatProgressBarModule,
+    MatIconModule
   ],
   declarations: [UploadComponent, DialogComponent],
   exports: [UploadComponent],

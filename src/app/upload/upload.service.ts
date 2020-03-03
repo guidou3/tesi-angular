@@ -8,9 +8,7 @@ import {
 import { Subject } from 'rxjs/Subject'
 import { Observable } from 'rxjs/Observable'
 
-const host = "https://guido-t235.localhost.run"
-
-const url = host + '/uploadModel'
+const host = "https://guido-flgv.localhost.run"
 
 @Injectable()
 export class UploadService {
@@ -35,11 +33,11 @@ export class UploadService {
 
       // create a http-post request and pass the form
       // tell it to report the upload progress
-      const req = new HttpRequest('POST', url[index], formData, {
+      const req = new HttpRequest('POST', url.get(index), formData, {
         reportProgress: true,
         responseType: 'text'
       });
-      
+
       index +=1
 
       // create a new progress-subject for every file
@@ -47,7 +45,6 @@ export class UploadService {
 
       // send the http-request and subscribe for progress-updates
       this.http.request(req).subscribe(event => {
-        console.log(event)
         if (event.type === HttpEventType.UploadProgress) {
 
           // calculate the progress percentage
@@ -69,7 +66,6 @@ export class UploadService {
         progress: progress.asObservable()
       };
     });
-
     // return the map of progress.observables
     return status;
   }

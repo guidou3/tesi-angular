@@ -19,7 +19,7 @@ export class UploadComponent {
   ceLabel:String = ""
   logLabel:String = ""
 
-  files:Set<File> = new Set()
+  files:Array<File> = new Array()
 
   progress
   uploading = false
@@ -56,10 +56,9 @@ export class UploadComponent {
   public upload() {
     // set the component state to "uploading"
     this.uploading = true;
-
     // start the upload and save the progress map
-    this.progress = this.uploadService.upload(this.files);
-
+    this.progress = this.uploadService.upload(new Set(this.files));
+    console.log(this.progress["Piano di studi.pdf"].progress.isComplete())
     // convert the progress map into an array
     let allProgressObservables = [];
     for (let key in this.progress) {

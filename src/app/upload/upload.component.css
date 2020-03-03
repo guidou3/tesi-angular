@@ -20,3 +20,20 @@ input[type="file"] {
   line-height: 20px;
   font-size: 10px;
 }
+
+.uploadProgess {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.uploadProgess > .mat-list-item {
+  font-size: 12px !important;
+}
+
+.submitButton {
+  margin: 15px 0;
+}
+
+.mat-list .mat-list-item {
+  height: 30px; /* default is 72px */
+}
