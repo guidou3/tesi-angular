@@ -12,7 +12,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { UploadModule } from './upload/upload.module'
 import { UploadComponent } from './upload/upload.component'
 
-import { InputsModule, WavesModule, ButtonsModule } from 'angular-bootstrap-md'
+import { InputsModule, WavesModule, ButtonsModule } from 'angular-bootstrap-md';
+import { TableComponent } from './table/table.component';
+import { P&aParametersComponent } from './p&a-parameters/p&a-parameters.component'
 
 @NgModule({
   imports: [
@@ -28,7 +30,9 @@ import { InputsModule, WavesModule, ButtonsModule } from 'angular-bootstrap-md'
   ],
   declarations: [ 
      AppComponent,
-     InitialComponent
+     InitialComponent,
+     TableComponent,
+     P&aParametersComponent
   ],
   bootstrap:    [ 
     AppComponent

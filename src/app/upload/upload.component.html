@@ -1,8 +1,8 @@
 <form>
   <h1>Upload files</h1>
   <div fxLayout="row" fxLayoutAlign="space-between center">
-    <label fxFlex="30">Model</label>
-    <div fxFlex="70">
+    <label >Model</label>
+    <div fxFlex="60">
       <button 
       type="button"
       mat-raised-button 
@@ -13,12 +13,11 @@
       </button>
       <label class="input-file-label">{{modelLabel}}</label>
     </div>
-    
     <input type="file" #modelInput value="upload" (change)="subModel()"/>
   </div>
   <div fxLayout="row" fxLayoutAlign="space-between center">
-    <label fxFlex="30">Custom Elements</label>
-    <div fxFlex="70">
+    <label >Custom Elements</label>
+    <div fxFlex="60">
       <button 
         type="button"
         mat-raised-button 
@@ -32,8 +31,8 @@
     <input type="file" #ceInput value="upload" (change)="subCustomElements()"/>
   </div>
   <div fxLayout="row" fxLayoutAlign="space-between center">
-    <label fxFlex="30">Log</label>
-    <div fxFlex="70">
+    <label>Log</label>
+    <div fxFlex="60">
       <button 
         type="button"
         mat-raised-button 
