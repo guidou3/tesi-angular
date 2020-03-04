@@ -14,15 +14,16 @@ import { UploadComponent } from './upload/upload.component'
 
 import { InputsModule, WavesModule, ButtonsModule } from 'angular-bootstrap-md';
 import { TableComponent } from './table/table.component';
-import { P&aParametersComponent } from './p&a-parameters/p&a-parameters.component'
+import { Parameters1Component } from './parameters1/parameters1.component';
+
 
 @NgModule({
   imports: [
     BrowserModule,
     HttpClientModule,
-    ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', component: UploadComponent },
+      { path: '', component: Parameters1Component },
+      { path: 'upload', component: UploadComponent },
     ]),
     AgGridModule.withComponents([]),
     FlexLayoutModule,
@@ -32,7 +33,7 @@ import { P&aParametersComponent } from './p&a-parameters/p&a-parameters.componen
      AppComponent,
      InitialComponent,
      TableComponent,
-     P&aParametersComponent
+     Parameters1Component
   ],
   bootstrap:    [ 
     AppComponent
