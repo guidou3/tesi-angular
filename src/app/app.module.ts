@@ -12,9 +12,17 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { UploadModule } from './upload/upload.module'
 import { UploadComponent } from './upload/upload.component'
 
-import { InputsModule, WavesModule, ButtonsModule } from 'angular-bootstrap-md';
 import { TableComponent } from './table/table.component';
 import { Parameters1Component } from './parameters1/parameters1.component';
+
+import {
+  MatButtonModule,
+  MatDialogModule,
+  MatListModule,
+  MatSelectModule,
+  MatIconModule,
+  MatCheckboxModule
+} from '@angular/material'
 
 
 @NgModule({
@@ -27,7 +35,9 @@ import { Parameters1Component } from './parameters1/parameters1.component';
     ]),
     AgGridModule.withComponents([]),
     FlexLayoutModule,
-    UploadModule
+    UploadModule,
+    MatSelectModule,
+    MatCheckboxModule
   ],
   declarations: [ 
      AppComponent,

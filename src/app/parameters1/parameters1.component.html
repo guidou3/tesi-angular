@@ -18,16 +18,35 @@
 
     </div>
   </div>
-  <div fxLayout="row" fxLayoutAlign="space-between center">
-    <label>Unassigned variable mode</label>
-    <div fxFlex="60">
+  
+  <mat-form-field fxLayout="row">
+    <mat-label>Unassigned variable mode</mat-label>
+    <mat-select >
+      <mat-option *ngFor="let val of milp" [value]="val.value">{{val.viewValue}}</mat-option>
+    </mat-select>
+  </mat-form-field>
 
-    </div>
-  </div>
-  <div fxLayout="row" fxLayoutAlign="space-between center">
-    <label>MILP Solver</label>
-    <div fxFlex="60">
+  <mat-form-field fxLayout="row">
+    <mat-label>MILP Solver</mat-label>
+    <mat-select >
+      <mat-option value="NULL">LpSolve (Bundled)</mat-option>
+      <mat-option value="DEFAULT">Gurobi</mat-option>
+      <mat-option value="FREE">FREE</mat-option>
+    </mat-select>
+  </mat-form-field>
 
-    </div>
+  <mat-checkbox 
+  labelPosition="before"
+  (change)="OnChange($event)"
+  [(checked)]="checked">
+    Advanced options
+  </mat-checkbox>
+
+  <button type="button" (click)="isChecked()">Try</button>
+
+  <div *ngIf="checked">
+    <p>prova</p>
   </div>
+
+
 </form>
