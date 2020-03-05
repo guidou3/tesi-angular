@@ -35,10 +35,20 @@ export class Parameters1Component implements OnInit {
     {value: 'RANDOM', viewValue: 'Random'}
   ]
 
-  threads = new SliderParams(1, 100, 80, 5)
+  maxThreads = 100
+  maxSearchSpace = 80
+  defaultSearchSpace = 60
+
+  threads = new SliderParams(1, this.maxThreads, this.maxThreads, 1)
+
+  fitness = new SliderParams(0, 1, 1, 0.01)
+
+  search_space = new SliderParams(1, this.maxSearchSpace, this.defaultSearchSpace, 1)
 
   formGroup = new FormGroup({
     threads: new FormControl(this.threads.defaultValue),
+    fitness: new FormControl(this.fitness.defaultValue),
+    search_space: new FormControl(this.search_space.defaultValue),
     checked: new FormControl(false),
     unassigned: new FormControl('NULL'),
     milp: new FormControl('LpSolve'),

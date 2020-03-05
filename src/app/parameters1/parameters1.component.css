@@ -1,0 +1,16 @@
+.slider {
+  width: 70%;
+}
+
+.selectIcon {
+  padding: 0 5px;
+}
+
+ .mat-tooltip.tooltip {
+    background-color: darkblue;
+    font-size: 12px;
+  }
+
+.custom-tooltip {
+  font-size: 10px !important;
+}

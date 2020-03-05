@@ -6,7 +6,7 @@
     style="border: 1px solid #ccc;padding: 0 3px; border-radius:3px;"
     labelPosition="before"
     formControlName="checked">
-      Advanced options
+      <i>Advanced options</i>
   </mat-checkbox>
   </div>
   <div fxLayout="row" fxLayoutAlign="space-between center">
@@ -14,18 +14,20 @@
     <mat-icon 
       matTooltip="How many current threads to use (a lower value use less memory)."
       matTooltipPosition="right"
-      mat-list-icon>
+      matTooltipClass="custom-tooltip">
       info
     </mat-icon>
-    <div fxFlex="60">
+    <div fxFlex="60" fxLayoutAlign="center center">
       <mat-slider
-        [max]="max"
-        [min]="min"
-        [step]="step"
-        [thumbLabel]="thumbLabel"
-        [tickInterval]="1"
+        class="slider"
+        [max]="threads.max"
+        [min]="threads.min"
+        [step]="threads.step"
+        thumbLabel=true
+        tickInterval=1
         formControlName="threads">
-    </mat-slider>
+      </mat-slider>
+      <label fxFlex="13" fxLayoutAlign="center">{{formGroup.controls['threads'].value}}</label>
     </div>
   </div>
   <div fxLayout="row" fxLayoutAlign="space-between center">
@@ -36,8 +38,17 @@
       mat-list-icon>
       info
     </mat-icon>
-    <div fxFlex="60">
-
+    <div fxFlex="60" fxLayoutAlign="center center">
+      <mat-slider
+        class="slider"
+        [max]="fitness.max"
+        [min]="fitness.min"
+        [step]="fitness.step"
+        thumbLabel=true
+        tickInterval=1
+        formControlName="fitness">
+      </mat-slider>
+      <label fxFlex="13" fxLayoutAlign="center">{{formGroup.controls['fitness'].value}}</label>
     </div>
   </div>
   <div fxLayout="row" fxLayoutAlign="space-between center">
@@ -48,8 +59,17 @@
       mat-list-icon>
       info
     </mat-icon>
-    <div fxFlex="60">
-
+    <div fxFlex="60" fxLayoutAlign="center center">
+      <mat-slider
+        class="slider"
+        [max]="search_space.max"
+        [min]="search_space.min"
+        [step]="search_space.step"
+        thumbLabel=true
+        tickInterval=1
+        formControlName="search_space">
+      </mat-slider>
+      <label fxFlex="13" fxLayoutAlign="center">{{formGroup.controls['search_space'].value}}</label>
     </div>
   </div>
   <div fxLayout="row" fxLayoutAlign="start center">
@@ -60,6 +80,7 @@
       </mat-select>
     </mat-form-field>
     <mat-icon 
+      class="selectIcon"
       matTooltip="Determines how unassigned variables are handled."
       matTooltipPosition="right"
       mat-list-icon>
@@ -74,6 +95,7 @@
       </mat-select>
     </mat-form-field>
     <mat-icon 
+      class="selectIcon"
       matTooltip="Solver to be used for MILP problems. Gurobi is faster!"
       matTooltipPosition="right"
       mat-list-icon>
@@ -92,6 +114,7 @@
         </mat-select>
       </mat-form-field>
       <mat-icon 
+        class="selectIcon"
         matTooltip="Algorithm that is used to find an (optimal) alignment. A* graph is fastest."
         matTooltipPosition="right"
         mat-list-icon>
@@ -107,6 +130,7 @@
           Compute balanced alignment
       </mat-checkbox>
       <mat-icon 
+        class="selectIcon"
         matTooltip="Use a balanced alignment. (Disable to use staged approach of BPM 2013 paper)"
         matTooltipPosition="right"
         mat-list-icon>
@@ -122,6 +146,7 @@
           Keep Control Flow Search
       </mat-checkbox>
       <mat-icon 
+        class="selectIcon"
         matTooltip="Retain the search space between traces to speed up the computation. (Disable to use less memory)"
         matTooltipPosition="right"
         mat-list-icon>
@@ -152,6 +177,7 @@
           Use cache
       </mat-checkbox>
       <mat-icon 
+        class="selectIcon"
         matTooltip="Remember the solution to MILP problems and re-uses those solutions if possible. (Disable to use less memory)"
         matTooltipPosition="right"
         mat-list-icon>
@@ -167,6 +193,7 @@
           Use optimization
       </mat-checkbox>
       <mat-icon 
+        class="selectIcon"
         matTooltip="Activates optimizations that avoid solving a ILP problem. (Disable to be slower)"
         matTooltipPosition="right"
         mat-list-icon>
@@ -182,6 +209,7 @@
         </mat-select>
       </mat-form-field>
       <mat-icon 
+        class="selectIcon"
         matTooltip="Whether to search all re-orderings (NONE) or just a single special ordering between log-moves and model-moves."
         matTooltipPosition="right"
         mat-list-icon>
@@ -197,6 +225,7 @@
         </mat-select>
       </mat-form-field>
       <mat-icon 
+        class="selectIcon"
         matTooltip="Strategy to break ties in the A* search. Random can be useful to get multiple solutions with equal cost."
         matTooltipPosition="right"
         mat-list-icon>
