@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { SliderParams} from './parameters'
+import {
+  HttpClient,
+  HttpRequest,
+  HttpEventType,
+  HttpResponse,
+} from '@angular/common/http'
 
 @Component({
   selector: 'app-parameters1',
@@ -62,9 +68,10 @@ export class Parameters1Component implements OnInit {
     queueing: new FormControl('DEPTHFIRST')
   })
 
-  constructor() { }
+  constructor(http: HttpClient) { }
 
   ngOnInit() {
+    this.http.get()
   }
 
   public isChecked() {
