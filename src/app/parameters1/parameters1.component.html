@@ -1,51 +1,209 @@
-<form>
+<form [formGroup]="formGroup">
   <h3>Performance & Alignment-related Parameters</h3>
-  <div fxLayout="row" fxLayoutAlign="space-between center">
-    <label>Concurrent threads</label>
-    <div fxFlex="60">
-      
-    </div>
-  </div>
-  <div fxLayout="row" fxLayoutAlign="space-between center">
-    <label>Limit fitness</label>
-    <div fxFlex="60">
-
-    </div>
-  </div>
-  <div fxLayout="row" fxLayoutAlign="space-between center">
-    <label>Limit search space</label>
-    <div fxFlex="60">
-
-    </div>
-  </div>
-  
-  <mat-form-field fxLayout="row">
-    <mat-label>Unassigned variable mode</mat-label>
-    <mat-select >
-      <mat-option *ngFor="let val of milp" [value]="val.value">{{val.viewValue}}</mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <mat-form-field fxLayout="row">
-    <mat-label>MILP Solver</mat-label>
-    <mat-select >
-      <mat-option value="NULL">LpSolve (Bundled)</mat-option>
-      <mat-option value="DEFAULT">Gurobi</mat-option>
-      <mat-option value="FREE">FREE</mat-option>
-    </mat-select>
-  </mat-form-field>
-
+  <div fxLayoutAlign="end center">
   <mat-checkbox 
-  labelPosition="before"
-  (change)="OnChange($event)"
-  [(checked)]="checked">
-    Advanced options
+    fxLayout="row"
+    style="border: 1px solid #ccc;padding: 0 3px; border-radius:3px;"
+    labelPosition="before"
+    formControlName="checked">
+      Advanced options
   </mat-checkbox>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <label fxFlex="35">Concurrent threads </label>
+    <mat-icon 
+      matTooltip="How many current threads to use (a lower value use less memory)."
+      matTooltipPosition="right"
+      mat-list-icon>
+      info
+    </mat-icon>
+    <div fxFlex="60">
+      <mat-slider
+        [max]="max"
+        [min]="min"
+        [step]="step"
+        [thumbLabel]="thumbLabel"
+        [tickInterval]="1"
+        formControlName="threads">
+    </mat-slider>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <label fxFlex="35">Limit fitness</label>
+    <mat-icon 
+      matTooltip="Stops the computation, if fitness for trace would drop below given value."
+      matTooltipPosition="right"
+      mat-list-icon>
+      info
+    </mat-icon>
+    <div fxFlex="60">
 
-  <button type="button" (click)="isChecked()">Try</button>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <label fxFlex="35">Limit search space</label>
+    <mat-icon 
+      matTooltip="Stops the computation, if the given number of states has been queued."
+      matTooltipPosition="right"
+      mat-list-icon>
+      info
+    </mat-icon>
+    <div fxFlex="60">
 
-  <div *ngIf="checked">
-    <p>prova</p>
+    </div>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <mat-form-field fxLayout="row">
+      <mat-label>Unassigned variable mode</mat-label>
+      <mat-select formControlName="unassigned">
+        <mat-option *ngFor="let val of unassigned" [value]="val.value">{{val.viewValue}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-icon 
+      matTooltip="Determines how unassigned variables are handled."
+      matTooltipPosition="right"
+      mat-list-icon>
+      info
+    </mat-icon>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <mat-form-field fxLayout="row">
+      <mat-label>MILP Solver</mat-label>
+      <mat-select formControlName="milp">
+        <mat-option *ngFor="let val of milp" [value]="val.value">{{val.viewValue}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-icon 
+      matTooltip="Solver to be used for MILP problems. Gurobi is faster!"
+      matTooltipPosition="right"
+      mat-list-icon>
+      info
+    </mat-icon>
+  </div>
+
+  <div *ngIf="formGroup.controls['checked'].value">
+    <h5>Expert confgiguration options</h5>
+
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-form-field fxLayout="row">
+        <mat-label>Search Algorithm</mat-label>
+        <mat-select formControlName="algorithm">
+          <mat-option *ngFor="let val of algorithms" [value]="val.value">{{val.viewValue}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-icon 
+        matTooltip="Algorithm that is used to find an (optimal) alignment. A* graph is fastest."
+        matTooltipPosition="right"
+        mat-list-icon>
+          info
+      </mat-icon>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-checkbox 
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        labelPosition="after"
+        formControlName="balanced">
+          Compute balanced alignment
+      </mat-checkbox>
+      <mat-icon 
+        matTooltip="Use a balanced alignment. (Disable to use staged approach of BPM 2013 paper)"
+        matTooltipPosition="right"
+        mat-list-icon>
+          info
+      </mat-icon>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-checkbox 
+        fxLayout="row"
+        labelPosition="after"
+        formControlName="keep_control">
+          Keep Control Flow Search
+      </mat-checkbox>
+      <mat-icon 
+        matTooltip="Retain the search space between traces to speed up the computation. (Disable to use less memory)"
+        matTooltipPosition="right"
+        mat-list-icon>
+          info
+      </mat-icon>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-checkbox 
+        fxLayout="row"
+        labelPosition="after"
+        formControlName="keep_data">
+          Keep Data Flow Search
+      </mat-checkbox>
+      <mat-icon 
+        matTooltip="Retain the search space between traces to speed up the computation. (Disable to use less memory)"
+        matTooltipPosition="right"
+        mat-list-icon>
+          info
+      </mat-icon>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-checkbox 
+        fxLayout="row"
+        labelPosition="after"
+        formControlName="cache">
+          Use cache
+      </mat-checkbox>
+      <mat-icon 
+        matTooltip="Remember the solution to MILP problems and re-uses those solutions if possible. (Disable to use less memory)"
+        matTooltipPosition="right"
+        mat-list-icon>
+          info
+      </mat-icon>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-checkbox 
+        fxLayout="row"
+        labelPosition="after"
+        formControlName="optimization">
+          Use optimization
+      </mat-checkbox>
+      <mat-icon 
+        matTooltip="Activates optimizations that avoid solving a ILP problem. (Disable to be slower)"
+        matTooltipPosition="right"
+        mat-list-icon>
+          info
+      </mat-icon>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-form-field fxLayout="row">
+        <mat-label>Re-ordering of moves</mat-label>
+        <mat-select formControlName="moves_ordering">
+          <mat-option *ngFor="let val of moves" [value]="val.value">{{val.viewValue}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-icon 
+        matTooltip="Whether to search all re-orderings (NONE) or just a single special ordering between log-moves and model-moves."
+        matTooltipPosition="right"
+        mat-list-icon>
+        info
+      </mat-icon>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-form-field fxLayout="row">
+        <mat-label>Queueing Strategy</mat-label>
+        <mat-select formControlName="queueing">
+          <mat-option *ngFor="let val of queueing" [value]="val.value">{{val.viewValue}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-icon 
+        matTooltip="Strategy to break ties in the A* search. Random can be useful to get multiple solutions with equal cost."
+        matTooltipPosition="right"
+        mat-list-icon>
+        info
+      </mat-icon>
+    </div>
+
   </div>
 
 

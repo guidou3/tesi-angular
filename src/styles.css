@@ -4,5 +4,6 @@
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
 * {
-  font-family: "Arial"
+  font-family: "Arial";
+  font-size: 12;
 }

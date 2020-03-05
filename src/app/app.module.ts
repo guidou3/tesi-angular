@@ -21,7 +21,9 @@ import {
   MatListModule,
   MatSelectModule,
   MatIconModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatTooltipModule,
+  MatSliderModule
 } from '@angular/material'
 
 
@@ -37,7 +39,11 @@ import {
     FlexLayoutModule,
     UploadModule,
     MatSelectModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatIconModule,
+    MatTooltipModule,
+    MatSliderModule,
+    ReactiveFormsModule
   ],
   declarations: [ 
      AppComponent,
