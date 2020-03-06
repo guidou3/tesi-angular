@@ -71,6 +71,10 @@ export class Parameters1Component implements OnInit {
   constructor(http: HttpClient) { }
 
   ngOnInit() {
+    
+  }
+
+  pulic fetch() {
     this.http.get()
   }
 

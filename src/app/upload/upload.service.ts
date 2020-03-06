@@ -7,8 +7,9 @@ import {
 } from '@angular/common/http'
 import { Subject } from 'rxjs/Subject'
 import { Observable } from 'rxjs/Observable'
+import * as data from './upload.service'
 
-const host = "https://guido-flgv.localhost.run"
+
 
 @Injectable()
 export class UploadService {
@@ -19,6 +20,7 @@ export class UploadService {
 
     // this will be the our resulting map
     const status: { [key: string]: { progress: Observable<number> } } = {};
+    const host = data.host
 
     let index=0;
     let url = new Map()

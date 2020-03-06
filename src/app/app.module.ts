@@ -24,7 +24,8 @@ import {
   MatCheckboxModule,
   MatTooltipModule,
   MatSliderModule
-} from '@angular/material'
+} from '@angular/material';
+import { ConfigsService } from './configs.service'
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import {
   ],
   bootstrap:    [ 
     AppComponent
-    ]
+    ],
+  providers: [ConfigsService]
 })
 export class AppModule { }
