@@ -8,6 +8,8 @@ import {
   HttpResponse,
 } from '@angular/common/http'
 
+import { ConfigsService, Params } from '../configs.service'
+
 @Component({
   selector: 'app-parameters1',
   templateUrl: './parameters1.component.html',
@@ -41,51 +43,48 @@ export class Parameters1Component implements OnInit {
     {value: 'RANDOM', viewValue: 'Random'}
   ]
 
-  maxThreads = 100
-  maxSearchSpace = 80
-  defaultSearchSpace = 60
+  threads: SliderParams
 
-  threads = new SliderParams(1, this.maxThreads, this.maxThreads, 1)
+  fitness: SliderParams
 
-  fitness = new SliderParams(0, 1, 1, 0.01)
+  search_space: SliderParams
 
-  search_space = new SliderParams(1, this.maxSearchSpace, this.defaultSearchSpace, 1)
+  formGroup: FormGroup
 
-  formGroup = new FormGroup({
-    threads: new FormControl(this.threads.defaultValue),
-    fitness: new FormControl(this.fitness.defaultValue),
-    search_space: new FormControl(this.search_space.defaultValue),
-    checked: new FormControl(false),
-    unassigned: new FormControl('NULL'),
-    milp: new FormControl('LpSolve'),
-    algorithm: new FormControl('ASTAR_GRAPH'),
-    balanced: new FormControl(true),
-    keep_control: new FormControl(true),
-    keep_data: new FormControl(true),
-    cache: new FormControl(true),
-    optimization: new FormControl(true),
-    moves_ordering: new FormControl('LOGMOVEFIRST'),
-    queueing: new FormControl('DEPTHFIRST')
-  })
+  constructor(private configService: ConfigsService) {
+    this.fitness = new SliderParams(0, 1, 1, 0.01)
+    this.threads = new SliderParams(1, 1, 1, 1)
+    this.search_space = new SliderParams(1, 1, 1, 1)
 
-  constructor(http: HttpClient) { }
+
+    this.formGroup = new FormGroup({
+      threads: new FormControl(1),
+      fitness: new FormControl(this.fitness.defaultValue),
+      search_space: new FormControl(1),
+      checked: new FormControl(false),
+      unassigned: new FormControl('NULL'),
+      milp: new FormControl('LpSolve'),
+      algorithm: new FormControl('ASTAR_GRAPH'),
+      balanced: new FormControl(true),
+      keep_control: new FormControl(true),
+      keep_data: new FormControl(true),
+      cache: new FormControl(true),
+      optimization: new FormControl(true),
+      moves_ordering: new FormControl('LOGMOVEFIRST'),
+      queueing: new FormControl('DEPTHFIRST')
+    })
+  }
 
   ngOnInit() {
-    
+    this.configService.getParameters().subscribe(
+      (params: Params) => {
+        this.threads = new SliderParams(1, params.maxThreads, params.maxThreads, 1)
+        
+        this.search_space = new SliderParams(1, params.maxSearchSpace, params.defaultSearchSpace, 1)
+        
+        this.formGroup.controls['threads'].setValue(this.threads.defaultValue)
+        this.formGroup.controls['search_space'].setValue(this.search_space.defaultValue)
+      }
+    )
   }
-
-  pulic fetch() {
-    this.http.get()
-  }
-
-  public isChecked() {
-    console.log(this.formGroup.controls['unassigned'].value); 
-  }
-
-  OnChange($event){
-
-    console.log(this.formGroup.controls.checked); 
-    //MatCheckboxChange {checked,MatCheckbox}
-}
-
 }
