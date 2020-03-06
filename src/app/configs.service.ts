@@ -14,6 +14,23 @@ export interface Params {
   defaultSearchSpace: number;
 }
 
+export class Parameters {
+  algorithm: String
+  balanced: Boolean
+  cache: Boolean
+  checked: Boolean
+  fitness: number
+  keep_control: Boolean
+  keep_data: Boolean
+  milp: String
+  moves_ordering: String
+  optimization: Boolean
+  queueing: String
+  search_space: number
+  threads: number
+  unassigned: String
+}
+
 @Injectable()
 export class ConfigsService {
 
@@ -21,5 +38,10 @@ export class ConfigsService {
 
   public getParameters() {
     return this.http.get<Params>(host+'/params')
+  }
+
+  public postParameters(parameters: Parameters) {
+    this.http.post<Parameters>(host+'/params', parameters)
+      .subscribe(resp => console.log(resp))
   }
 }
