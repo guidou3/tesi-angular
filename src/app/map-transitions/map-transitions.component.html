@@ -1,0 +1,24 @@
+<form [formGroup]="formGroup">
+  <mat-list >
+    <h3 mat-subheader>Upload progress</h3>
+    <mat-list-item>
+      <p fxFlex="50" mat-line>Choose classifier</p>
+      <mat-select formControlName="classifier">
+        <mat-option *ngFor="let val of classifiers" [value]="val.value">{{val.viewValue}}</mat-option>
+      </mat-select>
+    </mat-list-item>
+    <mat-list-item fxLayout="row" fxLayoutAlign="start center">
+      <p fxFlex="50" mat-line>Use approximated matching</p>
+      <mat-checkbox 
+        labelPosition="before"
+        formControlName="approximated">
+      </mat-checkbox>
+    </mat-list-item>
+    <mat-list-item *ngFor="let obj of list">
+      <p mat-line>{{obj.modelName}}</p>
+      <mat-select [formControlName]="obj.modelName">
+        <mat-option *ngFor="let val of obj.values" [value]="val.value">{{val.viewValue}}</mat-option>
+      </mat-select>
+    </mat-list-item>
+  </mat-list>
+</form>

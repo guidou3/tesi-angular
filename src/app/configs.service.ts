@@ -41,7 +41,9 @@ export class ConfigsService {
   }
 
   public postParameters(parameters: Parameters) {
-    this.http.post<Parameters>(host+'/params', parameters)
+    this.http.post<Parameters>(host+'/params', parameters, {
+      responseType: 'text'
+    })
       .subscribe(resp => console.log(resp))
   }
 }

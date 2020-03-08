@@ -23,9 +23,11 @@ import {
   MatIconModule,
   MatCheckboxModule,
   MatTooltipModule,
-  MatSliderModule
+  MatSliderModule,
+  MatListModule
 } from '@angular/material';
-import { ConfigsService } from './configs.service'
+import { ConfigsService } from './configs.service';
+import { MapTransitionsComponent } from './map-transitions/map-transitions.component'
 
 
 @NgModule({
@@ -33,7 +35,8 @@ import { ConfigsService } from './configs.service'
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: '', component: Parameters1Component },
+      { path: '', component: MapTransitionsComponent },
+      { path: 'params', component: Parameters1Component },
       { path: 'upload', component: UploadComponent },
     ]),
     AgGridModule.withComponents([]),
@@ -44,13 +47,15 @@ import { ConfigsService } from './configs.service'
     MatIconModule,
     MatTooltipModule,
     MatSliderModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatListModule
   ],
   declarations: [ 
      AppComponent,
      InitialComponent,
      TableComponent,
-     Parameters1Component
+     Parameters1Component,
+     MapTransitionsComponent
   ],
   bootstrap:    [ 
     AppComponent

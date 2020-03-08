@@ -89,6 +89,6 @@ export class Parameters1Component implements OnInit {
   }
 
   public postResult() {
-    console.log(this.formGroup.value)
+    this.configService.postParameters(this.formGroup.value)
   }
 }
