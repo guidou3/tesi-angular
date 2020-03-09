@@ -1,3 +1,7 @@
 .mat-list-item {
   font-size: 12px !important;
 }
+
+.width {
+  width: 100%;
+}

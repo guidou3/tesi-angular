@@ -7,17 +7,17 @@
         <mat-option *ngFor="let val of classifiers" [value]="val.value">{{val.viewValue}}</mat-option>
       </mat-select>
     </mat-list-item>
-    <mat-list-item fxLayout="row" fxLayoutAlign="start center">
-      <p fxFlex="50" mat-line>Use approximated matching</p>
+    <mat-list-item>
       <mat-checkbox 
-        labelPosition="before"
+        labelPosition="after"
         formControlName="approximated">
+        Use approximated matching
       </mat-checkbox>
     </mat-list-item>
     <mat-list-item *ngFor="let obj of list">
       <p mat-line>{{obj.modelName}}</p>
       <mat-select [formControlName]="obj.modelName">
-        <mat-option *ngFor="let val of obj.values" [value]="val.value">{{val.viewValue}}</mat-option>
+        <mat-option *ngFor="let val of values" [value]="val.value">{{val.viewValue}}</mat-option>
       </mat-select>
     </mat-list-item>
   </mat-list>

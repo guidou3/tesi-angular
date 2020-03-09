@@ -12,22 +12,18 @@ export class MapTransitionsComponent implements OnInit {
   list = [
     {
       modelName: 'Prova',
-      default: 'DEFAULT',
-      values: [
-        {value: 'NULL', viewValue: 'NULL'},
-        {value: 'DEFAULT', viewValue: 'DEFAULT'},
-        {value: 'FREE', viewValue: 'FREE'}
-      ]
+      default: 'DEFAULT'
     },
     {
       modelName: 'Prova2',
-      default: 'FREE',
-      values: [
-        {value: 'NULL', viewValue: 'NULL'},
-        {value: 'DEFAULT', viewValue: 'DEFAULT'},
-        {value: 'FREE', viewValue: 'FREE'}
-      ]
+      default: 'FREE'
     }
+  ]
+
+  values = [
+    {value: 'NULL', viewValue: 'NULL'},
+    {value: 'DEFAULT', viewValue: 'DEFAULT'},
+    {value: 'FREE', viewValue: 'FREE'}
   ]
 
   classifiers = [
@@ -49,6 +45,7 @@ export class MapTransitionsComponent implements OnInit {
   }
 
   ngOnInit() {
+    
   }
 
 }

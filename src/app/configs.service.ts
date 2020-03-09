@@ -46,4 +46,8 @@ export class ConfigsService {
     })
       .subscribe(resp => console.log(resp))
   }
+
+  public getInitialMapping() {
+    return this.http.get<Params>(host+'/initialMapping')
+  }
 }
