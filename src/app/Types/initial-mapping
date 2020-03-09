@@ -1,0 +1,7 @@
+export interface InitialMapping {
+  classifiers: Set<String>
+  approximate: Boolean
+  nameList: Set<String>
+  resourceList: Set<String>
+  list: Map<String, Set<String>>
+}

@@ -1,14 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { SliderParams} from './parameters'
-import {
-  HttpClient,
-  HttpRequest,
-  HttpEventType,
-  HttpResponse,
-} from '@angular/common/http'
+import { ConfigsService } from '../configs.service'
+import { DefaultSettings } from '../Types'
 
-import { ConfigsService, Params } from '../configs.service'
 
 @Component({
   selector: 'app-parameters1',
@@ -77,7 +72,7 @@ export class Parameters1Component implements OnInit {
 
   ngOnInit() {
     this.configService.getParameters().subscribe(
-      (params: Params) => {
+      (params: DefaultSettings) => {
         this.threads = new SliderParams(1, params.maxThreads, params.maxThreads, 1)
         
         this.search_space = new SliderParams(1, params.maxSearchSpace, params.defaultSearchSpace, 1)

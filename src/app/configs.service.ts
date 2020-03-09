@@ -7,29 +7,7 @@ import {
   HttpResponse,
 } from '@angular/common/http'
 import { Observable } from 'rxjs/Observable'
-
-export interface Params {
-  maxThreads: number;
-  maxSearchSpace: number;
-  defaultSearchSpace: number;
-}
-
-export class Parameters {
-  algorithm: String
-  balanced: Boolean
-  cache: Boolean
-  checked: Boolean
-  fitness: number
-  keep_control: Boolean
-  keep_data: Boolean
-  milp: String
-  moves_ordering: String
-  optimization: Boolean
-  queueing: String
-  search_space: number
-  threads: number
-  unassigned: String
-}
+import * as Types from './Types'
 
 @Injectable()
 export class ConfigsService {
@@ -37,17 +15,24 @@ export class ConfigsService {
   constructor(private http: HttpClient) { }
 
   public getParameters() {
-    return this.http.get<Params>(host+'/params')
+    return this.http.get<Types.DefaultSettings>(host+'/params')
   }
 
-  public postParameters(parameters: Parameters) {
-    this.http.post<Parameters>(host+'/params', parameters, {
+  public postParameters(parameters: Types.Parameters) {
+    this.http.post<Types.Parameters>(host+'/params', parameters, {
       responseType: 'text'
     })
       .subscribe(resp => console.log(resp))
   }
 
   public getInitialMapping() {
-    return this.http.get<Params>(host+'/initialMapping')
+    return this.http.get<Types.Mapping>(host+'/initialMapping')
+  }
+
+  public postMapping(mapping: Types.Mapping) {
+    this.http.post<Types.Mapping>(host+'/finalMapping', mapping, {
+      responseType: 'text'
+    })
+      .subscribe(resp => console.log(resp))
   }
 }

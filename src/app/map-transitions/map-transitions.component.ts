@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { ConfigsService } from '../configs.service'
+import { Mapping } from '../Types'
 
 @Component({
   selector: 'app-map-transitions',
@@ -32,7 +34,7 @@ export class MapTransitionsComponent implements OnInit {
     {value: 'FREE', viewValue: 'FREE'}
   ];
 
-  constructor() { 
+  constructor(private configService: ConfigsService) { 
     this.formGroup = new FormGroup({
       classifier: new FormControl('NULL'),
       approximated: new FormControl(true)
@@ -45,7 +47,13 @@ export class MapTransitionsComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+    this.configService.getInitialMapping().subscribe(
+      (params: Mapping) => {
+        
+        this.formGroup.controls['threads'].setValue(this.threads.defaultValue)
+        this.formGroup.controls['search_space'].setValue(this.search_space.defaultValue)
+      }
+    )
   }
 
 }
