@@ -26,7 +26,7 @@ export class ConfigsService {
   }
 
   public getInitialMapping() {
-    return this.http.get<Types.Mapping>(host+'/initialMapping')
+    return this.http.get<Types.InitialMapping>(host+'/initialMapping')
   }
 
   public postMapping(mapping: Types.Mapping) {

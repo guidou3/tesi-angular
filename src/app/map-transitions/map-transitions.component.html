@@ -3,21 +3,22 @@
     <h3 mat-subheader>Upload progress</h3>
     <mat-list-item>
       <p fxFlex="50" mat-line>Choose classifier</p>
-      <mat-select formControlName="classifier">
+      <mat-select formControlName="classifier" (ngModelChange)="updateIndex()">
         <mat-option *ngFor="let val of classifiers" [value]="val.value">{{val.viewValue}}</mat-option>
       </mat-select>
     </mat-list-item>
     <mat-list-item>
       <mat-checkbox 
+        (change)="updateIndex()"
         labelPosition="after"
         formControlName="approximated">
         Use approximated matching
       </mat-checkbox>
     </mat-list-item>
-    <mat-list-item *ngFor="let obj of list">
-      <p mat-line>{{obj.modelName}}</p>
-      <mat-select [formControlName]="obj.modelName">
-        <mat-option *ngFor="let val of values" [value]="val.value">{{val.viewValue}}</mat-option>
+    <mat-list-item *ngFor="let t of transitions">
+      <p mat-line>{{t}}</p>
+      <mat-select [formControlName]="t">
+        <mat-option *ngFor="let val of list" [value]="val.value">{{val.viewValue}}</mat-option>
       </mat-select>
     </mat-list-item>
   </mat-list>
