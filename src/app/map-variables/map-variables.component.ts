@@ -4,18 +4,15 @@ import { ConfigsService } from '../configs.service'
 import { InitialMapping } from '../Types'
 
 @Component({
-  selector: 'app-map-transitions',
-  templateUrl: './map-transitions.component.html',
-  styleUrls: ['./map-transitions.component.css']
+  selector: 'app-map-variables',
+  templateUrl: './map-variables.component.html',
+  styleUrls: ['./map-variables.component.css']
 })
-export class MapTransitionsComponent implements OnInit {
+export class MapVariablesComponent implements OnInit {
   formGroup: FormGroup
 
-  transitionMap = new Map();
-  transitions = []
-  nameList = []
-  resourceList = []
-  classifiers = []
+  variablesMap = new Map();
+  variables = []
   list = []
 
   constructor(private configService: ConfigsService) { 

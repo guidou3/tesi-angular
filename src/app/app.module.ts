@@ -27,7 +27,11 @@ import {
   MatListModule
 } from '@angular/material';
 import { ConfigsService } from './configs.service';
-import { MapTransitionsComponent } from './map-transitions/map-transitions.component'
+import { MapTransitionsComponent } from './map-transitions/map-transitions.component';
+import { MapVariablesComponent } from './map-variables/map-variables.component';
+import { ControlFlowCostComponent } from './control-flow-cost/control-flow-cost.component';
+import { NumericEditorComponent } from './numeric-editor/numeric-editor.component';
+import { DataDeviationsComponent } from './data-deviations/data-deviations.component'
 
 
 @NgModule({
@@ -35,11 +39,16 @@ import { MapTransitionsComponent } from './map-transitions/map-transitions.compo
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: '', component: MapTransitionsComponent },
+      { path: '', component: DataDeviationsComponent },
+      { path: 'flowCost', component: ControlFlowCostComponent },
+      { path: 'mapping', component: MapTransitionsComponent },
+      { path: 'variablesMapping', component: MapVariablesComponent },
       { path: 'params', component: Parameters1Component },
       { path: 'upload', component: UploadComponent },
     ]),
-    AgGridModule.withComponents([]),
+    AgGridModule.withComponents([
+      NumericEditorComponent
+    ]),
     FlexLayoutModule,
     UploadModule,
     MatSelectModule,
@@ -48,14 +57,19 @@ import { MapTransitionsComponent } from './map-transitions/map-transitions.compo
     MatTooltipModule,
     MatSliderModule,
     ReactiveFormsModule,
-    MatListModule
+    MatListModule,
+    MatButtonModule
   ],
   declarations: [ 
      AppComponent,
      InitialComponent,
      TableComponent,
      Parameters1Component,
-     MapTransitionsComponent
+     MapTransitionsComponent,
+     MapVariablesComponent,
+     ControlFlowCostComponent,
+     NumericEditorComponent,
+     DataDeviationsComponent
   ],
   bootstrap:    [ 
     AppComponent

@@ -1,0 +1,18 @@
+.setter {
+  padding-top: 10px;
+  padding-bottom: 40px;
+  font-size: 12px
+}
+
+.input {
+  margin: 0 5px;
+  width: 10%;
+  border: 0px solid black;
+  border-bottom: 1px solid ;
+  transition : border 300ms ease-in;
+}
+
+.input:focus {
+  border-bottom: 2px solid blue;
+  
+}

@@ -1,0 +1,10 @@
+<ag-grid-angular
+  style="width: 100%;"
+  domLayout='autoHeight'
+  class="ag-theme-balham"
+  [rowData]="rowData"
+  [columnDefs]="columnDefs"
+  [frameworkComponents]="frameworkComponents"
+  (firstDataRendered)="onFirstDataRendered($event)"
+  [isRowSelectable]="isRowSelectable">
+</ag-grid-angular>

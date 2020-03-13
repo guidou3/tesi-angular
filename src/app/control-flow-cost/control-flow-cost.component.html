@@ -1,0 +1,36 @@
+<h3>Configure cost for Control-Flow Violations</h3>
+
+<ag-grid-angular
+  style="width: 100%;"
+  domLayout='autoHeight'
+  class="ag-theme-balham"
+  [rowData]="rowData1"
+  [columnDefs]="columnDefs1"
+  [frameworkComponents]="frameworkComponents"
+  (firstDataRendered)="onFirstDataRendered1($event)">
+</ag-grid-angular>
+<div fxLayout="row" fxLayoutAlign="center center" class="setter">
+  <label>Set all costs (non invisible only) above to:</label>
+  <input matInput class="input" [formControl]="input1"/>
+  <button type="button" (click)="updateValue1()" mat-stroked-button>Set</button>
+</div>
+
+<ag-grid-angular
+  style="width: 100%;"
+  domLayout='autoHeight'
+  class="ag-theme-balham"
+  [rowData]="rowData2"
+  [columnDefs]="columnDefs2"
+  [frameworkComponents]="frameworkComponents"
+  (firstDataRendered)="onFirstDataRendered2($event)">
+</ag-grid-angular>
+<div fxLayout="row" fxLayoutAlign="center center" class="setter">
+  <label>Set all costs (non invisible only) above to:</label>
+  <input matInput class="input" [formControl]="input2"/>
+  <button type="button" (click)="updateValue2()" mat-stroked-button>Set</button>
+</div>
+<div fxLayout="row" fxLayoutAlign="end center">
+  <button type="button" (click)="submit()" 
+  color="primary"
+  mat-raised-button>Submit</button>
+</div>

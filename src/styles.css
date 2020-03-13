@@ -3,6 +3,9 @@
 @import "~ag-grid-community/dist/styles/ag-theme-balham.css";
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
+@import "~ag-grid-community/dist/styles/ag-grid.css";
+@import "~ag-grid-community/dist/styles/ag-theme-balham.css";
+
 * {
   font-family: "Arial";
   font-size: 12;
