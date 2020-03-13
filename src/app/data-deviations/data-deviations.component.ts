@@ -41,9 +41,16 @@ export class DataDeviationsComponent implements OnInit {
       {
         headerName: 'Final Variable',
         field: 'variable',
-        cellRenderer: params => {
-        return `<input type='checkbox' ${params.value ? 'checked' : ''} />`;
-    }
+        cellRenderer: function(params) { 
+          var input = document.createElement('input');
+          input.type="checkbox";
+          input.checked=params.value;
+          input.addEventListener('click', function (event) {
+              params.value=!params.value;
+              params.node.data.variabl = params.value;
+          });
+          return input;
+        }
       },
     ];
 
@@ -67,4 +74,11 @@ export class DataDeviationsComponent implements OnInit {
     params.api.sizeColumnsToFit();
   }
 
+  public submit() {
+    var rowData = [];
+    this.gridApi.forEachNode(function(node) {
+      rowData.push(node.data);
+    });
+    console.log(rowData)
+  }
 }
