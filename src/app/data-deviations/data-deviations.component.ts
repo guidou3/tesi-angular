@@ -18,7 +18,12 @@ export class DataDeviationsComponent implements OnInit {
     this.columnDefs = [
       {
         headerName: 'Activity',
-        field: 'activity'
+        field: 'activity',
+        editable: true,
+        cellEditor: 'agPopupSelectCellEditor',
+        cellEditorParams: {
+            values: ['*', 'Spanish', 'French', 'Portuguese', '(other)']             
+        }
       },
       {
         headerName: 'Attribute',
@@ -67,6 +72,9 @@ export class DataDeviationsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.columnDefs[0].cellEditorParams = {
+      values: ['*', 'fuck you']
+    }
   }
 
   public onFirstDataRendered(params) {

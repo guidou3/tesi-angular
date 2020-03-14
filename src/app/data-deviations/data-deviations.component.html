@@ -1,3 +1,5 @@
+<h4>Cost of Deviations in Data Perspective</h4>
+<p>Earlier entries have precedence over later entries</p>
 <ag-grid-angular
   style="width: 100%;"
   domLayout='autoHeight'
@@ -8,4 +10,12 @@
   (firstDataRendered)="onFirstDataRendered($event)"
   [isRowSelectable]="isRowSelectable">
 </ag-grid-angular>
-<button type="button" (click)="submit()">Submit</button>
+<div style="padding: 15px; padding-bottom: 30px;" fxLayoutAlign="center center">
+  <button mat-stroked-button type="button" (click)="insertRow()">Insert new row</button>
+  <button mat-stroked-button type="button" (click)="deleteRow()">Delete row</button>
+  <button mat-stroked-button type="button" (click)="moveUp()">Move Up</button>
+  <button mat-stroked-button type="button" (click)="moveDown()">Move Down</button>
+</div>
+<div fxLayoutAlign="end center">
+  <button color="primary" mat-raised-button type="button" (click)="submit()">Submit</button>
+</div>
