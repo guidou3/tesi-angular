@@ -29,42 +29,25 @@ export class MapTransitionsComponent implements OnInit {
   ngOnInit() {
     this.configService.getInitialMapping().subscribe(
       (params: InitialMapping) => {
+        console.log(params)
         this.loading = false
-        this.classifiers = params.classifiers.map(function (obj) {
+        this.classifiers = params.classifiers.map(function (s) {
           return {
-            value: obj.name,
-            viewValue: obj.name
+            value: s,
+            label: s
           }
         })
-        this.formGroup.controls['classifier'].setValue(params.defaultClassifier.name)
+        this.formGroup.controls['classifier'].setValue(params.defaultClassifier)
 
-        this.nameList = params.nameList.map(function (obj, id) {
-          if(id === 0) return {
-            value: 0,
-            viewValue: 'None'
-          }
-          return {
-            value: obj.index+1,
-            viewValue: obj.id
-          }
-        })
+        this.nameList = params.nameList
+        this.resourceList = params.resourceList
         this.list = this.nameList
-
-        this.resourceList = params.resourceList.map(function (obj, id) {
-          if(id === 0) return {
-            value: 'NONE',
-            viewValue: 'None'
-          }
-          return {
-            value: obj.index,
-            viewValue: obj.id
-          }
-        })
         
         this.transitionMap = new Map()
         const p = this
         Object.keys(params.transitionNames).forEach(function(key) {
-          p.formGroup.addControl(key, new FormControl(params.transitionNames[key][0]))
+          let label = p.list[params.transitionNames[key][0]]
+          p.formGroup.addControl(key, new FormControl(label.value))
           p.transitionMap.set(key, params.transitionNames[key])
           p.transitions.push(key)
         })
@@ -76,12 +59,18 @@ export class MapTransitionsComponent implements OnInit {
     )
   }
 
-  public updateIndex() {
+  public getIndex() {
     let index = 0;
     if(this.formGroup.controls['classifier'].value !== this.classifiers[0].value) 
       index += 2
     if(!this.formGroup.controls['approximated'].value)
       index++
+
+    return index
+  }
+
+  public updateIndex() {
+    let index = this.getIndex()
 
     if(index < 2) this.list = this.nameList
     else this.list = this.resourceList
@@ -93,18 +82,28 @@ export class MapTransitionsComponent implements OnInit {
     })
   }
 
+  public labelToObj(index) {
+    let n = this.getIndex()
+    let list = []
+
+    if(n < 2) list = this.nameList
+    else list = this.resourceList
+
+    return list[index].value
+  }
+
   public postMapping() {
     let result = {}, obj = {}, copy = this.formGroup.value;
-
+    result['classifier'] = copy.classifier
+    const p = this
     Object.keys(copy).forEach(function(key) {
-      if(key === 'classifier')
-        result[key] = copy.classifier
-      else if(key === 'approximated') {}
+      if(key === 'classifier' || key === 'approximated') {}
       else
         obj[key] = copy[key]
     })
     result['list'] = obj
-
+    console.log(result)
+    console.log(this.classifiers)
     this.configService.postMapping(result)
   }
 }

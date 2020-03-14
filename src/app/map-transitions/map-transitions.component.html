@@ -4,7 +4,7 @@
     <mat-list-item>
       <p fxFlex="50" mat-line>Choose classifier</p>
       <mat-select formControlName="classifier" (ngModelChange)="updateIndex()">
-        <mat-option *ngFor="let val of classifiers" [value]="val.value">{{val.viewValue}}</mat-option>
+        <mat-option *ngFor="let val of classifiers" [value]="val.value">{{val.label}}</mat-option>
       </mat-select>
     </mat-list-item>
     <mat-list-item>
@@ -23,7 +23,7 @@
     <mat-list-item *ngFor="let t of transitions">
       <p mat-line>{{t}}</p>
       <mat-select [formControlName]="t">
-        <mat-option *ngFor="let val of list" [value]="val.value">{{val.viewValue}}</mat-option>
+        <mat-option *ngFor="let val of list" [value]="val.value">{{val.label}}</mat-option>
       </mat-select>
     </mat-list-item>
   </mat-list>
