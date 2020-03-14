@@ -29,7 +29,6 @@ export class MapTransitionsComponent implements OnInit {
   ngOnInit() {
     this.configService.getInitialMapping().subscribe(
       (params: InitialMapping) => {
-        console.log(params)
         this.loading = false
         this.classifiers = params.classifiers.map(function (s) {
           return {
@@ -51,10 +50,6 @@ export class MapTransitionsComponent implements OnInit {
           p.transitionMap.set(key, params.transitionNames[key])
           p.transitions.push(key)
         })
-        /*
-        this.nameList.forEach(function (obj) {
-          p.formGroup.addControl(obj.modelName, new FormControl(obj.default))
-        })*/
       }
     )
   }
@@ -102,8 +97,7 @@ export class MapTransitionsComponent implements OnInit {
         obj[key] = copy[key]
     })
     result['list'] = obj
-    console.log(result)
-    console.log(this.classifiers)
+    
     this.configService.postMapping(result)
   }
 }
