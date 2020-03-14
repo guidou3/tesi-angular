@@ -10,66 +10,94 @@
   </mat-checkbox>
   </div>
   <div fxLayout="row" fxLayoutAlign="space-between center">
-    <label fxFlex="35">Concurrent threads </label>
+    <label fxFlex="25">Concurrent threads </label>
     <mat-icon 
       matTooltip="How many current threads to use (a lower value use less memory)."
       matTooltipPosition="right"
       matTooltipClass="custom-tooltip">
       info
     </mat-icon>
-    <div fxFlex="60" fxLayoutAlign="center center">
+    <div fxFlex="70" fxLayoutAlign="center center">
       <mat-slider
         class="slider"
         [max]="threads.max"
         [min]="threads.min"
         [step]="threads.step"
+        [value]="formGroup.controls['threads'].value"
         thumbLabel=true
         tickInterval=1
         formControlName="threads">
       </mat-slider>
-      <label fxFlex="13" fxLayoutAlign="center">{{formGroup.controls['threads'].value}}</label>
+      <mat-form-field fxFlex="25" class="slider-input">
+        <input 
+          type="number" 
+          [max]="threads.max" 
+          matInput 
+          formControlName="threads"
+          [value]="formGroup.controls['threads'].value"
+        />
+      </mat-form-field>
     </div>
   </div>
+  
   <div fxLayout="row" fxLayoutAlign="space-between center">
-    <label fxFlex="35">Limit fitness</label>
+    <label fxFlex="25">Limit fitness</label>
     <mat-icon 
       matTooltip="Stops the computation, if fitness for trace would drop below given value."
       matTooltipPosition="right"
       mat-list-icon>
       info
     </mat-icon>
-    <div fxFlex="60" fxLayoutAlign="center center">
+    <div fxFlex="70" fxLayoutAlign="center center">
       <mat-slider
         class="slider"
         [max]="fitness.max"
         [min]="fitness.min"
         [step]="fitness.step"
+        [value]="formGroup.controls['fitness'].value"
         thumbLabel=true
         tickInterval=1
         formControlName="fitness">
       </mat-slider>
-      <label fxFlex="13" fxLayoutAlign="center">{{formGroup.controls['fitness'].value}}</label>
+      <mat-form-field fxFlex="25" class="slider-input">
+        <input 
+          type="number" 
+          [max]="fitness.max" 
+          matInput 
+          formControlName="fitness"
+          [value]="formGroup.controls['fitness'].value"
+        />
+      </mat-form-field>
     </div>
   </div>
   <div fxLayout="row" fxLayoutAlign="space-between center">
-    <label fxFlex="35">Limit search space</label>
+    <label fxFlex="25">Limit search space</label>
     <mat-icon 
       matTooltip="Stops the computation, if the given number of states has been queued."
       matTooltipPosition="right"
       mat-list-icon>
       info
     </mat-icon>
-    <div fxFlex="60" fxLayoutAlign="center center">
+    <div fxFlex="70" fxLayoutAlign="center center">
       <mat-slider
         class="slider"
         [max]="search_space.max"
         [min]="search_space.min"
         [step]="search_space.step"
+        [value]="formGroup.controls['search_space'].value"
         thumbLabel=true
         tickInterval=1
         formControlName="search_space">
       </mat-slider>
-      <label fxFlex="13" fxLayoutAlign="center">{{formGroup.controls['search_space'].value}}</label>
+      <mat-form-field fxFlex="25" class="slider-input">
+        <input 
+          type="number" 
+          [max]="search_space.max" 
+          matInput 
+          formControlName="search_space"
+          [value]="formGroup.controls['search_space'].value"
+        />
+      </mat-form-field>
     </div>
   </div>
   <div fxLayout="row" fxLayoutAlign="start center">
@@ -234,6 +262,6 @@
     </div>
   </div>
   <div fxLayoutAlign="end center">
-    <button color="primary" mat-raised-button type="button" (click)="postResult()">Submit</button>
+    <button routerLink="/mapping" color="primary" mat-raised-button type="button" (click)="postResult()">Submit</button>
   </div>
 </form>

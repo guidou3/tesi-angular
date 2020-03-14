@@ -15,6 +15,11 @@
         Use approximated matching
       </mat-checkbox>
     </mat-list-item>
+
+    <div fxLayoutAlign="center center" *ngIf="loading">
+      <mat-spinner ></mat-spinner>
+    </div>
+    
     <mat-list-item *ngFor="let t of transitions">
       <p mat-line>{{t}}</p>
       <mat-select [formControlName]="t">

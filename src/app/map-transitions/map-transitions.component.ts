@@ -17,6 +17,7 @@ export class MapTransitionsComponent implements OnInit {
   resourceList = []
   classifiers = []
   list = []
+  loading = true;
 
   constructor(private configService: ConfigsService) { 
     this.formGroup = new FormGroup({
@@ -28,7 +29,7 @@ export class MapTransitionsComponent implements OnInit {
   ngOnInit() {
     this.configService.getInitialMapping().subscribe(
       (params: InitialMapping) => {
-
+        this.loading = false
         this.classifiers = params.classifiers.map(function (obj) {
           return {
             value: obj.name,

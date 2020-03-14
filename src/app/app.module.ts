@@ -22,7 +22,9 @@ import {
   MatIconModule,
   MatCheckboxModule,
   MatTooltipModule,
-  MatSliderModule
+  MatSliderModule,
+  MatInputModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 
 import { ConfigsService } from './configs.service';
@@ -60,7 +62,9 @@ import { VariablesBoundsComponent } from './variables-bounds/variables-bounds.co
     MatSliderModule,
     ReactiveFormsModule,
     MatListModule,
-    MatButtonModule
+    MatButtonModule,
+    MatInputModule,
+    MatProgressSpinnerModule
   ],
   declarations: [ 
      AppComponent,
