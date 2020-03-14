@@ -12,7 +12,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { UploadModule } from './upload/upload.module'
 import { UploadComponent } from './upload/upload.component'
 
-import { TableComponent } from './table/table.component';
 import { Parameters1Component } from './parameters1/parameters1.component';
 
 import {
@@ -23,15 +22,16 @@ import {
   MatIconModule,
   MatCheckboxModule,
   MatTooltipModule,
-  MatSliderModule,
-  MatListModule
+  MatSliderModule
 } from '@angular/material';
+
 import { ConfigsService } from './configs.service';
 import { MapTransitionsComponent } from './map-transitions/map-transitions.component';
 import { MapVariablesComponent } from './map-variables/map-variables.component';
 import { ControlFlowCostComponent } from './control-flow-cost/control-flow-cost.component';
 import { NumericEditorComponent } from './numeric-editor/numeric-editor.component';
-import { DataDeviationsComponent } from './data-deviations/data-deviations.component'
+import { DataDeviationsComponent } from './data-deviations/data-deviations.component';
+import { VariablesBoundsComponent } from './variables-bounds/variables-bounds.component'
 
 
 @NgModule({
@@ -39,7 +39,9 @@ import { DataDeviationsComponent } from './data-deviations/data-deviations.compo
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: '', component: DataDeviationsComponent },
+      { path: '', component: Parameters1Component },
+      { path: 'variableBound', component: VariablesBoundsComponent },
+      { path: 'dataCost', component: DataDeviationsComponent },
       { path: 'flowCost', component: ControlFlowCostComponent },
       { path: 'mapping', component: MapTransitionsComponent },
       { path: 'variablesMapping', component: MapVariablesComponent },
@@ -63,13 +65,13 @@ import { DataDeviationsComponent } from './data-deviations/data-deviations.compo
   declarations: [ 
      AppComponent,
      InitialComponent,
-     TableComponent,
      Parameters1Component,
      MapTransitionsComponent,
      MapVariablesComponent,
      ControlFlowCostComponent,
      NumericEditorComponent,
-     DataDeviationsComponent
+     DataDeviationsComponent,
+     VariablesBoundsComponent
   ],
   bootstrap:    [ 
     AppComponent
