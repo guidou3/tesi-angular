@@ -72,8 +72,11 @@ export class MapTransitionsComponent implements OnInit {
 
     const p = this
     this.transitionMap.forEach(function(val, key) {
-      if(val.length > 1) 
-        p.formGroup.controls[key].setValue(val[index])
+      if(val.length > 1) {
+        let label = p.list[val[index]].value
+        p.formGroup.controls[key].setValue(label)
+      }
+        
     })
   }
 
@@ -97,7 +100,7 @@ export class MapTransitionsComponent implements OnInit {
         obj[key] = copy[key]
     })
     result['list'] = obj
-    
+
     this.configService.postMapping(result)
   }
 }
