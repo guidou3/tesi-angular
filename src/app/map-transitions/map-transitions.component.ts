@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ConfigsService } from '../configs.service'
 import { InitialMapping } from '../Types'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-map-transitions',
@@ -19,7 +20,7 @@ export class MapTransitionsComponent implements OnInit {
   list = []
   loading = true;
 
-  constructor(private configService: ConfigsService) { 
+  constructor(private configService: ConfigsService, private router:Router) { 
     this.formGroup = new FormGroup({
       classifier: new FormControl('NULL'),
       approximated: new FormControl(true)
@@ -29,6 +30,7 @@ export class MapTransitionsComponent implements OnInit {
   ngOnInit() {
     this.configService.getInitialMapping().subscribe(
       (params: InitialMapping) => {
+        console.log(params)
         this.loading = false
         this.classifiers = params.classifiers.map(function (s) {
           return {
@@ -102,5 +104,9 @@ export class MapTransitionsComponent implements OnInit {
     result['list'] = obj
 
     this.configService.postMapping(result)
+      .subscribe(resp => {
+        console.log(resp)
+        this.router.navigateByUrl('flowCost')
+      })
   }
 }

@@ -5,3 +5,11 @@
 .width {
   width: 100%;
 }
+
+p {
+  font-size: 12px;
+}
+
+.spinner {
+  padding-top: 40px;
+}

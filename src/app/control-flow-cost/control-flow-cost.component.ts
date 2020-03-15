@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AllCommunityModules } from "@ag-grid-community/all-modules";
 import { NumericEditorComponent } from '../numeric-editor/numeric-editor.component'
 import { FormControl } from '@angular/forms';
+import { ConfigsService } from '../configs.service'
 
 
 @Component({
@@ -25,7 +26,7 @@ export class ControlFlowCostComponent implements OnInit {
   private input2;
   
 
-  constructor() { 
+  constructor(private configService: ConfigsService) { 
     this.input1 = new FormControl(1);
     this.input2 = new FormControl(1);
     this.columnDefs1 = [
@@ -74,6 +75,10 @@ export class ControlFlowCostComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.configService.getControlFlowCost().subscribe((result) => {
+      console.log("prova")
+      console.log(result)
+    })
   }
 
   public onFirstDataRendered1(params) {

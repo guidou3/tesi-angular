@@ -1,6 +1,7 @@
 <form [formGroup]="formGroup">
   <mat-list >
-    <h3 mat-subheader>Transitions mapping</h3>
+    <h3 mat-header>Map Transitions to Event Classes</h3>
+    <p>First, select an appropriate classifier. Unmapped transitions will be mapped to a dummy event class. Approximate matches are highlighted and need to be reviewed for correctness.</p>
     <mat-list-item>
       <p fxFlex="50" mat-line>Choose classifier</p>
       <mat-select formControlName="classifier" (ngModelChange)="updateIndex()">
@@ -16,7 +17,9 @@
       </mat-checkbox>
     </mat-list-item>
 
-    <div fxLayoutAlign="center center" *ngIf="loading">
+    <mat-divider></mat-divider>
+
+    <div fxLayoutAlign="center center" *ngIf="loading" class="spinner">
       <mat-spinner ></mat-spinner>
     </div>
     

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { SliderParams} from './parameters'
+import { SliderParams} from '../Types'
 import { ConfigsService } from '../configs.service'
 import { DefaultSettings } from '../Types'
 
@@ -17,8 +17,8 @@ export class Parameters1Component implements OnInit {
     {value: 'FREE', viewValue: 'FREE'}
   ];
   milp = [
-    {value: 'LpSolve', viewValue: 'LpSolve (Bundled)'},
-    {value: 'Gurobi', viewValue: 'Gurobi'}
+    {value: 'ILP_LPSOLVE', viewValue: 'LpSolve'},
+    {value: 'ILP_GUROBI', viewValue: 'Gurobi'}
   ];
   algorithms = [
     {value: 'DIJKSTRA', viewValue: 'Dijkstra'},
@@ -58,7 +58,7 @@ export class Parameters1Component implements OnInit {
       search_space: new FormControl(1),
       checked: new FormControl(false),
       unassigned: new FormControl('NULL'),
-      milp: new FormControl('LpSolve'),
+      milp: new FormControl('ILP_LPSOLVE'),
       algorithm: new FormControl('ASTAR_GRAPH'),
       balanced: new FormControl(true),
       keep_control: new FormControl(true),

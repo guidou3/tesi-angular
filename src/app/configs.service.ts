@@ -19,6 +19,7 @@ export class ConfigsService {
   }
 
   public postParameters(parameters: Types.Parameters) {
+    console.log(parameters)
     this.http.post<Types.Parameters>(host+'/params', parameters, {
       responseType: 'text'
     })
@@ -30,7 +31,17 @@ export class ConfigsService {
   }
 
   public postMapping(mapping: Types.Mapping) {
-    this.http.post<Types.Mapping>(host+'/finalMapping', mapping, {
+    return this.http.post<Types.Mapping>(host+'/finalMapping', mapping, {
+      responseType: 'text'
+    })
+  }
+
+  public getControlFlowCost() {
+    return this.http.get<any>(host+'/controlFlowCost')
+  }
+
+  public postControlFlowCost(controlFlowCost: any) {
+    this.http.post<any>(host+'/finalMapping', controlFlowCost, {
       responseType: 'text'
     })
       .subscribe(resp => console.log(resp))
