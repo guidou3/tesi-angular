@@ -11,8 +11,6 @@ import { ConfigsService } from '../configs.service'
   styleUrls: ['./control-flow-cost.component.css']
 })
 export class ControlFlowCostComponent implements OnInit {
-
-  public modules: Module[] = AllCommunityModules;
   private frameworkComponents;
 
   private columnDefs1;
@@ -54,8 +52,8 @@ export class ControlFlowCostComponent implements OnInit {
         field: 'transition'
       },
       {
-        headerName: 'Move on model cost',
-        field: 'modelCost',
+        headerName: 'Move on log cost',
+        field: 'logCost',
         editable: true,
         cellEditor: 'numericEditorComponent',
       }
