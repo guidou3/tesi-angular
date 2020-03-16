@@ -116,13 +116,24 @@ export class ControlFlowCostComponent implements OnInit {
     this.gridApi.forEachNode(function(node) {
       rowData.push(node.data);
     });*/
-    console.log({
-      modelTable: this.rowData1,
-      logTable: this.rowData2
+    let modelTable = new Set(), logTable = new Set();
+    this.rowData1.forEach((obj) => {
+      modelTable.add({
+        transition: obj.transition,
+        cost: obj.cost
+      })
     })
-    this.configService.postControlFlowCost({
-      modelTable: this.rowData1,
-      logTable: this.rowData2
+    this.rowData2.forEach((obj) => {
+      logTable.add({
+        transition: obj.transition,
+        cost: obj.cost
+      })
     })
+    console.log(logTable.size)
+    let result = {
+      modelTable: modelTable,
+      logTable: logTable
+    }
+    this.configService.postControlFlowCost(result)
   }
 }

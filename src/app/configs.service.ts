@@ -40,8 +40,10 @@ export class ConfigsService {
     return this.http.get<any>(host+'/controlFlowCost')
   }
 
-  public postControlFlowCost(controlFlowCost: any) {
-    this.http.post<any>(host+'/controlFlowCost', controlFlowCost, {
+  public postControlFlowCost(controlFlowCost: Types.ControlFlowViolations) {
+    console.log("post")
+    console.log(controlFlowCost)
+    this.http.post<Types.ControlFlowViolations>(host+'/controlFlowCost', controlFlowCost, {
       responseType: 'text'
     })
       .subscribe(resp => console.log(resp))
