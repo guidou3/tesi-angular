@@ -40,8 +40,8 @@ export class ConfigsService {
     return this.http.get<any>(host+'/controlFlowCost')
   }
 
-  public postControlFlowCost(controlFlowCost: any) {
-    this.http.post<any>(host+'/controlFlowCost', controlFlowCost, {
+  public postControlFlowCost(controlFlowCost) {
+    return this.http.post<any>(host+'/controlFlowCost', controlFlowCost, {
       responseType: 'text'
     })
   }
@@ -56,5 +56,14 @@ export class ConfigsService {
     })
   }
 
+  public getInitialVariableMapping() {
+    return this.http.get<any>(host+'/initialVariableMapping')
+  }
+  
+  public postVariableMapping(mapping: any) {
+    return this.http.post<any>(host+'/postVariableMapping', mapping, {
+      responseType: 'text'
+    })
+  }
   
 }

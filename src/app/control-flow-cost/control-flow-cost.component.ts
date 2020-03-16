@@ -122,8 +122,8 @@ export class ControlFlowCostComponent implements OnInit {
       logTable: this.rowData2
     }
     this.configService.postControlFlowCost(result).subscribe(resp => {
-          console.log(resp)
-          this.router.navigateByUrl('variablesMapping')
-        })
+        console.log(resp)
+        this.router.navigateByUrl('variablesMapping')
+      })
   }
 }

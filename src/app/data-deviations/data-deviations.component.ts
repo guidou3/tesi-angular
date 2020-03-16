@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NumericEditorComponent } from '../numeric-editor/numeric-editor.component'
+import { ConfigsService } from '../configs.service'
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-data-deviations',
@@ -14,7 +17,7 @@ export class DataDeviationsComponent implements OnInit {
   private gridApi;
   private input;
 
-  constructor() {
+  constructor(private configService: ConfigsService, private router:Router) {
     this.columnDefs = [
       {
         headerName: 'Activity',
@@ -59,11 +62,7 @@ export class DataDeviationsComponent implements OnInit {
       },
     ];
 
-    this.rowData = [
-      { activity: 'Toyota', model: 'Celica', writingCost: 35000, variable: true },
-      { activity: 'Ford', model: 'Mondeo', writingCost: 32000, variable: true },
-      { activity: 'Porsche', model: 'Boxter', writingCost: 72000, variable: false }
-    ];
+    this.rowData = [];
 
     this.frameworkComponents = {
       /* custom cell editor component*/
