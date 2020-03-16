@@ -41,7 +41,7 @@ export class ConfigsService {
   }
 
   public postControlFlowCost(controlFlowCost: any) {
-    this.http.post<any>(host+'/finalMapping', controlFlowCost, {
+    this.http.post<any>(host+'/controlFlowCost', controlFlowCost, {
       responseType: 'text'
     })
       .subscribe(resp => console.log(resp))

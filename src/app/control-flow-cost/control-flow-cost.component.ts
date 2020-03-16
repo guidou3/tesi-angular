@@ -34,7 +34,7 @@ export class ControlFlowCostComponent implements OnInit {
       },
       {
         headerName: 'Move on model cost',
-        field: 'modelCost',
+        field: 'cost',
         editable: true,
         cellEditor: 'numericEditorComponent',
       }
@@ -53,7 +53,7 @@ export class ControlFlowCostComponent implements OnInit {
       },
       {
         headerName: 'Move on log cost',
-        field: 'logCost',
+        field: 'cost',
         editable: true,
         cellEditor: 'numericEditorComponent',
       }
@@ -74,7 +74,8 @@ export class ControlFlowCostComponent implements OnInit {
 
   ngOnInit() {
     this.configService.getControlFlowCost().subscribe((result) => {
-      console.log("prova")
+      this.rowData1 = result.modelTable
+      this.rowData2 = result.logTable
       console.log(result)
     })
   }
@@ -87,8 +88,10 @@ export class ControlFlowCostComponent implements OnInit {
   public updateValue1() {
     let api = this.gridApi1
     let value = this.input1.value
+    console.log(this.rowData1)
     this.rowData1.forEach(function (obj) {
-      obj.modelCost = value
+      if(obj.cost != 0)
+        obj.cost = value
       api.updateRowData({ update: [obj] });
       // TODO don't change invisible transitions
     })
@@ -103,7 +106,7 @@ export class ControlFlowCostComponent implements OnInit {
     let api = this.gridApi2
     let value = this.input2.value
     this.rowData2.forEach(function (obj) {
-      obj.modelCost = value
+      obj.cost = value
       api.updateRowData({ update: [obj] });
     })
   }
@@ -114,8 +117,12 @@ export class ControlFlowCostComponent implements OnInit {
       rowData.push(node.data);
     });*/
     console.log({
-      data1: this.rowData1,
-      data2: this.rowData2
+      modelTable: this.rowData1,
+      logTable: this.rowData2
+    })
+    this.configService.postControlFlowCost({
+      modelTable: this.rowData1,
+      logTable: this.rowData2
     })
   }
 }
