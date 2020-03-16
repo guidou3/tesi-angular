@@ -1,24 +1,10 @@
 <form [formGroup]="formGroup">
-  <mat-list >
-    <h3 mat-subheader>Upload progress</h3>
-    <mat-list-item>
-      <p fxFlex="50" mat-line>Choose classifier</p>
-      <mat-select formControlName="classifier" (ngModelChange)="updateIndex()">
-        <mat-option *ngFor="let val of classifiers" [value]="val.value">{{val.viewValue}}</mat-option>
-      </mat-select>
-    </mat-list-item>
-    <mat-list-item>
-      <mat-checkbox 
-        (change)="updateIndex()"
-        labelPosition="after"
-        formControlName="approximated">
-        Use approximated matching
-      </mat-checkbox>
-    </mat-list-item>
-    <mat-list-item *ngFor="let t of transitions">
-      <p mat-line>{{t}}</p>
-      <mat-select [formControlName]="t">
-        <mat-option *ngFor="let val of list" [value]="val.value">{{val.viewValue}}</mat-option>
+  <mat-list class="list">
+    <h3 mat-header>Variables mapping</h3>
+    <mat-list-item *ngFor="let t of list" class="line">
+      <p mat-line >{{t}}</p>
+      <mat-select [formControlName]="t" [class.warn]="attention[t]">
+        <mat-option *ngFor="let val of internalSet" [value]="val.value">{{val.viewValue}}</mat-option>
       </mat-select>
     </mat-list-item>
   </mat-list>

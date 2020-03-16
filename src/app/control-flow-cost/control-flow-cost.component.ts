@@ -3,6 +3,7 @@ import { AllCommunityModules } from "@ag-grid-community/all-modules";
 import { NumericEditorComponent } from '../numeric-editor/numeric-editor.component'
 import { FormControl } from '@angular/forms';
 import { ConfigsService } from '../configs.service'
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -24,7 +25,7 @@ export class ControlFlowCostComponent implements OnInit {
   private input2;
   
 
-  constructor(private configService: ConfigsService) { 
+  constructor(private configService: ConfigsService, private router:Router) { 
     this.input1 = new FormControl(1);
     this.input2 = new FormControl(1);
     this.columnDefs1 = [
@@ -116,24 +117,13 @@ export class ControlFlowCostComponent implements OnInit {
     this.gridApi.forEachNode(function(node) {
       rowData.push(node.data);
     });*/
-    let modelTable = new Set(), logTable = new Set();
-    this.rowData1.forEach((obj) => {
-      modelTable.add({
-        transition: obj.transition,
-        cost: obj.cost
-      })
-    })
-    this.rowData2.forEach((obj) => {
-      logTable.add({
-        transition: obj.transition,
-        cost: obj.cost
-      })
-    })
-    console.log(logTable.size)
     let result = {
-      modelTable: modelTable,
-      logTable: logTable
+      modelTable: this.rowData1,
+      logTable: this.rowData2
     }
-    this.configService.postControlFlowCost(result)
+    this.configService.postControlFlowCost(result).subscribe(resp => {
+          console.log(resp)
+          this.router.navigateByUrl('variablesMapping')
+        })
   }
 }

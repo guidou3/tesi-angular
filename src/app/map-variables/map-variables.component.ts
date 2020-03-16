@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ConfigsService } from '../configs.service'
-import { InitialMapping } from '../Types'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-map-variables',
@@ -11,96 +11,46 @@ import { InitialMapping } from '../Types'
 export class MapVariablesComponent implements OnInit {
   formGroup: FormGroup
 
-  variablesMap = new Map();
-  variables = []
+  attention = {}
+  internalSet = []
   list = []
 
-  constructor(private configService: ConfigsService) { 
-    this.formGroup = new FormGroup({
-      classifier: new FormControl('NULL'),
-      approximated: new FormControl(true)
-    })
+  constructor(private configService: ConfigsService, private router:Router) { 
+    this.formGroup = new FormGroup({})
   }
 
   ngOnInit() {
-    this.configService.getInitialMapping().subscribe(
-      (params: InitialMapping) => {
-
-        this.classifiers = params.classifiers.map(function (obj) {
+    this.configService.getInitialVariableMapping().subscribe(
+      (params: any) => {
+        console.log(params)
+        this.internalSet = params.internalSet.map(function (obj, id) {
           return {
-            value: obj.name,
-            viewValue: obj.name
-          }
-        })
-        this.formGroup.controls['classifier'].setValue(params.defaultClassifier.name)
-
-        this.nameList = params.nameList.map(function (obj, id) {
-          if(id === 0) return {
-            value: 0,
-            viewValue: 'None'
-          }
-          return {
-            value: obj.index+1,
-            viewValue: obj.id
-          }
-        })
-        this.list = this.nameList
-
-        this.resourceList = params.resourceList.map(function (obj, id) {
-          if(id === 0) return {
-            value: 'NONE',
-            viewValue: 'None'
-          }
-          return {
-            value: obj.index,
-            viewValue: obj.id
+            value: obj,
+            viewValue: obj
           }
         })
         
-        this.transitionMap = new Map()
         const p = this
-        Object.keys(params.transitionNames).forEach(function(key) {
-          p.formGroup.addControl(key, new FormControl(params.transitionNames[key][0]))
-          p.transitionMap.set(key, params.transitionNames[key])
-          p.transitions.push(key)
+        Object.keys(params.mapping).forEach(function(key) {
+          let val = params.mapping[key]
+          if(val.indexOf("<*>") !== -1) {
+            val = val.substring(0, val.indexOf("<*>"))
+            p.attention[key] = true
+          }
+          else
+            p.attention[key] = false
+
+          p.formGroup.addControl(key, new FormControl(val))
+          p.list.push(key)
         })
-        /*
-        this.nameList.forEach(function (obj) {
-          p.formGroup.addControl(obj.modelName, new FormControl(obj.default))
-        })*/
       }
     )
   }
 
-  public updateIndex() {
-    let index = 0;
-    if(this.formGroup.controls['classifier'].value !== this.classifiers[0].value) 
-      index += 2
-    if(!this.formGroup.controls['approximated'].value)
-      index++
-
-    if(index < 2) this.list = this.nameList
-    else this.list = this.resourceList
-
-    const p = this
-    this.transitionMap.forEach(function(val, key) {
-      if(val.length > 1) 
-        p.formGroup.controls[key].setValue(val[index])
-    })
-  }
-
   public postMapping() {
-    let result = {}, obj = {}, copy = this.formGroup.value;
-
-    Object.keys(copy).forEach(function(key) {
-      if(key === 'classifier')
-        result[key] = copy.classifier
-      else if(key === 'approximated') {}
-      else
-        obj[key] = copy[key]
-    })
-    result['list'] = obj
-
-    this.configService.postMapping(result)
+    this.configService.postVariableMapping(this.formGroup.value).subscribe(resp => {
+        console.log(resp)
+        this.router.navigateByUrl('dataCost')
+      })
   }
 }

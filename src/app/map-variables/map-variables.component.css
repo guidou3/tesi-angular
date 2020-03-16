@@ -1,0 +1,13 @@
+.warn {
+  border: 1px solid orange;
+  padding: 3px;
+  border-radius: 5px;
+}
+
+.line {
+  border-bottom: 1px solid lightgray;
+}
+
+.list {
+  margin-bottom: 15px;
+}
