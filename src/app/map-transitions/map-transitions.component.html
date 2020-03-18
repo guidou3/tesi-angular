@@ -24,8 +24,8 @@
     </div>
     
     <mat-list-item *ngFor="let t of transitions">
-      <p mat-line>{{t}}</p>
-      <mat-select [formControlName]="t">
+      <p mat-line>{{t.label}}</p>
+      <mat-select [formControlName]="t.value">
         <mat-option *ngFor="let val of list" [value]="val.value">{{val.label}}</mat-option>
       </mat-select>
     </mat-list-item>

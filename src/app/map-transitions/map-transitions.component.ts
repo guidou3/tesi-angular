@@ -27,6 +27,14 @@ export class MapTransitionsComponent implements OnInit {
     })
   }
 
+  private removeMapEnding(string) {
+    let regex = /[]*_\d*$/
+    if(string.search(regex) !== -1) {
+      string = string.substring(0, string.lastIndexOf("_"))
+    }
+    return string;
+  }
+
   ngOnInit() {
     this.configService.getInitialMapping().subscribe(
       (params: InitialMapping) => {
@@ -47,10 +55,14 @@ export class MapTransitionsComponent implements OnInit {
         this.transitionMap = new Map()
         const p = this
         Object.keys(params.transitionNames).forEach(function(key) {
+          p.removeMapEnding(key)
           let label = p.list[params.transitionNames[key][0]]
           p.formGroup.addControl(key, new FormControl(label.value))
           p.transitionMap.set(key, params.transitionNames[key])
-          p.transitions.push(key)
+          p.transitions.push({
+            label: p.removeMapEnding(key),
+            value: key
+          })
         })
       }
     )
@@ -102,7 +114,6 @@ export class MapTransitionsComponent implements OnInit {
         obj[key] = copy[key]
     })
     result['list'] = obj
-
     this.configService.postMapping(result)
       .subscribe(resp => {
         console.log(resp)

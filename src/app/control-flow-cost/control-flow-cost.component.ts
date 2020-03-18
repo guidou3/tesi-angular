@@ -41,11 +41,7 @@ export class ControlFlowCostComponent implements OnInit {
       }
     ];
 
-    this.rowData1 = [
-      { transition: 'Toyota', model: 'Celica', modelCost: 35000 },
-      { transition: 'Ford', model: 'Mondeo', modelCost: 32000 },
-      { transition: 'Porsche', model: 'Boxter', modelCost: 72000 }
-    ];
+    this.rowData1 = [];
 
     this.columnDefs2 = [
       {
@@ -60,11 +56,7 @@ export class ControlFlowCostComponent implements OnInit {
       }
     ];
 
-    this.rowData2 = [
-      { transition: 'Toyota', model: 'Celica', modelCost: 35000 },
-      { transition: 'Ford', model: 'Mondeo', modelCost: 32000 },
-      { transition: 'Porsche', model: 'Boxter', modelCost: 72000 }
-    ];
+    this.rowData2 = [];
 
     this.frameworkComponents = {
       /* custom cell editor component*/
