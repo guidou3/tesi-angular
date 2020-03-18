@@ -71,6 +71,9 @@ export class DataDeviationsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.configService.getVariableMatchCost().subscribe(resp => {
+      console.log(resp)
+    })
     this.columnDefs[0].cellEditorParams = {
       values: ['*', 'fuck you']
     }

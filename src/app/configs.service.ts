@@ -51,9 +51,19 @@ export class ConfigsService {
   }
   
   public postVariableMapping(mapping: any) {
+    return this.http.post<any>(host+'/postVariableMapping', mapping, {
+      responseType: 'text'
+    })
+  }
+
+  public getVariableMatchCost() {
+    return this.http.get<any>(host+'/variableMatchCost')
+  }
+  
+  public postVariableMatchCost(mapping: any) {
     console.log("called")
     console.log(mapping)
-    return this.http.post<any>(host+'/postVariableMapping', mapping, {
+    return this.http.post<any>(host+'/variableMatchCost', mapping, {
       responseType: 'text'
     })
   }
