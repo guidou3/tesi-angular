@@ -27,7 +27,7 @@ export class VariablesBoundsComponent implements OnInit {
         editable: true,
         cellEditor: 'agPopupSelectCellEditor',
         cellEditorParams: {
-            values: ['*', 'Spanish', 'French', 'Portuguese', '(other)']             
+            values: []             
         }
       },
       {

@@ -28,7 +28,7 @@ export class MapVariablesComponent implements OnInit {
             value: obj,
             viewValue: obj
           }
-        })w
+        })
         
         const p = this
         Object.keys(params.mapping).forEach(function(key) {

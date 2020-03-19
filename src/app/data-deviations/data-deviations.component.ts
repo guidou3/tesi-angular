@@ -15,9 +15,13 @@ export class DataDeviationsComponent implements OnInit {
   private columnDefs;
   private rowData;
   private gridApi;
-  private input;
+  private activities;
+  private attributes;
 
   constructor(private configService: ConfigsService, private router:Router) {
+    this.rowData = [];
+    this.activities = [];
+    this.attributes = [];
     this.columnDefs = [
       {
         headerName: 'Activity',
@@ -25,44 +29,45 @@ export class DataDeviationsComponent implements OnInit {
         editable: true,
         cellEditor: 'agPopupSelectCellEditor',
         cellEditorParams: {
-            values: ['*', 'Spanish', 'French', 'Portuguese', '(other)']             
+            values: this.activities             
         }
       },
       {
         headerName: 'Attribute',
         field: 'attribute',
         editable: true,
-        cellEditor: 'numericEditorComponent',
+        cellEditor: 'agPopupSelectCellEditor',
+        cellEditorParams: {
+            values: this.attributes                
+        }
       },
       {
         headerName: 'Non-writing Cost',
-        field: 'writingCost',
+        field: 'nonWritingCost',
         editable: true,
         cellEditor: 'numericEditorComponent',
       },
       {
         headerName: 'Faulty-value Cost',
-        field: 'faultyCost',
+        field: 'faultyValueCost',
         editable: true,
         cellEditor: 'numericEditorComponent',
       },
       {
         headerName: 'Final Variable',
-        field: 'variable',
+        field: 'finalVariable',
         cellRenderer: function(params) { 
           var input = document.createElement('input');
           input.type="checkbox";
           input.checked=params.value;
           input.addEventListener('click', function (event) {
               params.value=!params.value;
-              params.node.data.variabl = params.value;
+              params.node.data.finalVariable = params.value;
           });
           return input;
         }
       },
     ];
-
-    this.rowData = [];
 
     this.frameworkComponents = {
       /* custom cell editor component*/
@@ -71,17 +76,38 @@ export class DataDeviationsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.configService.getVariableMatchCost().subscribe(resp => {
+    this.configService.getVariableMatchCost().subscribe((resp) => {
       console.log(resp)
+      this.rowData = resp.entryList
+      // this.activities = resp.activityMatchingList
+      this.activities = ["*", "fuck"]
+      this.attributes = resp.attributeMatchingList
+      this.columnDefs[0].cellEditorParams = {
+        values: resp.activityMatchingList
+      }
+      this.columnDefs[1].cellEditorParams = {
+        values: resp.attributeMatchingList
+      }
     })
-    this.columnDefs[0].cellEditorParams = {
-      values: ['*', 'fuck you']
-    }
+    
   }
 
   public onFirstDataRendered(params) {
     this.gridApi = params.api;
     params.api.sizeColumnsToFit();
+
+    this.gridApi.setColumnDefs(this.columnDefs)
+  }
+
+  public insertRow() {
+    let newItem = {
+      activity: "*",
+      attribute: "*",
+      faultyValueCost: 1,
+      finalVariable: false,
+      nonWritingCost: 1
+    }
+    let res = this.gridApi.updateRowData({ add: [newItem] });
   }
 
   public submit() {
