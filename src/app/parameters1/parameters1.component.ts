@@ -47,7 +47,7 @@ export class Parameters1Component implements OnInit {
   formGroup: FormGroup
 
   constructor(private configService: ConfigsService) {
-    this.fitness = new SliderParams(0, 1, 1, 0.01)
+    this.fitness = new SliderParams(0, 1, 0, 0.01)
     this.threads = new SliderParams(1, 1, 1, 1)
     this.search_space = new SliderParams(1, 1, 1, 1)
 

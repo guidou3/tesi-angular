@@ -76,12 +76,16 @@ export class ConfigsService {
     })
   }
 
-  public queryConfiguration() {
-    return this.http.get<any>(host+'/queryConfiguration')
+  public queryConfiguration() {s
+    return this.http.get<any>(host+'/queryConfiguration', {
+      responseType: 'text'
+    })
   }
 
   public doBalancedDataConformance() {
-    return this.http.get<any>(host+'/balancedDataConformance')
+    return this.http.get<any>(host+'/balancedDataConformance', {
+      responseType: 'text'
+    })
   }
   
 }
