@@ -30,7 +30,8 @@ export class DataDeviationsComponent implements OnInit {
         cellEditor: 'agPopupSelectCellEditor',
         cellEditorParams: {
             values: this.activities             
-        }
+        },
+        rowDrag: true,
       },
       {
         headerName: 'Attribute',
@@ -110,11 +111,24 @@ export class DataDeviationsComponent implements OnInit {
     let res = this.gridApi.updateRowData({ add: [newItem] });
   }
 
-  public submit() {
-    var rowData = [];
+  public deleteRow() {
+    let selected = this.gridApi.getSelectedRows()
+    if(this.getRowData().length > 1)
+      this.gridApi.updateRowData({ remove: selected });
+  }
+
+  public getRowData() {
+    let rowData = [];
     this.gridApi.forEachNode(function(node) {
       rowData.push(node.data);
     });
-    console.log(rowData)
+    return rowData;
+  }
+
+  public submit() {
+    this.configService.postVariableMatchCost(this.getRowData()).subscribe(resp => {
+        console.log(resp)
+        this.router.navigateByUrl('variableBound')
+    })
   }
 }

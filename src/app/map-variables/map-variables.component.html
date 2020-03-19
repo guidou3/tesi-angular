@@ -1,6 +1,9 @@
 <form [formGroup]="formGroup">
   <mat-list class="list">
     <h3 mat-header>Variables mapping</h3>
+    <div fxLayoutAlign="center center" *ngIf="loading" class="spinner">
+      <mat-spinner ></mat-spinner>
+    </div>
     <mat-list-item *ngFor="let t of list" class="line">
       <p mat-line >{{t}}</p>
       <mat-select [formControlName]="t" [class.warn]="attention[t]">

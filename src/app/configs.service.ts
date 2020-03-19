@@ -61,11 +61,27 @@ export class ConfigsService {
   }
   
   public postVariableMatchCost(mapping: any) {
-    console.log("called")
-    console.log(mapping)
     return this.http.post<any>(host+'/variableMatchCost', mapping, {
       responseType: 'text'
     })
+  }
+
+  public getVariableBounds() {
+    return this.http.get<any>(host+'/variableBounds')
+  }
+  
+  public postVariableBounds(variableBounds: any) {
+    return this.http.post<any>(host+'/variableBounds', variableBounds, {
+      responseType: 'text'
+    })
+  }
+
+  public queryConfiguration() {
+    return this.http.get<any>(host+'/queryConfiguration')
+  }
+
+  public doBalancedDataConformance() {
+    return this.http.get<any>(host+'/balancedDataConformance')
   }
   
 }

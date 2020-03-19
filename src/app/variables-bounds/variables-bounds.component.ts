@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NumericEditorComponent } from '../numeric-editor/numeric-editor.component'
+import { ConfigsService } from '../configs.service'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-variables-bounds',
@@ -14,7 +16,7 @@ export class VariablesBoundsComponent implements OnInit {
   private gridApi;
   private input;
 
-  constructor() {
+  constructor(private configService: ConfigsService, private router:Router) {
     this.columnDefs = [
       {
         headerName: 'Variable name',
@@ -27,7 +29,7 @@ export class VariablesBoundsComponent implements OnInit {
         editable: true,
         cellEditor: 'agPopupSelectCellEditor',
         cellEditorParams: {
-            values: []             
+            values: ["String", "Integer", "Float", "Date", "Boolean"]             
         }
       },
       {
@@ -44,11 +46,7 @@ export class VariablesBoundsComponent implements OnInit {
       }
     ];
 
-    this.rowData = [
-      { variable: 'Toyota', model: 'Celica', minimum: 35000 },
-      { variable: 'Ford', model: 'Mondeo', minimum: 32000 },
-      { variable: 'Porsche', model: 'Boxter', minimum: 72000 }
-    ];
+    this.rowData = [];
 
     this.frameworkComponents = {
       /* custom cell editor component*/
@@ -57,9 +55,10 @@ export class VariablesBoundsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.columnDefs[1].cellEditorParams = {
-      values: ['*', 'fuck you']
-    }
+    this.configService.getVariableBounds().subscribe(resp => {
+      console.log(resp)
+      this.rowData = resp.list
+    })
   }
 
   public onFirstDataRendered(params) {
@@ -72,6 +71,10 @@ export class VariablesBoundsComponent implements OnInit {
     this.gridApi.forEachNode(function(node) {
       rowData.push(node.data);
     });
-    console.log(rowData)
+
+    this.configService.postVariableBounds(rowData).subscribe(resp => {
+        console.log(resp)
+        this.router.navigateByUrl('result')
+    })
   }
 }

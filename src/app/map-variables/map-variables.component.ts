@@ -9,20 +9,24 @@ import { Router } from '@angular/router';
   styleUrls: ['./map-variables.component.css']
 })
 export class MapVariablesComponent implements OnInit {
-  formGroup: FormGroup
-
-  attention = {}
-  internalSet = []
-  list = []
+  private formGroup: FormGroup
+  private attention;
+  private internalSet;
+  private list;
+  private loading;
 
   constructor(private configService: ConfigsService, private router:Router) { 
     this.formGroup = new FormGroup({})
+    this.attention = {}
+    this.internalSet = []
+    this.list = []
+    this.loading = true;
   }
 
   ngOnInit() {
     this.configService.getInitialVariableMapping().subscribe(
       (params: any) => {
-        console.log(params)
+        this.loading = false;
         this.internalSet = params.internalSet.map(function (obj, id) {
           return {
             value: obj,

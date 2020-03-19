@@ -33,7 +33,8 @@ import { MapVariablesComponent } from './map-variables/map-variables.component';
 import { ControlFlowCostComponent } from './control-flow-cost/control-flow-cost.component';
 import { NumericEditorComponent } from './numeric-editor/numeric-editor.component';
 import { DataDeviationsComponent } from './data-deviations/data-deviations.component';
-import { VariablesBoundsComponent } from './variables-bounds/variables-bounds.component'
+import { VariablesBoundsComponent } from './variables-bounds/variables-bounds.component';
+import { ResultsComponent } from './results/results.component'
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { VariablesBoundsComponent } from './variables-bounds/variables-bounds.co
     HttpClientModule,
     RouterModule.forRoot([
       { path: '', component: Parameters1Component },
+      { path: 'result', component: ResultsComponent },
       { path: 'variableBound', component: VariablesBoundsComponent },
       { path: 'dataCost', component: DataDeviationsComponent },
       { path: 'flowCost', component: ControlFlowCostComponent },
@@ -75,7 +77,8 @@ import { VariablesBoundsComponent } from './variables-bounds/variables-bounds.co
      ControlFlowCostComponent,
      NumericEditorComponent,
      DataDeviationsComponent,
-     VariablesBoundsComponent
+     VariablesBoundsComponent,
+     ResultsComponent
   ],
   bootstrap:    [ 
     AppComponent
