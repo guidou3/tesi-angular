@@ -19,7 +19,6 @@ export class ConfigsService {
   }
 
   public postParameters(parameters: Types.Parameters) {
-    console.log(parameters)
     this.http.post<Types.Parameters>(host+'/params', parameters, {
       responseType: 'text'
     })
@@ -76,7 +75,7 @@ export class ConfigsService {
     })
   }
 
-  public queryConfiguration() {s
+  public queryConfiguration() {
     return this.http.get<any>(host+'/queryConfiguration', {
       responseType: 'text'
     })
@@ -84,6 +83,12 @@ export class ConfigsService {
 
   public doBalancedDataConformance() {
     return this.http.get<any>(host+'/balancedDataConformance', {
+      responseType: 'text'
+    })
+  }
+
+  public getGraph() {
+    return this.http.get<String>(host+'/dot2', {
       responseType: 'text'
     })
   }

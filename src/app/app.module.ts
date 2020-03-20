@@ -34,7 +34,8 @@ import { ControlFlowCostComponent } from './control-flow-cost/control-flow-cost.
 import { NumericEditorComponent } from './numeric-editor/numeric-editor.component';
 import { DataDeviationsComponent } from './data-deviations/data-deviations.component';
 import { VariablesBoundsComponent } from './variables-bounds/variables-bounds.component';
-import { ResultsComponent } from './results/results.component'
+import { ResultsComponent } from './results/results.component';
+import { GraphComponent } from './graph/graph.component'
 
 
 @NgModule({
@@ -42,7 +43,7 @@ import { ResultsComponent } from './results/results.component'
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: '', component: Parameters1Component },
+      { path: '', component: GraphComponent },
       { path: 'result', component: ResultsComponent },
       { path: 'variableBound', component: VariablesBoundsComponent },
       { path: 'dataCost', component: DataDeviationsComponent },
@@ -78,7 +79,8 @@ import { ResultsComponent } from './results/results.component'
      NumericEditorComponent,
      DataDeviationsComponent,
      VariablesBoundsComponent,
-     ResultsComponent
+     ResultsComponent,
+     GraphComponent
   ],
   bootstrap:    [ 
     AppComponent

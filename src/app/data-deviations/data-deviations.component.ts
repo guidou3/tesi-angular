@@ -15,13 +15,9 @@ export class DataDeviationsComponent implements OnInit {
   private columnDefs;
   private rowData;
   private gridApi;
-  private activities;
-  private attributes;
 
   constructor(private configService: ConfigsService, private router:Router) {
     this.rowData = [];
-    this.activities = [];
-    this.attributes = [];
     this.columnDefs = [
       {
         headerName: 'Activity',
@@ -29,7 +25,7 @@ export class DataDeviationsComponent implements OnInit {
         editable: true,
         cellEditor: 'agPopupSelectCellEditor',
         cellEditorParams: {
-            values: this.activities             
+            values: []             
         },
         rowDrag: true,
       },
@@ -39,7 +35,7 @@ export class DataDeviationsComponent implements OnInit {
         editable: true,
         cellEditor: 'agPopupSelectCellEditor',
         cellEditorParams: {
-            values: this.attributes                
+            values: []                
         }
       },
       {
@@ -81,8 +77,6 @@ export class DataDeviationsComponent implements OnInit {
       console.log(resp)
       this.rowData = resp.entryList
       // this.activities = resp.activityMatchingList
-      this.activities = ["*", "fuck"]
-      this.attributes = resp.attributeMatchingList
       this.columnDefs[0].cellEditorParams = {
         values: resp.activityMatchingList
       }
