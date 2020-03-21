@@ -9,14 +9,15 @@ import { ConfigsService } from '../configs.service'
 })
 export class GraphComponent implements OnInit {
   title = 'd3-graphviz in Angular';
+  imagesFolder = "images/"
 
   constructor(private configService: ConfigsService) { }
 
   ngOnInit() {
     this.configService.getGraph().subscribe(file => {
       graphviz('div')
-      .addImage("images/plus.png", "20px", "20px")
-      .addImage("https://cdn.onlinewebfonts.com/svg/img_463982.png", "25px", "25px")
+      .addImage(this.imagesFolder + "plus.png", "20px", "20px")
+      .addImage(this.imagesFolder + "x.svg", "25px", "25px")
       .renderDot(file)
       .fit(true);
     })
