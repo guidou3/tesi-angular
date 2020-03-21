@@ -9,7 +9,10 @@ import { ConfigsService } from '../configs.service'
 })
 export class GraphComponent implements OnInit {
   title = 'd3-graphviz in Angular';
-  imagesFolder = "images/"
+  map = {
+    'x.svg': 'link',
+    'plus.svg': 'link'
+  }
 
   constructor(private configService: ConfigsService) { }
 
