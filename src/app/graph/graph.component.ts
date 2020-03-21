@@ -9,20 +9,33 @@ import { ConfigsService } from '../configs.service'
 })
 export class GraphComponent implements OnInit {
   title = 'd3-graphviz in Angular';
-  map = {
-    'x.svg': 'link',
-    'plus.svg': 'link'
-  }
+  list = [
+    {
+      initial: 'x.svg',
+      final: 'https://svgshare.com/i/JMX.svg'
+    },
+    {
+      initial: 'plus.svg',
+      final: 'https://svgshare.com/i/JKS.svg'
+    }
+  ]
 
   constructor(private configService: ConfigsService) { }
 
   ngOnInit() {
     this.configService.getGraph().subscribe(file => {
-      graphviz('div')
-      .addImage(this.imagesFolder + "plus.png", "20px", "20px")
-      .addImage(this.imagesFolder + "x.svg", "25px", "25px")
+      let graph = graphviz('div')
+
+      this.list.forEach(obj => {
+        file = file.replace(new RegExp(obj.initial, 'g'), obj.final)
+        graph.addImage(obj.final, "25px", "25px")
+      })
+
+
+      graph
       .renderDot(file)
       .fit(true);
+
     })
     
   }
