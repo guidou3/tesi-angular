@@ -88,7 +88,7 @@ export class ConfigsService {
   }
 
   public getGraph() {
-    return this.http.get<String>(host+'/dot2', {
+    return this.http.get<String>(host+'/bpmnDot', {
       responseType: 'text'
     })
   }

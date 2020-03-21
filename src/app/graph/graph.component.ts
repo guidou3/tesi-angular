@@ -14,7 +14,11 @@ export class GraphComponent implements OnInit {
 
   ngOnInit() {
     this.configService.getGraph().subscribe(file => {
-      graphviz('div').renderDot(file).fit(true);
+      graphviz('div')
+      .addImage("images/plus.png", "20px", "20px")
+      .addImage("https://cdn.onlinewebfonts.com/svg/img_463982.png", "25px", "25px")
+      .renderDot(file)
+      .fit(true);
     })
     
   }
