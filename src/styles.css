@@ -11,3 +11,9 @@
   font-size: 12;
 }
 
+html, body, my-app {
+  display: block;
+  height: 100%;
+  box-sizing: border-box;
+  margin: 0;
+}

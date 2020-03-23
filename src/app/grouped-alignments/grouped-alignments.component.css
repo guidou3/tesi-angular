@@ -1,0 +1,11 @@
+#btmFooter {
+  align-self: flex-end;
+}
+
+footer, .mat-toolbar {
+  font-size: 12px;
+}
+
+mat-checkbox {
+  padding: 0 3px;
+}

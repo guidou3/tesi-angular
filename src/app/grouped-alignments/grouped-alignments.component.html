@@ -1,0 +1,29 @@
+<div style="height: 100%;" fxLayout="column" fxFlexFill>
+  <h3>GROUPED ALIGNMENTS VARIANTS</h3>
+  <div fxFlex>
+    
+  </div>
+  <footer fxLayout="row">
+    <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
+      Search
+      <div class="checkboxes" >
+        <mat-checkbox 
+          labelPosition="before"
+          [checked]="approximateMatches">
+            Sub-string Matches
+        </mat-checkbox>
+        <mat-checkbox 
+          labelPosition="before"
+          [checked]="colorActivities">
+            Color Code Activities
+        </mat-checkbox>
+        <mat-checkbox 
+          labelPosition="before"
+          [checked]="hideShow">
+            Hide/Show Invisible Activities
+        </mat-checkbox>
+      </div>
+      
+    </mat-toolbar>
+  </footer>
+</div>

@@ -24,7 +24,8 @@ import {
   MatTooltipModule,
   MatSliderModule,
   MatInputModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatToolbarModule
 } from '@angular/material';
 
 import { ConfigsService } from './configs.service';
@@ -35,7 +36,8 @@ import { NumericEditorComponent } from './numeric-editor/numeric-editor.componen
 import { DataDeviationsComponent } from './data-deviations/data-deviations.component';
 import { VariablesBoundsComponent } from './variables-bounds/variables-bounds.component';
 import { ResultsComponent } from './results/results.component';
-import { GraphComponent } from './graph/graph.component'
+import { GraphComponent } from './graph/graph.component';
+import { GroupedAlignmentsComponent } from './grouped-alignments/grouped-alignments.component'
 
 
 @NgModule({
@@ -43,7 +45,8 @@ import { GraphComponent } from './graph/graph.component'
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: '', component: GraphComponent },
+      { path: '', component: GroupedAlignmentsComponent },
+      { path: 'graph', component: GraphComponent },
       { path: 'result', component: ResultsComponent },
       { path: 'variableBound', component: VariablesBoundsComponent },
       { path: 'dataCost', component: DataDeviationsComponent },
@@ -67,7 +70,8 @@ import { GraphComponent } from './graph/graph.component'
     MatListModule,
     MatButtonModule,
     MatInputModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatToolbarModule
   ],
   declarations: [ 
      AppComponent,
@@ -80,7 +84,8 @@ import { GraphComponent } from './graph/graph.component'
      DataDeviationsComponent,
      VariablesBoundsComponent,
      ResultsComponent,
-     GraphComponent
+     GraphComponent,
+     GroupedAlignmentsComponent
   ],
   bootstrap:    [ 
     AppComponent
