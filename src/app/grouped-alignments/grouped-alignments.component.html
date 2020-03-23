@@ -5,7 +5,9 @@
   </div>
   <footer fxLayout="row">
     <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
-      Search
+      <div class="search">
+        <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="&#61442;  Start searching for a hero by id or name or country">
+      </div>
       <div class="checkboxes" >
         <mat-checkbox 
           labelPosition="before"

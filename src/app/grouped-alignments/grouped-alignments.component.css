@@ -9,3 +9,19 @@ footer, .mat-toolbar {
 mat-checkbox {
   padding: 0 3px;
 }
+
+.container {
+  padding-top: 50px;
+  padding-bottom: 10px;
+  color: #405065;
+}
+
+.form-control {
+  box-shadow: 0 10px 40px 0 #B0C1D9;
+  padding: 5px 8px;
+  border: 0;
+  border-bottom: 1px solid gray;
+}
+.form-control::placeholder  {
+  font-family: FontAwesome;
+}

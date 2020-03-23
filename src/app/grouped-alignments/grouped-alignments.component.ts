@@ -10,10 +10,10 @@ export class GroupedAlignmentsComponent implements OnInit {
   private approximateMatches: boolean;
   private colorActivities: boolean;
   private unobserveable: boolean;
-  
+  private searchText;
 
   constructor() { 
-    this.approximateMatches = false;
+    this.approximateMatches = true;
     this.colorActivities = false;
     this.unobserveable = false;
 

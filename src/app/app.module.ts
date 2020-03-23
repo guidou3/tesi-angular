@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
@@ -27,6 +27,8 @@ import {
   MatProgressSpinnerModule,
   MatToolbarModule
 } from '@angular/material';
+
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { ConfigsService } from './configs.service';
 import { MapTransitionsComponent } from './map-transitions/map-transitions.component';
@@ -66,12 +68,14 @@ import { GroupedAlignmentsComponent } from './grouped-alignments/grouped-alignme
     MatIconModule,
     MatTooltipModule,
     MatSliderModule,
+    FormsModule,
     ReactiveFormsModule,
     MatListModule,
     MatButtonModule,
     MatInputModule,
     MatProgressSpinnerModule,
-    MatToolbarModule
+    MatToolbarModule,
+    Ng2SearchPipeModule
   ],
   declarations: [ 
      AppComponent,
