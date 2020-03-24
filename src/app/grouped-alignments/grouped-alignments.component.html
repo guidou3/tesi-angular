@@ -6,7 +6,9 @@
   <footer fxLayout="row">
     <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
       <div class="search">
-        <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="&#61442;  Start searching for a hero by id or name or country">
+        <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="&#61442;  Start searching for a hero by id or name or country"
+        matTooltip="Supports a simple query language for filtering alignments by names of events and traces or by their fitness value (e.g., fitness>0.5).Use '~' as 1st character to use a regular expressions, use '%' as 1st character to use a 'contains' query. "
+        >
       </div>
       <div class="checkboxes" >
         <mat-checkbox 

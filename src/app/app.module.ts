@@ -28,6 +28,8 @@ import {
   MatToolbarModule
 } from '@angular/material';
 
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { ConfigsService } from './configs.service';
@@ -61,6 +63,7 @@ import { GroupedAlignmentsComponent } from './grouped-alignments/grouped-alignme
     AgGridModule.withComponents([
       NumericEditorComponent
     ]),
+    BrowserAnimationsModule,
     FlexLayoutModule,
     UploadModule,
     MatSelectModule,

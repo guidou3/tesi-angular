@@ -20,7 +20,7 @@ export class MapVariablesComponent implements OnInit {
     this.attention = {}
     this.internalSet = []
     this.list = []
-    this.loading = true;e
+    this.loading = true;
   }
 
   ngOnInit() {
