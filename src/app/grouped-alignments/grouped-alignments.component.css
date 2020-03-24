@@ -25,3 +25,19 @@ mat-checkbox {
 .form-control::placeholder  {
   font-family: FontAwesome;
 }
+
+.search {
+  width: 25%;
+}
+
+.search input{
+  width: 100%;
+}
+
+.search mat-checkbox{
+  padding-left: 10px;
+}
+
+#alignmentsOrdering {
+  width: 150px;
+}

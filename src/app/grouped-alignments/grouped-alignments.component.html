@@ -1,5 +1,13 @@
 <div style="height: 100%;" fxLayout="column" fxFlexFill>
-  <h3>GROUPED ALIGNMENTS VARIANTS</h3>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <h3>GROUPED ALIGNMENTS VARIANTS</h3>
+    <mat-select id="alignmentsOrdering" [(value)]="ordering">
+        <mat-option value="option1">option1</mat-option>
+        <mat-option value="option2">option2</mat-option>
+        <mat-option value="option3">option3</mat-option>
+      </mat-select>
+  </div>
+  
   <div fxFlex>
     
   </div>
@@ -9,13 +17,13 @@
         <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="&#61442;  Start searching for a hero by id or name or country"
         matTooltip="Supports a simple query language for filtering alignments by names of events and traces or by their fitness value (e.g., fitness>0.5).Use '~' as 1st character to use a regular expressions, use '%' as 1st character to use a 'contains' query. "
         >
-      </div>
-      <div class="checkboxes" >
         <mat-checkbox 
-          labelPosition="before"
+          labelPosition="after"
           [checked]="approximateMatches">
             Sub-string Matches
         </mat-checkbox>
+      </div>
+      <div class="checkboxes" >
         <mat-checkbox 
           labelPosition="before"
           [checked]="colorActivities">
@@ -25,6 +33,11 @@
           labelPosition="before"
           [checked]="hideShow">
             Hide/Show Invisible Activities
+        </mat-checkbox>
+        <mat-checkbox 
+          labelPosition="before"
+          [checked]="highlight">
+            Highlight Deviations
         </mat-checkbox>
       </div>
       

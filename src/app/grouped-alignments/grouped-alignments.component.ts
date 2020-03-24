@@ -25,17 +25,86 @@ export class GroupedAlignmentsComponent implements OnInit {
   private approximateMatches: boolean;
   private colorActivities: boolean;
   private unobserveable: boolean;
+  private highlight: boolean;
   private searchText;
+  private ordering: String;
+
+  private orderingValues;
+  private orderingFunction;
+
+  private data;
+  private data_shown;
 
   constructor() { 
     this.approximateMatches = true;
     this.colorActivities = false;
     this.unobserveable = false;
+    this.highlight = false;
+    this.ordering = "COUNT_DESC";
 
+    this.orderingValues = [
+      {
+        label: "Sort by Count (Descending)",
+        value: "COUNT_DESC"
+      },
+      {
+        label: "Sort by Count (Ascending)",
+        value: "COUNT_ASC"
+      },
+      {
+        label: "Sort by Fitness (Descending)",
+        value: "FITNESS_DESC"
+      },
+      {
+        label: "Sort by Fitness (Ascending)",
+        value: "FITNESS_ASC"
+      },
+      {
+        label: "Sort by Length (Descending)",
+        value: "LENGTH_DESC"
+      },
+      {
+        label: "Sort by Length (Ascending)",
+        value: "LENGTH_ASC"
+      }
+    ]
+
+    this.orderingFunction = {
+      "COUNT_DESC": function(a, b) {
+        return a.list.length > b.list.length
+      },
+      "COUNT_ASC": function(a, b) {
+        return a.list.length < b.list.length
+      },
+      "FITNESS_DESC": function(a, b) {
+        return a.averageFitness > b.averageFitness
+      },
+      "FITNESS_ASC": function(a, b) {
+        return a.averageFitness < b.averageFitness
+      },
+      "LENGTH_DESC": function(a, b) {
+        return a.averageLength > b.averageLength
+      },
+      "LENGTH_ASC": function(a, b) {
+        return a.averageLength < b.averageLength
+      }
+    }
     
   }
 
   ngOnInit() {
+  }
+
+  search() {
+    // called when checkbox sub-string matches or search are called
+  }
+
+  order() {
+    // called by ordering select
+  }
+
+  updateVisualization() {
+    // called by 3 right checkboxes
   }
 
 }

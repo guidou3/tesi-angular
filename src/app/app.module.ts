@@ -12,20 +12,21 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { UploadModule } from './upload/upload.module'
 import { UploadComponent } from './upload/upload.component'
 
-import { Parameters1Component } from './parameters1/parameters1.component';
+
 
 import {
   MatButtonModule,
-  MatDialogModule,
-  MatListModule,
-  MatSelectModule,
-  MatIconModule,
+  MatCardModule,
   MatCheckboxModule,
-  MatTooltipModule,
-  MatSliderModule,
+  MatDialogModule,
+  MatIconModule,
   MatInputModule,
+  MatListModule,
   MatProgressSpinnerModule,
-  MatToolbarModule
+  MatSelectModule,
+  MatSliderModule,
+  MatToolbarModule,
+  MatTooltipModule,
 } from '@angular/material';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -33,6 +34,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { ConfigsService } from './configs.service';
+
+import { Parameters1Component } from './parameters1/parameters1.component';
 import { MapTransitionsComponent } from './map-transitions/map-transitions.component';
 import { MapVariablesComponent } from './map-variables/map-variables.component';
 import { ControlFlowCostComponent } from './control-flow-cost/control-flow-cost.component';
@@ -41,7 +44,8 @@ import { DataDeviationsComponent } from './data-deviations/data-deviations.compo
 import { VariablesBoundsComponent } from './variables-bounds/variables-bounds.component';
 import { ResultsComponent } from './results/results.component';
 import { GraphComponent } from './graph/graph.component';
-import { GroupedAlignmentsComponent } from './grouped-alignments/grouped-alignments.component'
+import { GroupedAlignmentsComponent } from './grouped-alignments/grouped-alignments.component';
+import { AlignmentLegendComponent } from './alignment-legend/alignment-legend.component'
 
 
 @NgModule({
@@ -49,7 +53,8 @@ import { GroupedAlignmentsComponent } from './grouped-alignments/grouped-alignme
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: '', component: GroupedAlignmentsComponent },
+      { path: '', component: AlignmentLegendComponent },
+      { path: 'grouped', component: GroupedAlignmentsComponent },
       { path: 'graph', component: GraphComponent },
       { path: 'result', component: ResultsComponent },
       { path: 'variableBound', component: VariablesBoundsComponent },
@@ -66,19 +71,22 @@ import { GroupedAlignmentsComponent } from './grouped-alignments/grouped-alignme
     BrowserAnimationsModule,
     FlexLayoutModule,
     UploadModule,
-    MatSelectModule,
-    MatCheckboxModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatSliderModule,
     FormsModule,
     ReactiveFormsModule,
-    MatListModule,
+    Ng2SearchPipeModule,
+
     MatButtonModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    MatIconModule,
     MatInputModule,
+    MatListModule,
     MatProgressSpinnerModule,
+    MatSelectModule,
+    MatSliderModule,
     MatToolbarModule,
-    Ng2SearchPipeModule
+    MatTooltipModule,
   ],
   declarations: [ 
      AppComponent,
@@ -92,7 +100,8 @@ import { GroupedAlignmentsComponent } from './grouped-alignments/grouped-alignme
      VariablesBoundsComponent,
      ResultsComponent,
      GraphComponent,
-     GroupedAlignmentsComponent
+     GroupedAlignmentsComponent,
+     AlignmentLegendComponent
   ],
   bootstrap:    [ 
     AppComponent
