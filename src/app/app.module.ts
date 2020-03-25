@@ -46,7 +46,8 @@ import { ResultsComponent } from './results/results.component';
 import { GraphComponent } from './graph/graph.component';
 import { GroupedAlignmentsComponent } from './grouped-alignments/grouped-alignments.component';
 import { AlignmentLegendComponent } from './alignment-legend/alignment-legend.component';
-import { AlignementStatisticsComponent } from './alignement-statistics/alignement-statistics.component'
+import { AlignmentStatisticsComponent } from './alignment-statistics/alignment-statistics.component';
+import { SelectedAlignmentsDetailsComponent } from './selected-alignments-details/selected-alignments-details.component'
 
 
 @NgModule({
@@ -54,7 +55,7 @@ import { AlignementStatisticsComponent } from './alignement-statistics/alignemen
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: '', component: AlignmentLegendComponent },
+      { path: '', component: GroupedAlignmentsComponent },
       { path: 'grouped', component: GroupedAlignmentsComponent },
       { path: 'graph', component: GraphComponent },
       { path: 'result', component: ResultsComponent },
@@ -103,7 +104,8 @@ import { AlignementStatisticsComponent } from './alignement-statistics/alignemen
      GraphComponent,
      GroupedAlignmentsComponent,
      AlignmentLegendComponent,
-     AlignementStatisticsComponent
+     AlignmentStatisticsComponent,
+     SelectedAlignmentsDetailsComponent
   ],
   bootstrap:    [ 
     AppComponent

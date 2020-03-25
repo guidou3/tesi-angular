@@ -1,0 +1,12 @@
+<mat-card class="card">
+  <mat-card-title>ALIGNMENTS IN SELECTED GROUPS</mat-card-title>
+  <mat-card-content fxLayout="column">
+    <ag-grid-angular
+      domLayout='autoHeight'
+      class="ag-theme-balham"
+      [rowData]="statistics"
+      [columnDefs]="columnDefs1"
+      (firstDataRendered)="onFirstDataRendered($event)">>
+    </ag-grid-angular>
+  </mat-card-content>
+</mat-card>

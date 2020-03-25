@@ -1,15 +1,18 @@
 <div style="height: 100%;" fxLayout="column" fxFlexFill>
   <div fxLayout="row" fxLayoutAlign="space-between center">
     <h3>GROUPED ALIGNMENTS VARIANTS</h3>
+    <mat-label>Sort by:</mat-label>
     <mat-select id="alignmentsOrdering" [(value)]="ordering">
-        <mat-option value="option1">option1</mat-option>
-        <mat-option value="option2">option2</mat-option>
-        <mat-option value="option3">option3</mat-option>
+        <mat-option *ngFor="let obj of orderingValues"   [value]="obj.value">{{obj.label}}</mat-option>
       </mat-select>
   </div>
   
-  <div fxFlex>
-    
+  <div fxFlex fxLayout="row">
+    <div class="main" fxLayout="column" fxFlex="75"></div>
+    <div class="side" fxLayout="column" fxFlex="25">
+      <app-alignment-legend></app-alignment-legend>
+      <app-alignment-statistics [statistics] = "statistics"></app-alignment-statistics>
+    </div>
   </div>
   <footer fxLayout="row">
     <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">

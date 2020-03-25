@@ -11,27 +11,7 @@ export class ResultsComponent implements OnInit {
   private logMessage;
   private loading;
 
-  private statics = [
-    {
-      name: "#Traces",
-      value: 1
-    },
-    {
-      name: "Min Fitness",
-      value: 2
-    },{
-      name: "Average Fitness",
-      value: 3
-    },
-    {
-      name: "Median Fitness",
-      value: 4
-    },
-    {
-      name: "Max Fitness",
-      value: 5
-    }
-  ]
+  
 
   constructor(private configService: ConfigsService, private router:Router) { 
     this.logMessage = "Initializing"
@@ -39,7 +19,7 @@ export class ResultsComponent implements OnInit {
   }
 
   ngOnInit() {
-    /*this.logMessage = "Initialized query configuration"
+    this.logMessage = "Initialized query configuration"
     this.configService.queryConfiguration().subscribe(response1 => {
       console.log(response1)
       this.logMessage = "Configuration obtained\nCalculating conformance"
@@ -48,8 +28,7 @@ export class ResultsComponent implements OnInit {
         this.logMessage = "Conformance checking succesfully obtained"
         this.loading = false;
       })
-    })*/
-    this.loading = false;
+    })
   }
 
 }

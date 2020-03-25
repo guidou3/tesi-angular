@@ -1,11 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-alignement-statistics',
-  templateUrl: './alignement-statistics.component.html',
-  styleUrls: ['./alignement-statistics.component.css']
+  selector: 'app-alignment-statistics',
+  templateUrl: './alignment-statistics.component.html',
+  styleUrls: ['./alignment-statistics.component.css']
 })
-export class AlignementStatisticsComponent implements OnInit {
+export class AlignmentStatisticsComponent implements OnInit {
   private columnDefs1;
   @Input() statistics;
   constructor() {
@@ -22,6 +22,10 @@ export class AlignementStatisticsComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  public onFirstDataRendered(params) {
+    params.api.sizeColumnsToFit();
   }
 
 }

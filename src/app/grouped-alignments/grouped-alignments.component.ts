@@ -35,6 +35,28 @@ export class GroupedAlignmentsComponent implements OnInit {
   private data;
   private data_shown;
 
+  private statistics = [
+    {
+      name: "#Traces",
+      value: 1
+    },
+    {
+      name: "Min Fitness",
+      value: 2
+    },{
+      name: "Average Fitness",
+      value: 3
+    },
+    {
+      name: "Median Fitness",
+      value: 4
+    },
+    {
+      name: "Max Fitness",
+      value: 5
+    }
+  ]
+
   constructor() { 
     this.approximateMatches = true;
     this.colorActivities = false;
@@ -44,7 +66,7 @@ export class GroupedAlignmentsComponent implements OnInit {
 
     this.orderingValues = [
       {
-        label: "Sort by Count (Descending)",
+        label: "Count (&#61442;)",
         value: "COUNT_DESC"
       },
       {
