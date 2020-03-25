@@ -1,0 +1,12 @@
+<mat-card class="card">
+  <mat-card-title>ALIGNMENT STATISTICS</mat-card-title>
+  <mat-card-content fxLayout="column">
+    <ag-grid-angular
+      style="width: 100%;"
+      domLayout='autoHeight'
+      class="ag-theme-balham"
+      [rowData]="statistics"
+      [columnDefs]="columnDefs1">
+    </ag-grid-angular>
+  </mat-card-content>
+</mat-card>

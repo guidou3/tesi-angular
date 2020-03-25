@@ -1,6 +1,11 @@
-<p>
-{{logMessage}}
-</p>
 <div fxLayoutAlign="center center" *ngIf="loading" class="spinner">
-      <mat-spinner ></mat-spinner>
-    </div>
+  <p>{{logMessage}}</p>
+  <mat-spinner ></mat-spinner>
+</div>
+<div *ngIf="!loading" fxLayout="row">
+  <div class="main" fxLayout="column" fxFlex="75"></div>
+  <div class="side" fxLayout="column" fxFlex="25">
+    <app-alignement-legend></app-alignement-legend>
+    <app-alignement-statistics [statistics] = "statistics"></app-alignement-statistics>
+  </div>
+</div>

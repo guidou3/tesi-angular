@@ -45,7 +45,8 @@ import { VariablesBoundsComponent } from './variables-bounds/variables-bounds.co
 import { ResultsComponent } from './results/results.component';
 import { GraphComponent } from './graph/graph.component';
 import { GroupedAlignmentsComponent } from './grouped-alignments/grouped-alignments.component';
-import { AlignmentLegendComponent } from './alignment-legend/alignment-legend.component'
+import { AlignmentLegendComponent } from './alignment-legend/alignment-legend.component';
+import { AlignementStatisticsComponent } from './alignement-statistics/alignement-statistics.component'
 
 
 @NgModule({
@@ -101,7 +102,8 @@ import { AlignmentLegendComponent } from './alignment-legend/alignment-legend.co
      ResultsComponent,
      GraphComponent,
      GroupedAlignmentsComponent,
-     AlignmentLegendComponent
+     AlignmentLegendComponent,
+     AlignementStatisticsComponent
   ],
   bootstrap:    [ 
     AppComponent

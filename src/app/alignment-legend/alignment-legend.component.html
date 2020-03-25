@@ -1,6 +1,25 @@
-<mat-card>
+<mat-card class="card">
   <mat-card-title>LEGEND</mat-card-title>
-  <mat-card-content>
-    <mat-icon color="blue" style="fill: blue;">crop_square</mat-icon>
+  <mat-card-content fxLayout="column">
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-icon class="icon color_1">brightness_1</mat-icon>
+      <mat-label>Perfect Alignment Step (Move log and model)</mat-label>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-icon class="icon color_2">brightness_1</mat-icon>
+      <mat-label>Missing Event (Move model only)</mat-label>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-icon class="icon color_3">brightness_1</mat-icon>
+      <mat-label>Unobservable Event (Move model only)</mat-label>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-icon class="icon color_4">brightness_1</mat-icon>
+      <mat-label>Wrong Event (Move log only)</mat-label>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-icon class="icon color_5">brightness_1</mat-icon>
+      <mat-label>Wrong Data (Move log and move model with different data values)</mat-label>
+    </div>
   </mat-card-content>
 </mat-card>

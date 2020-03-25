@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./alignment-legend.component.css']
 })
 export class AlignmentLegendComponent implements OnInit {
-
+  
   constructor() { }
 
   ngOnInit() {
