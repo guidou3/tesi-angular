@@ -8,7 +8,9 @@
   </div>
   
   <div fxFlex fxLayout="row">
-    <div class="main" fxLayout="column" fxFlex="75"></div>
+    <div class="main" fxLayout="column" fxFlex="75">
+      <app-alignment-view></app-alignment-view>
+    </div>
     <div class="side" fxLayout="column" fxFlex="25">
       <app-alignment-legend></app-alignment-legend>
       <app-alignment-statistics [statistics] = "statistics"></app-alignment-statistics>
