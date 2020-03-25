@@ -2,7 +2,7 @@
 alignment-view works!
 </p>
 <svg width="1000" height="1000">
-  <path d='M 0 0 l 50 0 l 30 25 l -30 25 l -50 0 z' />
-  <path d='M 55 0 l 50 0 l 30 25 l -30 25 l -50 0 l 30 -25 z' onclick="number2()"/>
+  <path *ngFor="let path of paths; index as i" d='M 0 0 l 50 0 l 30 25 l -30 25 l -50 0 z' />
+  <path d='M 55 0 l 50 0 l 30 25 l -30 25 l -50 0 l 30 -25 z' (click)="number2($event)"/>
   <path d='M 110 0 l 50 0 l 30 25 l -30 25 l -50 0 l 30 -25 z' />
 </svg>
