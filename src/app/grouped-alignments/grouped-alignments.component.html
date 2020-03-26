@@ -9,11 +9,11 @@
   
   <div fxFlex fxLayout="row">
     <div class="main" fxLayout="column" fxFlex="75">
-      <app-alignment-view></app-alignment-view>
+      <app-alignment-view *ngFor="let alignment of alignments" [segments]="alignment"></app-alignment-view>
     </div>
     <div class="side" fxLayout="column" fxFlex="25">
-      <app-alignment-legend></app-alignment-legend>
-      <app-alignment-statistics [statistics] = "statistics"></app-alignment-statistics>
+      <app-alignment-legend ></app-alignment-legend>
+      <app-alignment-statistics [statistics] = "statistics"> </app-alignment-statistics>
     </div>
   </div>
   <footer fxLayout="row">

@@ -35,6 +35,8 @@ export class GroupedAlignmentsComponent implements OnInit {
   private data;
   private data_shown;
 
+  private alignments;
+
   private statistics = [
     {
       name: "#Traces",
@@ -111,7 +113,53 @@ export class GroupedAlignmentsComponent implements OnInit {
         return a.averageLength < b.averageLength
       }
     }
-    
+
+    this.alignments = [
+      [ 
+        {
+          length: 50,
+          color: "red",
+          d: 'M 0 0 l 50 0 l 30 25 l -30 25 l -50 0 z'
+        },
+        {
+          length: 50,
+          color: "blue",
+          d: 'M 55 0 l 50 0 l 30 25 l -30 25 l -50 0 l 30 -25 z'
+        },
+        {
+          length: 50,
+          color: "black",
+          d: 'M 110 0 l 50 0 l 30 25 l -30 25 l -50 0 l 30 -25 z'
+        },
+        {
+          length: 50,
+          color: "green",
+          d: 'M 165 0 l 50 0 l 30 25 l -30 25 l -50 0 l 30 -25 z'
+        },
+      ],
+      [ 
+        {
+          length: 50,
+          color: "red",
+          d: 'M 0 0 l 50 0 l 30 25 l -30 25 l -50 0 z'
+        },
+        {
+          length: 50,
+          color: "blue",
+          d: 'M 55 0 l 50 0 l 30 25 l -30 25 l -50 0 l 30 -25 z'
+        },
+        {
+          length: 50,
+          color: "black",
+          d: 'M 110 0 l 50 0 l 30 25 l -30 25 l -50 0 l 30 -25 z'
+        },
+        {
+          length: 50,
+          color: "green",
+          d: 'M 165 0 l 50 0 l 30 25 l -30 25 l -50 0 l 30 -25 z'
+        },
+      ]
+    ]
   }
 
   ngOnInit() {
