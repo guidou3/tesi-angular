@@ -24,7 +24,7 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
 export class GroupedAlignmentsComponent implements OnInit {
   private approximateMatches: boolean;
   private colorActivities: boolean;
-  private unobserveable: boolean;
+  private hideInvisible: boolean;
   private highlight: boolean;
   private searchText;
   private ordering: String;
@@ -62,7 +62,7 @@ export class GroupedAlignmentsComponent implements OnInit {
   constructor() { 
     this.approximateMatches = true;
     this.colorActivities = false;
-    this.unobserveable = false;
+    this.hideInvisible = false;
     this.highlight = false;
     this.ordering = "COUNT_DESC";
 
@@ -186,10 +186,10 @@ export class GroupedAlignmentsComponent implements OnInit {
   }
 
   lookup() {
-    console.log("approximateMatches" + this.approximateMatches)
-    console.log("colorActivities" + this.colorActivities)
-    console.log("unobserveable" + this.unobserveable)
-    console.log("highlight" + this.highlight)
+    console.log("approximateMatches " + this.approximateMatches)
+    console.log("colorActivities " + this.colorActivities)
+    console.log("hideInvisible " + this.hideInvisible)
+    console.log("highlight " + this.highlight)
   }
 
 }

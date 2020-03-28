@@ -31,15 +31,33 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
       'data': "orange"
 
     }
+    
+    this.segments = this.segments.map((obj) => {
+      obj.color = obj.color || typeToColor[obj.type]
+      return obj
+    })
+
+    this.visible_segments = this.generatePaths()
+  }
+
+  ngOnChanges(changes) {
+    if(changes.hideInvisible != null) {
+      this.hideInvisible = changes.hideInvisible.currentValue
+      this.visible_segments = this.generatePaths()
+    }
+
+  }
+
+  generatePaths() {
     let start = 5;
     let length = this.length
     let i = 0;
-    this.visible_segments = this.segments.reduce((res, obj) => {
+
+    return this.segments.reduce((res, obj) => {
       if(this.hideInvisible && obj.type === 'invisible')
         return res
-
+      
       obj.start = start
-      obj.color = obj.color || typeToColor[obj.type]
       if(i === 0) {
         start += length + 32
         obj.d = "M 0 0 l " + length + " 0 l 30 25 l -30 25 l -" + length + " 0 z"
@@ -50,15 +68,10 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
           obj.d = "M " + initial + " 0 l " + length + " 0 l 30 25 l -30 25 l -" + length + " 0 l 30 -25z"
       }
       i++
+
       res.push(obj)
       return res
     }, [])
-  }
-
-  ngOnChanges(changes) {
-    console.log("changes")
-    console.log(changes)
-    console.log(this.hideInvisible)
   }
 
   public enlarge() {

@@ -11,7 +11,7 @@
   
   <div fxFlex fxLayout="row">
     <div class="main" fxLayout="column" fxFlex="75">
-      <app-alignment-view *ngFor="let alignment of alignments" [segments]="alignment" [hideInvisible]="unobserveable" [length]="50"></app-alignment-view>
+      <app-alignment-view *ngFor="let alignment of alignments" [segments]="alignment" [hideInvisible]="hideInvisible" [length]="50"></app-alignment-view>
       <button type="button" (click)="lookup()">Lookup</button>
     </div>
     <div class="side" fxLayout="column" fxFlex="25">
@@ -27,24 +27,24 @@
         >
         <mat-checkbox 
           labelPosition="after"
-          [checked]="approximateMatches">
+          [(ngModel)]="approximateMatches">
             Sub-string Matches
         </mat-checkbox>
       </div>
       <div class="checkboxes" >
         <mat-checkbox 
           labelPosition="before"
-          [checked]="colorActivities">
+          [(ngModel)]="colorActivities">
             Color Code Activities
         </mat-checkbox>
         <mat-checkbox 
           labelPosition="before"
-          [checked]="hideShow">
+          [(ngModel)]="hideInvisible">
             Hide/Show Invisible Activities
         </mat-checkbox>
         <mat-checkbox 
           labelPosition="before"
-          [checked]="highlight">
+          [(ngModel)]="highlight">
             Highlight Deviations
         </mat-checkbox>
       </div>
