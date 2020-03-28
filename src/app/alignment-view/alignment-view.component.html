@@ -1,3 +1,6 @@
-<svg viewBox="0 0 800 75">
-  <path *ngFor="let p of paths; index as i" [attr.d]="p.d" (click)="enlarge(i)" [attr.fill]="p.color"/>
+<svg viewBox="0 0 800 50" (click)="enlarge()" class="alignment-view">
+  <svg *ngFor="let obj of visible_segments">
+    <path [attr.d]="obj.d"  [attr.fill]="obj.color"/>
+    <text [attr.x]="obj.start" y="27.5" font-family="Arial" font-size="10" text-overflow="ellipsis" fill="black" >{{obj.label}}</text>
+  </svg>
 </svg>

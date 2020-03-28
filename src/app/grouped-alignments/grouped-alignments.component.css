@@ -41,3 +41,7 @@ mat-checkbox {
 #alignmentsOrdering {
   width: 150px;
 }
+
+.sort-label {
+  padding-right: 7px;
+}

@@ -1,68 +1,96 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, Input } from '@angular/core';
 
 @Component({
   selector: 'app-alignment-view',
   templateUrl: './alignment-view.component.html',
   styleUrls: ['./alignment-view.component.css']
 })
-export class AlignmentViewComponent implements OnInit {
+export class AlignmentViewComponent implements OnInit, OnChanges {
   @Input() segments;
-  private paths
+  @Input() length: number;
+  @Input() hideInvisible: boolean;
+  @Input() highlight: boolean;
+
+  private visible_segments;
   private last;
+  private enlarged: boolean;
+  private multiplier: number;
 
   constructor() { 
-    this.paths = []
+    this.visible_segments = [];
+    this.enlarged = false;
+    this.multiplier = 2
   }
 
   ngOnInit() {
-    console.log(this.segments)
-    this.paths = this.segments
-  }
+    let typeToColor = {
+      'perfect': "rgb(0, 210, 0)",
+      'model_only': "rgb(224, 176, 255)",
+      'invisible': "gray",
+      'log_only': "yellow",
+      'data': "orange"
 
-  public enlarge(index) {
-    if(this.last != null) {
-      if(this.last < index)
-        this.diminish(this.last, index-1)
-      else if(this.last === index)
-        return;
     }
-      
-    if(index === 0)
-      this.printFirst(this.paths[index].length*2)
-    else
-      this.printOthers(this.paths[index].length*2, index, 0)
-  }
+    let start = 5;
+    let length = this.length
+    let i = 0;
+    this.visible_segments = this.segments.reduce((res, obj) => {
+      if(this.hideInvisible && obj.type === 'invisible')
+        return res
 
-  printFirst(length) {
-    this.paths[0].d = "M 0 0 l " + length + " 0 l 30 25 l -30 25 l -" + length + " 0 z"
-    this.last = 0
-    if(this.paths.length !== 1)
-      this.printOthers(this.paths[1].length, 1, length/2)
-  }
-
-  printOthers(length, index, shift) {
-    let start = index *55 + shift;
-    console.log(index + " " +start + " " +start)
-    this.paths[index].d = "M " + start + " 0 l " + length + " 0 l 30 25 l -30 25 l -" + length + " 0 l 30 -25z"
-
-    if(shift === 0) {
-      shift = length/2
-      this.last = index
-    }
-
-    if(index < this.paths.length -1)
-      this.printOthers(this.paths[index+1].length, index+1, shift)
-  }
-
-  diminish(index, final) {
-    if(index <= final) {
-      let length = this.paths[index].length
-      if(index === 0)
-        this.paths[0].d = "M 0 0 l " + length + " 0 l 30 25 l -30 25 l -" + length + " 0 z"
-      else {
-        this.paths[index].d = "M " + index * 55 + " 0 l " + length + " 0 l 30 25 l -30 25 l -" + length + " 0 l 30 -25z"
+      obj.start = start
+      obj.color = obj.color || typeToColor[obj.type]
+      if(i === 0) {
+        start += length + 32
+        obj.d = "M 0 0 l " + length + " 0 l 30 25 l -30 25 l -" + length + " 0 z"
       }
-      this.diminish(index+1, final)
+      else {
+        start += length + 5
+         let initial = i * (length + 5)
+          obj.d = "M " + initial + " 0 l " + length + " 0 l 30 25 l -30 25 l -" + length + " 0 l 30 -25z"
+      }
+      i++
+      res.push(obj)
+      return res
+    }, [])
+  }
+
+  ngOnChanges(changes) {
+    console.log("changes")
+    console.log(changes)
+    console.log(this.hideInvisible)
+  }
+
+  public enlarge() {
+    let shift = this.length
+    if(!this.enlarged) {
+      let old_length = this.length
+      let new_length = this.length * this.multiplier
+      this.visible_segments = this.visible_segments.map((obj, i) => {
+        if(i === 0)
+          obj.d = "M 0 0 l " + new_length + " 0 l 30 25 l -30 25 l -" + new_length + " 0 z"
+        else {
+          obj.start += old_length * i
+          let start = i * (new_length + 5)
+          obj.d = "M " + start + " 0 l " + new_length + " 0 l 30 25 l -30 25 l -" + new_length + " 0 l 30 -25z"
+        }
+        return obj
+      })
+      this.enlarged = true
+    }
+    else {
+      let length = this.length
+      this.visible_segments = this.visible_segments.map((obj, i) => {
+        if(i === 0)
+          obj.d = "M 0 0 l " + length + " 0 l 30 25 l -30 25 l -" + length + " 0 z"
+        else {
+          obj.start -= length * i
+          let start = i * (length + 5)
+          obj.d = "M " + start + " 0 l " + length + " 0 l 30 25 l -30 25 l -" + length + " 0 l 30 -25z"
+        }
+        return obj
+      })
+      this.enlarged = false
     }
   }
 }

@@ -117,46 +117,54 @@ export class GroupedAlignmentsComponent implements OnInit {
     this.alignments = [
       [ 
         {
-          length: 50,
-          color: "red",
-          d: 'M 0 0 l 50 0 l 30 25 l -30 25 l -50 0 z'
+          label: "1",
+          type: "perfect"
         },
         {
-          length: 50,
-          color: "blue",
-          d: 'M 55 0 l 50 0 l 30 25 l -30 25 l -50 0 l 30 -25 z'
+          label: "2",
+          type: "perfect"
         },
         {
-          length: 50,
-          color: "black",
-          d: 'M 110 0 l 50 0 l 30 25 l -30 25 l -50 0 l 30 -25 z'
+          label: "3",
+          type: "log_only"
         },
         {
-          length: 50,
-          color: "green",
-          d: 'M 165 0 l 50 0 l 30 25 l -30 25 l -50 0 l 30 -25 z'
+          label: "4",
+          type: "model_only"
+        },
+        {
+          label: "5",
+          type: "invisible"
+        },
+        {
+          label: "6",
+          type: "data"
         },
       ],
       [ 
         {
-          length: 50,
-          color: "red",
-          d: 'M 0 0 l 50 0 l 30 25 l -30 25 l -50 0 z'
+          label: "1",
+          type: "perfect"
         },
         {
-          length: 50,
-          color: "blue",
-          d: 'M 55 0 l 50 0 l 30 25 l -30 25 l -50 0 l 30 -25 z'
+          label: "2",
+          type: "perfect"
         },
         {
-          length: 50,
-          color: "black",
-          d: 'M 110 0 l 50 0 l 30 25 l -30 25 l -50 0 l 30 -25 z'
+          label: "3",
+          type: "log_only"
         },
         {
-          length: 50,
-          color: "green",
-          d: 'M 165 0 l 50 0 l 30 25 l -30 25 l -50 0 l 30 -25 z'
+          label: "4",
+          type: "model_only"
+        },
+        {
+          label: "5",
+          type: "invisible"
+        },
+        {
+          label: "6",
+          type: "data"
         },
       ]
     ]
@@ -175,6 +183,13 @@ export class GroupedAlignmentsComponent implements OnInit {
 
   updateVisualization() {
     // called by 3 right checkboxes
+  }
+
+  lookup() {
+    console.log("approximateMatches" + this.approximateMatches)
+    console.log("colorActivities" + this.colorActivities)
+    console.log("unobserveable" + this.unobserveable)
+    console.log("highlight" + this.highlight)
   }
 
 }
