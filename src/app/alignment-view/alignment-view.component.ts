@@ -10,6 +10,7 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
   @Input() length: number;
   @Input() hideInvisible: boolean;
   @Input() highlight: boolean;
+  @Input() colorActivities: boolean;
 
   private visible_segments;
   private last;
@@ -33,7 +34,7 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
     }
     
     this.segments = this.segments.map((obj) => {
-      obj.color = obj.color || typeToColor[obj.type]
+      obj.alignmentcolor = typeToColor[obj.type]
       return obj
     })
 
@@ -45,6 +46,10 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
       this.hideInvisible = changes.hideInvisible.currentValue
       this.visible_segments = this.generatePaths()
     }
+    else if(changes.colorActivities != null) {
+      this.colorActivities = changes.colorActivities.currentValue
+      this.visible_segments = this.generatePaths()
+    }
 
   }
 
@@ -52,10 +57,12 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
     let start = 5;
     let length = this.length
     let i = 0;
-
+    console.log("colorActivities " + this.colorActivities)
     return this.segments.reduce((res, obj) => {
       if(this.hideInvisible && obj.type === 'invisible')
         return res
+      
+      obj.color = this.colorActivities && obj.transitionColor || obj.alignmentcolor
       
       obj.start = start
       if(i === 0) {

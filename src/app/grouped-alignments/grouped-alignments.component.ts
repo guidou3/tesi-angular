@@ -118,7 +118,8 @@ export class GroupedAlignmentsComponent implements OnInit {
       [ 
         {
           label: "1",
-          type: "perfect"
+          type: "perfect",
+          transitionColor:"red"
         },
         {
           label: "2",
