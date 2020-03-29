@@ -169,6 +169,8 @@ export class GroupedAlignmentsComponent implements OnInit {
         },
       ]
     ]
+
+    this.createTransitionsColors()
   }
 
   ngOnInit() {
@@ -184,6 +186,22 @@ export class GroupedAlignmentsComponent implements OnInit {
 
   updateVisualization() {
     // called by 3 right checkboxes
+  }
+
+  createTransitionsColors() {
+    let labelToColor = {}
+    for(let alignment of this.alignments) {
+      for(let segment of alignment) {
+        if(labelToColor[segment.label] == null)
+          labelToColor[segment.label] = this.getRandomColor()
+        segment.transitionColor = labelToColor[segment.label]
+      }
+    }
+  }
+
+  getRandomColor() {
+    var color = Math.floor(0x1000000 * Math.random()).toString(16);
+    return '#' + ('000000' + color).slice(-6);
   }
 
   lookup() {

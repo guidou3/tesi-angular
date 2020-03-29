@@ -11,7 +11,7 @@
   
   <div fxFlex fxLayout="row">
     <div class="main" fxLayout="column" fxFlex="75">
-      <app-alignment-view *ngFor="let alignment of alignments" [segments]="alignment" [hideInvisible]="hideInvisible" [length]="50" [colorActivities] = "colorActivities"></app-alignment-view>
+      <app-alignment-view *ngFor="let alignment of alignments" [segments]="alignment" [hideInvisible]="hideInvisible" [colorActivities] = "colorActivities" [highlight] = "highlight"></app-alignment-view>
       <button type="button" (click)="lookup()">Lookup</button>
     </div>
     <div class="side" fxLayout="column" fxFlex="25">

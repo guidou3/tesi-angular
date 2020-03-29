@@ -1,4 +1,8 @@
 <svg viewBox="0 0 800 50" (click)="enlarge()" class="alignment-view">
+  <svg>
+    <path d="M 2 0 l 25 25 l -25 25 z"  fill="black"/>
+    <path d="M 6 10 l 15 15 l -15 15 z"  fill="white"/>
+  </svg>
   <svg *ngFor="let obj of visible_segments">
     <path [attr.d]="obj.d"  [attr.fill]="obj.color"/>
     <text [attr.x]="obj.start" y="27.5" font-family="Arial" font-size="10" text-overflow="ellipsis" fill="black" >{{obj.label}}</text>

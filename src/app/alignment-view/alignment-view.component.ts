@@ -1,13 +1,17 @@
 import { Component, OnInit, OnChanges, Input } from '@angular/core';
 
+const LENGTH = 50;
+const OFFSET = 27;
+const MULTIPLIER = 2;
+
 @Component({
   selector: 'app-alignment-view',
   templateUrl: './alignment-view.component.html',
   styleUrls: ['./alignment-view.component.css']
 })
+
 export class AlignmentViewComponent implements OnInit, OnChanges {
   @Input() segments;
-  @Input() length: number;
   @Input() hideInvisible: boolean;
   @Input() highlight: boolean;
   @Input() colorActivities: boolean;
@@ -15,12 +19,10 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
   private visible_segments;
   private last;
   private enlarged: boolean;
-  private multiplier: number;
 
   constructor() { 
     this.visible_segments = [];
     this.enlarged = false;
-    this.multiplier = 2
   }
 
   ngOnInit() {
@@ -42,39 +44,28 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes) {
-    if(changes.hideInvisible != null) {
+    if(changes.hideInvisible != null) 
       this.hideInvisible = changes.hideInvisible.currentValue
-      this.visible_segments = this.generatePaths()
-    }
-    else if(changes.colorActivities != null) {
+    if(changes.colorActivities != null)
       this.colorActivities = changes.colorActivities.currentValue
-      this.visible_segments = this.generatePaths()
-    }
-
+    if(changes.highlight != null)
+      this.highlight = changes.highlight.currentValue
+    this.visible_segments = this.generatePaths()
   }
 
   generatePaths() {
-    let start = 5;
-    let length = this.length
-    let i = 0;
-    console.log("colorActivities " + this.colorActivities)
+    let start = OFFSET + 7
     return this.segments.reduce((res, obj) => {
       if(this.hideInvisible && obj.type === 'invisible')
         return res
       
       obj.color = this.colorActivities && obj.transitionColor || obj.alignmentcolor
       
-      obj.start = start
-      if(i === 0) {
-        start += length + 32
-        obj.d = "M 0 0 l " + length + " 0 l 30 25 l -30 25 l -" + length + " 0 z"
-      }
-      else {
-        start += length + 5
-         let initial = i * (length + 5)
-          obj.d = "M " + initial + " 0 l " + length + " 0 l 30 25 l -30 25 l -" + length + " 0 l 30 -25z"
-      }
-      i++
+      let length = this.getLength(obj)
+
+      obj.start = start + 2
+      obj.d = this.getPath(start-OFFSET, length)
+      start += length + 5
 
       res.push(obj)
       return res
@@ -82,35 +73,30 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
   }
 
   public enlarge() {
-    let shift = this.length
-    if(!this.enlarged) {
-      let old_length = this.length
-      let new_length = this.length * this.multiplier
-      this.visible_segments = this.visible_segments.map((obj, i) => {
-        if(i === 0)
-          obj.d = "M 0 0 l " + new_length + " 0 l 30 25 l -30 25 l -" + new_length + " 0 z"
-        else {
-          obj.start += old_length * i
-          let start = i * (new_length + 5)
-          obj.d = "M " + start + " 0 l " + new_length + " 0 l 30 25 l -30 25 l -" + new_length + " 0 l 30 -25z"
-        }
-        return obj
-      })
-      this.enlarged = true
+    let start = OFFSET + 7
+    this.visible_segments = this.visible_segments.map((obj, i) => {
+      let length = this.getLength(obj)
+      if(!this.enlarged)
+        length *= MULTIPLIER
+      
+      obj.start = start + 2
+      obj.d = this.getPath(start-OFFSET, length)
+      
+      start += length + 5
+      return obj
+    })
+    this.enlarged = !this.enlarged
+  }
+
+  getPath(start, length) {
+    return "M " + start + " 0 l " + length + " 0 l 25 25 l -25 25 l -" + length + " 0 l 25 -25z"
+  }
+
+  getLength(obj) {
+    if(this.highlight && obj.type === 'perfect') {
+      return LENGTH/2
     }
-    else {
-      let length = this.length
-      this.visible_segments = this.visible_segments.map((obj, i) => {
-        if(i === 0)
-          obj.d = "M 0 0 l " + length + " 0 l 30 25 l -30 25 l -" + length + " 0 z"
-        else {
-          obj.start -= length * i
-          let start = i * (length + 5)
-          obj.d = "M " + start + " 0 l " + length + " 0 l 30 25 l -30 25 l -" + length + " 0 l 30 -25z"
-        }
-        return obj
-      })
-      this.enlarged = false
-    }
+    else 
+      return LENGTH
   }
 }
