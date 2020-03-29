@@ -45,3 +45,7 @@ mat-checkbox {
 .sort-label {
   padding-right: 7px;
 }
+
+.icon-sort-ascend {
+  transform: rotateX(180deg);
+}

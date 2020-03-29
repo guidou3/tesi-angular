@@ -3,8 +3,10 @@
     <h3>GROUPED ALIGNMENTS VARIANTS</h3>
     <div fxLayout="row">
     <mat-label class="sort-label">Sort by:</mat-label>
-    <mat-select id="alignmentsOrdering" [(value)]="ordering">
-        <mat-option *ngFor="let obj of orderingValues"   [value]="obj.value">{{obj.label}}</mat-option>
+    <mat-select id="alignmentsOrdering" [(ngModel)]="ordering">
+        <mat-option *ngFor="let obj of orderingValues" [value]="obj.value">
+          {{obj.label}}
+        </mat-option>
     </mat-select>
     </div>
   </div>

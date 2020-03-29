@@ -50,19 +50,24 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
       this.colorActivities = changes.colorActivities.currentValue
     if(changes.highlight != null)
       this.highlight = changes.highlight.currentValue
-    this.visible_segments = this.generatePaths()
+    this.visible_segments = this.generatePaths(true)
   }
 
-  generatePaths() {
+  generatePaths(reset = false) {
     let start = OFFSET + 7
     return this.segments.reduce((res, obj) => {
       if(this.hideInvisible && obj.type === 'invisible')
         return res
       
-      obj.color = this.colorActivities && obj.transitionColor || obj.alignmentcolor
-      
       let length = this.getLength(obj)
 
+      if(reset)
+        this.enlarged = false
+      else if(this.enlarged)
+        length *= MULTIPLIER
+
+      obj.color = this.colorActivities && obj.transitionColor || obj.alignmentcolor
+    
       obj.start = start + 2
       obj.d = this.getPath(start-OFFSET, length)
       start += length + 5
@@ -73,19 +78,8 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
   }
 
   public enlarge() {
-    let start = OFFSET + 7
-    this.visible_segments = this.visible_segments.map((obj, i) => {
-      let length = this.getLength(obj)
-      if(!this.enlarged)
-        length *= MULTIPLIER
-      
-      obj.start = start + 2
-      obj.d = this.getPath(start-OFFSET, length)
-      
-      start += length + 5
-      return obj
-    })
     this.enlarged = !this.enlarged
+    this.visible_segments = this.generatePaths()
   }
 
   getPath(start, length) {

@@ -68,27 +68,27 @@ export class GroupedAlignmentsComponent implements OnInit {
 
     this.orderingValues = [
       {
-        label: "Count (&#61442;)",
+        label: "Count (Desc)",
         value: "COUNT_DESC"
       },
       {
-        label: "Sort by Count (Ascending)",
+        label: "Count (Asc)",
         value: "COUNT_ASC"
       },
       {
-        label: "Sort by Fitness (Descending)",
+        label: "Fitness (Desc)",
         value: "FITNESS_DESC"
       },
       {
-        label: "Sort by Fitness (Ascending)",
+        label: "Fitness (Asc)",
         value: "FITNESS_ASC"
       },
       {
-        label: "Sort by Length (Descending)",
+        label: "Length (Desc)",
         value: "LENGTH_DESC"
       },
       {
-        label: "Sort by Length (Ascending)",
+        label: "Length (Asc)",
         value: "LENGTH_ASC"
       }
     ]
