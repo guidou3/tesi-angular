@@ -11,11 +11,12 @@ const MULTIPLIER = 2;
 })
 
 export class AlignmentViewComponent implements OnInit, OnChanges {
-  @Input() segments;
+  @Input() data;
   @Input() hideInvisible: boolean;
   @Input() highlight: boolean;
   @Input() colorActivities: boolean;
 
+  private segments;
   private visible_segments;
   private last;
   private enlarged: boolean;
@@ -23,6 +24,7 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
   constructor() { 
     this.visible_segments = [];
     this.enlarged = false;
+    this.segments = []
   }
 
   ngOnInit() {
@@ -32,9 +34,10 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
       'invisible': "gray",
       'log_only': "yellow",
       'data': "orange"
-
     }
+
     
+    this.segments = this.data.list;
     this.segments = this.segments.map((obj) => {
       obj.alignmentcolor = typeToColor[obj.type]
       return obj

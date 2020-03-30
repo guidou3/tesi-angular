@@ -49,3 +49,38 @@ mat-checkbox {
 .icon-sort-ascend {
   transform: rotateX(180deg);
 }
+
+.secondary-line {
+  color: gray;
+}
+
+.alignment-view-item {
+  border-bottom: 1px solid lgray;
+  padding: 20px;
+}
+
+.mat-list-base .mat-list-item .mat-list-icon {
+  font-size: 35px;
+  width: 35px;
+  height: 35px;
+}
+
+.good {
+  color: green;
+}
+
+.not-good {
+  color: yellowgreen;
+}
+
+.bad {
+  color: yellow;
+}
+
+.very-bad {
+  color: orangered;
+}
+
+.worst {
+  color: darkred;
+}

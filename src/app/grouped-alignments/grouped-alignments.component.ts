@@ -32,32 +32,11 @@ export class GroupedAlignmentsComponent implements OnInit {
   private orderingValues;
   private orderingFunction;
 
-  private data;
-  private data_shown;
+  private view: number;
 
   private alignments;
 
-  private statistics = [
-    {
-      name: "#Traces",
-      value: 1
-    },
-    {
-      name: "Min Fitness",
-      value: 2
-    },{
-      name: "Average Fitness",
-      value: 3
-    },
-    {
-      name: "Median Fitness",
-      value: 4
-    },
-    {
-      name: "Max Fitness",
-      value: 5
-    }
-  ]
+  private statistics;
 
   constructor() { 
     this.approximateMatches = true;
@@ -65,6 +44,30 @@ export class GroupedAlignmentsComponent implements OnInit {
     this.hideInvisible = false;
     this.highlight = false;
     this.ordering = "COUNT_DESC";
+
+    this.view = 1;
+
+    this.statistics = [
+      {
+        name: "#Traces",
+        value: 1
+      },
+      {
+        name: "Min Fitness",
+        value: 2
+      },{
+        name: "Average Fitness",
+        value: 3
+      },
+      {
+        name: "Median Fitness",
+        value: 4
+      },
+      {
+        name: "Max Fitness",
+        value: 5
+      }
+    ]
 
     this.orderingValues = [
       {
@@ -114,63 +117,72 @@ export class GroupedAlignmentsComponent implements OnInit {
       }
     }
 
-    this.alignments = [
-      [ 
-        {
-          label: "1",
-          type: "perfect",
-          transitionColor:"red"
-        },
-        {
-          label: "2",
-          type: "perfect"
-        },
-        {
-          label: "3",
-          type: "log_only"
-        },
-        {
-          label: "4",
-          type: "model_only"
-        },
-        {
-          label: "5",
-          type: "invisible"
-        },
-        {
-          label: "6",
-          type: "data"
-        },
-      ],
-      [ 
-        {
-          label: "1",
-          type: "perfect"
-        },
-        {
-          label: "2",
-          type: "perfect"
-        },
-        {
-          label: "3",
-          type: "log_only"
-        },
-        {
-          label: "4",
-          type: "model_only"
-        },
-        {
-          label: "5",
-          type: "invisible"
-        },
-        {
-          label: "6",
-          type: "data"
-        },
-      ]
+    this.alignments = [ 
+      {
+        fitness: "82%",
+        cases: 123,
+        list: [
+          {
+            label: "1",
+            type: "perfect"
+          },
+          {
+            label: "2",
+            type: "perfect",
+          },
+          {
+            label: "3",
+            type: "log_only",
+          },
+          {
+            label: "4",
+            type: "model_only"
+          },
+          {
+            label: "5",
+            type: "invisible"
+          },
+          {
+            label: "6",
+            type: "data"
+          },
+        ]
+      },
+      {
+        fitness: "98%",
+        cases: 1230,
+        list: [
+          {
+            label: "1",
+            type: "perfect"
+          },
+          {
+            label: "2",
+            type: "perfect"
+          },
+          {
+            label: "3",
+            type: "log_only"
+          },
+          {
+            label: "4",
+            type: "model_only"
+          },
+          {
+            label: "5",
+            type: "invisible"
+          },
+          {
+            label: "6",
+            type: "data"
+          },
+        ]
+      }
     ]
 
     this.createTransitionsColors()
+
+
   }
 
   ngOnInit() {
@@ -191,7 +203,7 @@ export class GroupedAlignmentsComponent implements OnInit {
   createTransitionsColors() {
     let labelToColor = {}
     for(let alignment of this.alignments) {
-      for(let segment of alignment) {
+      for(let segment of alignment.list) {
         if(labelToColor[segment.label] == null)
           labelToColor[segment.label] = this.getRandomColor()
         segment.transitionColor = labelToColor[segment.label]
@@ -204,11 +216,35 @@ export class GroupedAlignmentsComponent implements OnInit {
     return '#' + ('000000' + color).slice(-6);
   }
 
-  lookup() {
-    console.log("approximateMatches " + this.approximateMatches)
-    console.log("colorActivities " + this.colorActivities)
-    console.log("hideInvisible " + this.hideInvisible)
-    console.log("highlight " + this.highlight)
+  page(p) {
+    this.view = p;
   }
 
+  getIcon(fitness) {
+    fitness = parseInt(fitness)
+    if(fitness >= 95)
+      return "sentiment_very_satisfied"
+    else if(fitness >= 80)
+      return "sentiment_satisfied"
+    else if(fitness >= 80)
+      return "sentiment_dissatisfied"
+    else if(fitness >= 80)
+      return "sentiment_very_dissatisfied"
+    else 
+      return "mood_bad"
+  }
+
+  getIconColor(fitness) {
+    fitness = parseInt(fitness)
+    if(fitness >= 95)
+      return "good"
+    else if(fitness >= 80)
+      return "not-good"
+    else if(fitness >= 80)
+      return "bad"
+    else if(fitness >= 80)
+      return "very-bad"
+    else 
+      return "worst"
+  }
 }

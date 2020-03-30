@@ -2,19 +2,39 @@
   <div fxLayout="row" fxLayoutAlign="space-between center">
     <h3>GROUPED ALIGNMENTS VARIANTS</h3>
     <div fxLayout="row">
-    <mat-label class="sort-label">Sort by:</mat-label>
-    <mat-select id="alignmentsOrdering" [(ngModel)]="ordering">
-        <mat-option *ngFor="let obj of orderingValues" [value]="obj.value">
-          {{obj.label}}
-        </mat-option>
-    </mat-select>
+      <mat-label class="sort-label">Sort by:</mat-label>
+      <mat-select id="alignmentsOrdering" [(ngModel)]="ordering">
+          <mat-option *ngFor="let obj of orderingValues" [value]="obj.value">
+            {{obj.label}}
+          </mat-option>
+      </mat-select>
     </div>
   </div>
   
   <div fxFlex fxLayout="row">
     <div class="main" fxLayout="column" fxFlex="75">
-      <app-alignment-view *ngFor="let alignment of alignments" [segments]="alignment" [hideInvisible]="hideInvisible" [colorActivities] = "colorActivities" [highlight] = "highlight"></app-alignment-view>
-      <button type="button" (click)="lookup()">Lookup</button>
+      <div class="navigation">
+        <button type="button" (click)="page(1)">View 1</button>
+        <button type="button" (click)="page(2)">View 2</button>
+      </div>
+      <div *ngIf="view === 1">
+        <mat-card>
+          <mat-card-header>View 1</mat-card-header>
+          <mat-card-content>
+            <mat-list>
+              <mat-list-item *ngFor="let alignment of alignments" class="alignment-view-item">
+                <mat-icon matListIcon [ngClass]="getIconColor(alignment.fitness)">{{getIcon(alignment.fitness)}}</mat-icon>
+                <h2 matLine>Fitness: {{alignment.fitness}}</h2>
+                <p matLine class="secondary-line">Cases: {{alignment.cases}}</p>
+              </mat-list-item>
+            </mat-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div *ngIf="view === 2">
+        <p>View 2</p>
+        <app-alignment-view *ngFor="let alignment of alignments" [data]="alignment" [hideInvisible]="hideInvisible" [colorActivities] = "colorActivities" [highlight] = "highlight"></app-alignment-view>
+      </div>
     </div>
     <div class="side" fxLayout="column" fxFlex="25">
       <app-alignment-legend ></app-alignment-legend>
