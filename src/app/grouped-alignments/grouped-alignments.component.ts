@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { ConfigsService } from '../configs.service'
+import { Router } from '@angular/router';
 
 import {MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions} from '@angular/material/tooltip';
 
@@ -38,7 +40,7 @@ export class GroupedAlignmentsComponent implements OnInit {
 
   private statistics;
 
-  constructor() { 
+  constructor(private configService: ConfigsService, private router:Router) { 
     this.approximateMatches = true;
     this.colorActivities = false;
     this.hideInvisible = false;
@@ -186,6 +188,9 @@ export class GroupedAlignmentsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.configService.getAlignmentsGroups().subscribe((resp) => {
+      console.log(resp)
+    })
   }
 
   search() {

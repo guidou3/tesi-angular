@@ -87,6 +87,10 @@ export class ConfigsService {
     })
   }
 
+  public getAlignmentsGroups() {
+    return this.http.get<any>(host+'/groups')
+  }
+
   public getGraph() {
     return this.http.get<String>(host+'/dot', {
       responseType: 'text'
