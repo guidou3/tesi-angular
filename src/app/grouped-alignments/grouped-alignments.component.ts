@@ -128,25 +128,45 @@ export class GroupedAlignmentsComponent implements OnInit {
 
   ngOnInit() {
     this.configService.getAlignmentsGroups().subscribe((resp) => {
-      console.log(resp)
+      let labelMap = {}
+      
       this.alignments = resp.groups.map((obj) => {
         let newObj = {
           averageLength: obj.averageLength,
           size: obj.size,
-          fitness: Math.round(parseFloat(obj.fitness) * 100) + "%"
+          fitness: Math.round(parseFloat(obj.fitness) * 10000)/100 + "%"
         }
         let list = []
         for(let i=0; i<obj.steps.length; i++) {
+
+          let labels = labelMap[obj.steps[i]];
+          if(labels == null) {
+            labels = this.divideText(obj.steps[i])
+            labelMap[obj.steps[i]] = labels;
+          }
+          
           list.push({
-            label: obj.steps[i],
-            type: obj.moveTypes[i].moveType,
-            data: obj.moveTypes[i].dataMoveType
+            labelMin: labels.labelMin,
+            labelMax: labels.labelMax,
+            type: this.getType(obj ,i),
+            transitionColor: resp.labelColorMap[obj.steps[i]]
           })
         }
         newObj['list'] = list;
         return newObj;
       })
     })
+  }
+
+  getType(obj, i) {
+    if(obj.moveTypes[i].moveType === 'MODEL')
+      return obj.invisible[i] ? 'invisible' : 'model_only'
+    else if(obj.moveTypes[i].moveType === 'LOG')
+      return 'log_only'
+    else if(obj.moveTypes[i].moveType === 'SYNCHRONOUS')
+      return obj.moveTypes[i].dataMoveType === 'CORRECT' ? 'perfect' : 'wrong_data'
+    else
+      return null
   }
 
   search() {
@@ -159,6 +179,35 @@ export class GroupedAlignmentsComponent implements OnInit {
 
   updateVisualization() {
     // called by 3 right checkboxes
+  }
+
+  divideText(label) {
+    let calc = document.createElement('canvas').getContext("2d");
+    calc.font = "8px Arial";
+    return {
+      labelMin: this.splitByWidth(label, calc, 50-6),
+      labelMax: this.splitByWidth(label, calc, 100-6)
+    }
+  }
+
+  splitByWidth(label, calc, maxWidth) {
+    let lines = []
+    let width = calc.measureText(label).width
+    if(width > maxWidth) {
+      let words = label.split(' ')
+      let text = words[0]
+      for(let i=1; i<words.length; i++) {
+        if(calc.measureText(text + " " + words[i]).width < maxWidth)
+          text += " " + words[i]
+        else {
+          lines.push(text)
+          text = words[i]
+        }
+      }
+      return lines
+    }
+    else
+      return [label]
   }
 
   createTransitionsColors() {

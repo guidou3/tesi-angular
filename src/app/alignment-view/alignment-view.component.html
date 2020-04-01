@@ -5,6 +5,7 @@
   </svg>
   <svg *ngFor="let obj of visible_segments">
     <path [attr.d]="obj.d"  [attr.fill]="obj.color"/>
-    <text [attr.x]="obj.start" y="27.5" font-family="Arial" font-size="10" text-overflow="ellipsis" fill="black" >{{obj.label}}</text>
+    <text *ngIf="obj.label.length === 1" [attr.x]="obj.start" y="27.5" font-family="Arial" font-size="8" text-overflow="ellipsis" fill="black" >{{obj.label[0]}}</text>
+    <text *ngIf="obj.label.length !== 1" [attr.x]="obj.start" y="27.5" font-family="Arial" font-size="8" text-overflow="ellipsis" fill="black" >{{obj.label[0]}}</text>
   </svg>
 </svg>

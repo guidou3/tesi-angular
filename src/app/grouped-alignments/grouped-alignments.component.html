@@ -25,7 +25,7 @@
               <mat-list-item *ngFor="let alignment of alignments" class="alignment-view-item">
                 <mat-icon matListIcon [ngClass]="getIconColor(alignment.fitness)">{{getIcon(alignment.fitness)}}</mat-icon>
                 <h2 matLine>Fitness: {{alignment.fitness}}</h2>
-                <p matLine class="secondary-line">Cases: {{alignment.s}}</p>
+                <p matLine class="secondary-line">Cases: {{alignment.size}}</p>
               </mat-list-item>
             </mat-list>
           </mat-card-content>

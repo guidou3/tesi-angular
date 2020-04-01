@@ -39,6 +39,7 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
     
     this.segments = this.data.list;
     this.segments = this.segments.map((obj) => {
+      obj.label = obj.labelMin
       obj.alignmentcolor = typeToColor[obj.type]
       return obj
     })
@@ -66,12 +67,17 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
 
       if(reset)
         this.enlarged = false
-      else if(this.enlarged)
+      else if(this.enlarged) {
         length *= MULTIPLIER
+        obj.label = obj.labelMax
+      }
+      else if(!this.enlarged)
+        obj.label = obj.labelMin
+        
 
       obj.color = this.colorActivities && obj.transitionColor || obj.alignmentcolor
     
-      obj.start = start + 2
+      obj.start = start + 1
       obj.d = this.getPath(start-OFFSET, length)
       start += length + 5
 
