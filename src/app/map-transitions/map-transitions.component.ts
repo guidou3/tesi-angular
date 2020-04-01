@@ -12,19 +12,28 @@ import { Router } from '@angular/router';
 export class MapTransitionsComponent implements OnInit {
   formGroup: FormGroup
 
-  transitionMap = new Map();
-  transitions = []
-  nameList = []
-  resourceList = []
-  classifiers = []
-  list = []
-  loading = true;
+  private transitionMap;
+  private transitions;
+  private nameList;
+  private resourceList;
+  private classifiers;
+  private list;
+  private invisible;
+  private loading;
 
   constructor(private configService: ConfigsService, private router:Router) { 
     this.formGroup = new FormGroup({
       classifier: new FormControl('NULL'),
       approximated: new FormControl(true)
     })
+    this.transitionMap = new Map();
+    this.transitions = [];
+    this.nameList = [];
+    this.resourceList = [];
+    this.classifiers = [];
+    this.list = [];
+    this.invisible = {};
+    this.loading = true;
   }
 
   private removeMapEnding(string) {
@@ -37,7 +46,7 @@ export class MapTransitionsComponent implements OnInit {
 
   ngOnInit() {
     this.configService.getInitialMapping().subscribe(
-      (params: InitialMapping) => {
+      (params) => {
         console.log(params)
         this.loading = false
         this.classifiers = params.classifiers.map(function (s) {
@@ -52,17 +61,19 @@ export class MapTransitionsComponent implements OnInit {
         this.resourceList = params.resourceList
         this.list = this.nameList
         
-        this.transitionMap = new Map()
         const p = this
         Object.keys(params.transitionNames).forEach(function(key) {
-          p.removeMapEnding(key)
-          let label = p.list[params.transitionNames[key][0]]
-          p.formGroup.addControl(key, new FormControl(label.value))
-          p.transitionMap.set(key, params.transitionNames[key])
-          p.transitions.push({
-            label: p.removeMapEnding(key),
-            value: key
-          })
+          if(params.transitionNames[key].length === 1)
+            p.invisible[key] = p.list[params.transitionNames[key][0]].value
+          else {
+            let label = p.list[params.transitionNames[key][0]]
+            p.formGroup.addControl(key, new FormControl(label.value))
+            p.transitionMap.set(key, params.transitionNames[key])
+            p.transitions.push({
+              label: p.removeMapEnding(key),
+              value: key
+            })
+          }
         })
       }
     )
@@ -112,6 +123,10 @@ export class MapTransitionsComponent implements OnInit {
       if(key === 'classifier' || key === 'approximated') {}
       else
         obj[key] = copy[key]
+    })
+    let invisibles = this.invisible
+    Object.keys(invisibles).forEach(function(key) {
+      obj[key] = invisibles[key]
     })
     result['list'] = obj
     this.configService.postMapping(result)

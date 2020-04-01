@@ -19,6 +19,8 @@ export class ControlFlowCostComponent implements OnInit {
   private gridApi1;
   private input1;
 
+  private invisible;
+
   private columnDefs2;
   private rowData2;
   private gridApi2;
@@ -28,6 +30,7 @@ export class ControlFlowCostComponent implements OnInit {
   constructor(private configService: ConfigsService, private router:Router) { 
     this.input1 = new FormControl(1);
     this.input2 = new FormControl(1);
+    this.invisible = [];
     this.columnDefs1 = [
       {
         headerName: 'Transition',
@@ -67,9 +70,15 @@ export class ControlFlowCostComponent implements OnInit {
 
   ngOnInit() {
     this.configService.getControlFlowCost().subscribe((result) => {
-      this.rowData1 = result.modelTable
+      var invisible = this.invisible;
+      this.rowData1 = result.modelTable.reduce((res, obj) => {
+        if(obj.cost === 0)
+          invisible.push(obj)
+        else
+          res.push(obj)
+        return res
+      }, [])
       this.rowData2 = result.logTable
-      console.log(result)
     })
   }
 
@@ -110,9 +119,10 @@ export class ControlFlowCostComponent implements OnInit {
       rowData.push(node.data);
     });*/
     let result = {
-      modelTable: this.rowData1,
+      modelTable: this.rowData1.concat(this.invisible),
       logTable: this.rowData2
     }
+    console.log(result)
     this.configService.postControlFlowCost(result).subscribe(resp => {
         console.log(resp)
         this.router.navigateByUrl('variablesMapping')
