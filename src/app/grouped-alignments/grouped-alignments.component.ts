@@ -119,70 +119,9 @@ export class GroupedAlignmentsComponent implements OnInit {
       }
     }
 
-    this.alignments = [ 
-      {
-        fitness: "82%",
-        cases: 123,
-        list: [
-          {
-            label: "1",
-            type: "perfect"
-          },
-          {
-            label: "2",
-            type: "perfect",
-          },
-          {
-            label: "3",
-            type: "log_only",
-          },
-          {
-            label: "4",
-            type: "model_only"
-          },
-          {
-            label: "5",
-            type: "invisible"
-          },
-          {
-            label: "6",
-            type: "data"
-          },
-        ]
-      },
-      {
-        fitness: "98%",
-        cases: 1230,
-        list: [
-          {
-            label: "1",
-            type: "perfect"
-          },
-          {
-            label: "2",
-            type: "perfect"
-          },
-          {
-            label: "3",
-            type: "log_only"
-          },
-          {
-            label: "4",
-            type: "model_only"
-          },
-          {
-            label: "5",
-            type: "invisible"
-          },
-          {
-            label: "6",
-            type: "data"
-          },
-        ]
-      }
-    ]
+    this.alignments = []
 
-    this.createTransitionsColors()
+    // this.createTransitionsColors()
 
 
   }
@@ -190,6 +129,23 @@ export class GroupedAlignmentsComponent implements OnInit {
   ngOnInit() {
     this.configService.getAlignmentsGroups().subscribe((resp) => {
       console.log(resp)
+      this.alignments = resp.groups.map((obj) => {
+        let newObj = {
+          averageLength: obj.averageLength,
+          size: obj.size,
+          fitness: Math.round(parseFloat(obj.fitness) * 100) + "%"
+        }
+        let list = []
+        for(let i=0; i<obj.steps.length; i++) {
+          list.push({
+            label: obj.steps[i],
+            type: obj.moveTypes[i].moveType,
+            data: obj.moveTypes[i].dataMoveType
+          })
+        }
+        newObj['list'] = list;
+        return newObj;
+      })
     })
   }
 
