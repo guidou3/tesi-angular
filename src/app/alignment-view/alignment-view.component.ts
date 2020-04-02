@@ -33,7 +33,7 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
       'model_only': "rgb(224, 176, 255)",
       'invisible': "gray",
       'log_only': "yellow",
-      'data': "orange"
+      'wrong_data': "orange"
     }
 
     

@@ -128,6 +128,7 @@ export class GroupedAlignmentsComponent implements OnInit {
 
   ngOnInit() {
     this.configService.getAlignmentsGroups().subscribe((resp) => {
+      console.log(resp)
       let labelMap = {}
       
       this.alignments = resp.groups.map((obj) => {
@@ -155,12 +156,17 @@ export class GroupedAlignmentsComponent implements OnInit {
         newObj['list'] = list;
         return newObj;
       })
+      console.log(this.alignments)
     })
   }
 
   getType(obj, i) {
-    if(obj.moveTypes[i].moveType === 'MODEL')
-      return obj.invisible[i] ? 'invisible' : 'model_only'
+    if(obj.moveTypes[i].moveType === 'MODEL') {
+      if(obj.invisible[i]) {
+        return obj.moveTypes[i].dataMoveType === 'CORRECT' ? 'invisible' : 'wrong_data'
+      }
+      return 'model_only'
+    }
     else if(obj.moveTypes[i].moveType === 'LOG')
       return 'log_only'
     else if(obj.moveTypes[i].moveType === 'SYNCHRONOUS')
