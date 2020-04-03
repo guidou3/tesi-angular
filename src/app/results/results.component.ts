@@ -27,6 +27,7 @@ export class ResultsComponent implements OnInit {
         console.log(response2)
         this.logMessage = "Conformance checking succesfully obtained"
         this.loading = false;
+        this.router.navigateByUrl('grouped')
       })
     })
   }

@@ -29,7 +29,8 @@ export class GroupedAlignmentsComponent implements OnInit {
   private hideInvisible: boolean;
   private highlight: boolean;
   private searchText;
-  private ordering: String;
+  private ordering;
+  private columnDefs;
 
   private orderingValues;
   private orderingFunction;
@@ -43,35 +44,34 @@ export class GroupedAlignmentsComponent implements OnInit {
   constructor(private configService: ConfigsService, private router:Router) { 
     this.approximateMatches = true;
     this.colorActivities = false;
-    this.hideInvisible = false;
+    this.hideInvisible = true;
     this.highlight = false;
-    this.ordering = "COUNT_DESC";
+    this.ordering = "RELEVANCE_DESC";
 
     this.view = 1;
 
-    this.statistics = [
+    this.columnDefs = [
       {
-        name: "#Traces",
-        value: 1
+        headerName: 'Statistic',
+        field: 'statistic'
       },
       {
-        name: "Min Fitness",
-        value: 2
-      },{
-        name: "Average Fitness",
-        value: 3
-      },
-      {
-        name: "Median Fitness",
-        value: 4
-      },
-      {
-        name: "Max Fitness",
-        value: 5
+        headerName: 'Value',
+        field: 'value',
       }
-    ]
+    ];
+
+    this.statistics = []
 
     this.orderingValues = [
+      {
+        label: "Relevance (Desc)",
+        value: "RELEVANCE_DESC"
+      },
+      {
+        label: "Relevance (Asc)",
+        value: "RELEVANCE_ASC"
+      },
       {
         label: "Count (Desc)",
         value: "COUNT_DESC"
@@ -99,23 +99,35 @@ export class GroupedAlignmentsComponent implements OnInit {
     ]
 
     this.orderingFunction = {
+      "RELEVANCE_DESC": function(a, b) {
+        if(a.relevance === b.relevance)
+          return a.size < b.size
+        else 
+          return a.relevance < b.relevance
+      },
+      "RELEVANCE_ASC": function(a, b) {
+        if(a.relevance === b.relevance)
+          return a.size > b.size
+        else 
+        return a.relevance > b.relevance
+      },
       "COUNT_DESC": function(a, b) {
-        return a.list.length > b.list.length
+        return a.size < b.size
       },
       "COUNT_ASC": function(a, b) {
-        return a.list.length < b.list.length
+        return a.size > b.size
       },
       "FITNESS_DESC": function(a, b) {
-        return a.averageFitness > b.averageFitness
+        return a.fitnessValue < b.fitnessValue
       },
       "FITNESS_ASC": function(a, b) {
-        return a.averageFitness < b.averageFitness
+        return a.fitnessValue > b.fitnessValue
       },
       "LENGTH_DESC": function(a, b) {
-        return a.averageLength > b.averageLength
+        return a.averageLength < b.averageLength
       },
       "LENGTH_ASC": function(a, b) {
-        return a.averageLength < b.averageLength
+        return a.averageLength > b.averageLength
       }
     }
 
@@ -127,49 +139,108 @@ export class GroupedAlignmentsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.configService.getAlignmentsGroups().subscribe((resp) => {
-      console.log(resp)
+    this.configService.getAlignmentsGroups().subscribe((groups) => {
       let labelMap = {}
       
-      this.alignments = resp.groups.map((obj) => {
+      this.alignments = groups.map((alignment) => {
         let newObj = {
-          averageLength: obj.averageLength,
-          size: obj.size,
-          fitness: Math.round(parseFloat(obj.fitness) * 10000)/100 + "%"
+          averageLength: alignment.averageLength,
+          size: alignment.size,
+          fitness: Math.round(parseFloat(alignment.fitness) * 10000)/100 + "%",
+          fitnessValue: alignment.fitness,
+          relevance: alignment.size * (1 - alignment.fitness)
         }
         let list = []
-        for(let i=0; i<obj.steps.length; i++) {
-          let labels = labelMap[obj.steps[i].label];
+        newObj['list'] = alignment.steps.map((step) => {
+          let labels = labelMap[step.label];
           if(labels == null) {
-            labels = this.divideText(obj.steps[i].label)
-            labelMap[obj.steps[i]] = labels;
+            labels = this.divideText(step.label)
+            labelMap[step.label] = labels;
           }
           
-          list.push({
+          return {
             labelMin: labels.labelMin,
             labelMax: labels.labelMax,
-            type: this.getType(obj ,i),
-            transitionColor: obj.transitionColor
-          })
-        }
-        newObj['list'] = list;
+            transitionColor: step.transitionColor,
+            type: this.getType(step),
+            missingVariables: step.missingVariables,
+            incorrectVariables: step.incorrectVariables
+          }
+        })
+        
         return newObj;
       })
-      console.log(this.alignments)
+
+      let result = this.alignments.reduce((res, current) => {
+        if(res.min == null) {
+          res.min = current.fitnessValue;
+          res.max = current.fitnessValue;
+        }
+        else if(res.min > current.fitnessValue)
+          res.min = current.fitnessValue
+        else if(res.max < current.fitnessValue)
+          res.max = current.fitnessValue
+        
+        res.traces += current.size
+        res.sum += current.fitnessValue
+        res.values.push(current.fitnessValue)
+        
+        return res;
+      }, {
+        traces: 0,
+        min: null,
+        max: null,
+        sum: 0,
+        values: []
+      })
+
+      let half = Math.floor(result.values.length / 2);
+
+      this.statistics = [
+        {
+        statistic: "#Traces",
+        value: result.traces
+      },
+      {
+        statistic: "Min Fitness",
+        value: this.getPercentage(result.min)
+      },{
+        statistic: "Average Fitness",
+        value: this.getPercentage(result.sum / result.values.length)
+      },
+      {
+        statistic: "Median Fitness",
+        value: this.getPercentage(result.values.length % 2 ? result.values[half] : (result.values[half -1] + result.values[half])/ 2.0)
+      },
+      {
+        statistic: "Max Fitness",
+        value: this.getPercentage(result.max)
+      }
+      ]
+
+      this.order()
     })
   }
 
-  getType(obj, i) {
-    if(obj.moveTypes[i].moveType === 'MODEL') {
-      if(obj.invisible[i]) {
-        return obj.moveTypes[i].dataMoveType === 'CORRECT' ? 'invisible' : 'wrong_data'
+  getPercentage(value) {
+    return Math.round(parseFloat(value) * 10000)/100 + "%"
+  }
+
+  public onFirstDataRendered(params) {
+    params.api.sizeColumnsToFit();
+  }
+
+  getType(step) {
+    if(step.moveType.moveType === 'MODEL') {
+      if(step.invisible) {
+        return step.moveType.dataMoveType === 'CORRECT' ? 'invisible' : 'wrong_data'
       }
       return 'model_only'
     }
-    else if(obj.moveTypes[i].moveType === 'LOG')
+    else if(step.moveType.moveType === 'LOG')
       return 'log_only'
-    else if(obj.moveTypes[i].moveType === 'SYNCHRONOUS')
-      return obj.moveTypes[i].dataMoveType === 'CORRECT' ? 'perfect' : 'wrong_data'
+    else if(step.moveType.moveType === 'SYNCHRONOUS')
+      return step.moveType.dataMoveType === 'CORRECT' ? 'perfect' : 'wrong_data'
     else
       return null
   }
@@ -179,7 +250,8 @@ export class GroupedAlignmentsComponent implements OnInit {
   }
 
   order() {
-    // called by ordering select
+    let fun = this.orderingFunction[this.ordering];
+    this.alignments.sort(fun)
   }
 
   updateVisualization() {
@@ -191,7 +263,7 @@ export class GroupedAlignmentsComponent implements OnInit {
     calc.font = "8px Arial";
     return {
       labelMin: this.splitByWidth(label, calc, 50-6),
-      labelMax: this.splitByWidth(label, calc, 100-6)
+      labelMax: this.splitByWidth(label, calc, 75-6)
     }
   }
 
@@ -209,6 +281,7 @@ export class GroupedAlignmentsComponent implements OnInit {
           text = words[i]
         }
       }
+      lines.push(text)
       return lines
     }
     else

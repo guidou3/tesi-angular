@@ -3,7 +3,7 @@
     <h3>GROUPED ALIGNMENTS VARIANTS</h3>
     <div fxLayout="row">
       <mat-label class="sort-label">Sort by:</mat-label>
-      <mat-select id="alignmentsOrdering" [(ngModel)]="ordering">
+      <mat-select id="alignmentsOrdering" [(ngModel)]="ordering" (selectionChange)="order()">
           <mat-option *ngFor="let obj of orderingValues" [value]="obj.value">
             {{obj.label}}
           </mat-option>
@@ -21,11 +21,22 @@
         <mat-card>
           <mat-card-header>View 1</mat-card-header>
           <mat-card-content>
+            <div class="statisticsTable">
+              <ag-grid-angular
+              *ngIf="alignments.length > 0"
+              domLayout='autoHeight'
+              class="ag-theme-balham"
+              [rowData]="statistics"
+              [columnDefs]="columnDefs"
+              (firstDataRendered)="onFirstDataRendered($event)">>
+            </ag-grid-angular>
+            </div>
             <mat-list>
               <mat-list-item *ngFor="let alignment of alignments" class="alignment-view-item">
                 <mat-icon matListIcon [ngClass]="getIconColor(alignment.fitness)">{{getIcon(alignment.fitness)}}</mat-icon>
                 <h2 matLine>Fitness: {{alignment.fitness}}</h2>
                 <p matLine class="secondary-line">Cases: {{alignment.size}}</p>
+                <p matLine class="secondary-line">Length: {{alignment.averageLength}}</p>
               </mat-list-item>
             </mat-list>
           </mat-card-content>
@@ -44,7 +55,7 @@
   <footer fxLayout="row">
     <mat-toolbar fxLayout="row" fxLayoutAlign="space-between center">
       <div class="search">
-        <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="&#61442;  Start searching for a hero by id or name or country"
+        <input class="form-control" type="text" name="search" [(ngModel)]="searchText" autocomplete="off" placeholder="&#61442;  Search"
         matTooltip="Supports a simple query language for filtering alignments by names of events and traces or by their fitness value (e.g., fitness>0.5).Use '~' as 1st character to use a regular expressions, use '%' as 1st character to use a 'contains' query. "
         >
         <mat-checkbox 

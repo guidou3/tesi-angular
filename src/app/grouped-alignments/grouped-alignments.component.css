@@ -72,6 +72,15 @@ mat-checkbox {
   height: 35px;
 }
 
+.statisticsTable {
+  max-width: 500px;
+  margin: 30px !important;
+}
+
+.main {
+  margin-bottom: 70px;
+}
+
 .good {
   color: green;
 }

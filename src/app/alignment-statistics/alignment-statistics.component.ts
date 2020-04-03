@@ -11,8 +11,8 @@ export class AlignmentStatisticsComponent implements OnInit {
   constructor() {
     this.columnDefs1 = [
       {
-        headerName: 'Name',
-        field: 'name'
+        headerName: 'Statistic',
+        field: 'statistic'
       },
       {
         headerName: 'Value',

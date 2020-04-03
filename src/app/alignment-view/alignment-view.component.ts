@@ -1,8 +1,8 @@
 import { Component, OnInit, OnChanges, Input } from '@angular/core';
 
-const LENGTH = 50;
+const LENGTH = 55;
 const OFFSET = 27;
-const MULTIPLIER = 2;
+const MULTIPLIER = 1.5;
 
 @Component({
   selector: 'app-alignment-view',

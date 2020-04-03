@@ -56,7 +56,7 @@ import { AlignmentViewComponent } from './alignment-view/alignment-view.componen
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: '', component: GroupedAlignmentsComponent },
+      { path: '', component: Parameters1Component },
       { path: 'grouped', component: GroupedAlignmentsComponent },
       { path: 'graph', component: GraphComponent },
       { path: 'result', component: ResultsComponent },
