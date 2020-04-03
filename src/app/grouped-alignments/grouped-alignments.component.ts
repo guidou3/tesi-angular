@@ -149,7 +149,7 @@ export class GroupedAlignmentsComponent implements OnInit {
             labelMin: labels.labelMin,
             labelMax: labels.labelMax,
             type: this.getType(obj ,i),
-            transitionColor: obj.transitionCol
+            transitionColor: obj.transitionColor
           })
         }
         newObj['list'] = list;
