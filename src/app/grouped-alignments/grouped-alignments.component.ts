@@ -139,10 +139,9 @@ export class GroupedAlignmentsComponent implements OnInit {
         }
         let list = []
         for(let i=0; i<obj.steps.length; i++) {
-
-          let labels = labelMap[obj.steps[i]];
+          let labels = labelMap[obj.steps[i].label];
           if(labels == null) {
-            labels = this.divideText(obj.steps[i])
+            labels = this.divideText(obj.steps[i].label)
             labelMap[obj.steps[i]] = labels;
           }
           
@@ -150,7 +149,7 @@ export class GroupedAlignmentsComponent implements OnInit {
             labelMin: labels.labelMin,
             labelMax: labels.labelMax,
             type: this.getType(obj ,i),
-            transitionColor: resp.labelColorMap[obj.steps[i]]
+            transitionColor: obj.transitionCol
           })
         }
         newObj['list'] = list;
