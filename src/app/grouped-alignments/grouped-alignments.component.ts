@@ -198,24 +198,28 @@ export class GroupedAlignmentsComponent implements OnInit {
 
       this.statistics = [
         {
-        statistic: "#Traces",
-        value: result.traces
-      },
-      {
-        statistic: "Min Fitness",
-        value: this.getPercentage(result.min)
-      },{
-        statistic: "Average Fitness",
-        value: this.getPercentage(result.sum / result.values.length)
-      },
-      {
-        statistic: "Median Fitness",
-        value: this.getPercentage(result.values.length % 2 ? result.values[half] : (result.values[half -1] + result.values[half])/ 2.0)
-      },
-      {
-        statistic: "Max Fitness",
-        value: this.getPercentage(result.max)
-      }
+          statistic: "#Groups",
+          value: this.alignments.length
+        },
+        {
+          statistic: "#Traces",
+          value: result.traces
+        },
+        {
+          statistic: "Min Fitness",
+          value: this.getPercentage(result.min)
+        },{
+          statistic: "Average Fitness",
+          value: this.getPercentage(result.sum / result.values.length)
+        },
+        {
+          statistic: "Median Fitness",
+          value: this.getPercentage(result.values.length % 2 ? result.values[half] : (result.values[half -1] + result.values[half])/ 2.0)
+        },
+        {
+          statistic: "Max Fitness",
+          value: this.getPercentage(result.max)
+        }
       ]
 
       this.order()
