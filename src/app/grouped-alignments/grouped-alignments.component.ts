@@ -184,14 +184,27 @@ export class GroupedAlignmentsComponent implements OnInit {
         res.traces += current.size
         res.sum += current.fitnessValue
         res.values.push(current.fitnessValue)
-        
+        current.list.forEach((obj) => {
+          if(obj.type === 'perfect')
+            res.perfect += 1
+          else if(obj.type === 'wrong_data')
+            res.wrong_data += 1
+          else if(obj.type === 'model_only')
+            res.model += 1
+          else if(obj.type === 'log_only')
+            res.log += 1
+        })
         return res;
       }, {
         traces: 0,
         min: null,
         max: null,
         sum: 0,
-        values: []
+        values: [],
+        perfect: 0,
+        wrong_data: 0,
+        model: 0,
+        log: 0
       })
 
       let half = Math.floor(result.values.length / 2);
@@ -208,7 +221,8 @@ export class GroupedAlignmentsComponent implements OnInit {
         {
           statistic: "Min Fitness",
           value: this.getPercentage(result.min)
-        },{
+        },
+        {
           statistic: "Average Fitness",
           value: this.getPercentage(result.sum / result.values.length)
         },
@@ -219,6 +233,22 @@ export class GroupedAlignmentsComponent implements OnInit {
         {
           statistic: "Max Fitness",
           value: this.getPercentage(result.max)
+        },
+        {
+          statistic: "Perfect steps",
+          value: result.perfect
+        },
+        {
+          statistic: "Wrong data steps",
+          value: result.wrong_data
+        },
+        {
+          statistic: "Model only steps",
+          value: result.model
+        },
+        {
+          statistic: "Log only steps",
+          value: result.log
         }
       ]
 

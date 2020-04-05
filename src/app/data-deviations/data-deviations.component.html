@@ -15,7 +15,10 @@
 <div style="padding: 15px; padding-bottom: 30px;" fxLayoutAlign="center center">
   <button mat-stroked-button type="button" (click)="insertRow()">Insert new row</button>
   <button mat-stroked-button type="button" (click)="deleteRow()">Delete row</button>
+  <button mat-stroked-button type="button" (click)="saveTable()" >Save table</button>
+  <button mat-stroked-button type="button" (click)="getTable()" >Load table</button>
 </div>
+<input type="file" #tableInput value="upload" (change)="subTable()"/>
 <div fxLayoutAlign="end center">
   <button routerLink="/dataCost" color="primary" mat-raised-button type="button" (click)="submit()">Submit</button>
 </div>

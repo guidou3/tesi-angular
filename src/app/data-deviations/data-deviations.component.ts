@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NumericEditorComponent } from '../numeric-editor/numeric-editor.component'
 import { ConfigsService } from '../configs.service'
 import { Router } from '@angular/router';
@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./data-deviations.component.css']
 })
 export class DataDeviationsComponent implements OnInit {
+  @ViewChild('tableInput', {static: false}) tableInput
   private frameworkComponents;
 
   private columnDefs;
@@ -117,6 +118,32 @@ export class DataDeviationsComponent implements OnInit {
       rowData.push(node.data);
     });
     return rowData;
+  }
+
+  public getTable() {
+    this.tableInput.nativeElement.click();
+  }
+
+  public subTable() {
+    let fileReader = new FileReader();
+    let file = this.tableInput.nativeElement.files[0]
+
+    fileReader.onload = (e) => {
+      let data = JSON.parse(fileReader.result.toString())
+      this.gridApi.setRowData(data)
+
+    }
+    fileReader.readAsText(file);
+  }
+
+  public saveTable() {
+    var encodedData = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.getRowData()));
+    var downloader = document.createElement('a');
+
+    downloader.setAttribute('href', encodedData);
+    downloader.setAttribute('download', 'deviationsCosts.json');
+    downloader.click();
+    // console.log(this.getRowData())
   }
 
   public submit() {
