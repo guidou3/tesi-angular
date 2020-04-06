@@ -21,4 +21,11 @@
 </svg>
 <div *ngIf="focus">
   <p>Now it is enlarged</p>
+  <ag-grid-angular
+    domLayout='autoHeight'
+    class="ag-theme-balham"
+    [rowData]="tableItems"
+    [columnDefs]="columnDefs"
+    (firstDataRendered)="onFirstDataRendered($event)">
+  </ag-grid-angular>
 </div>

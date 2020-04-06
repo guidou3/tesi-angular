@@ -21,9 +21,24 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
   private visible_segments;
   private last;
 
+  private columnDefs;
+  private tableItems;
+
   constructor() { 
     this.visible_segments = [];
-    this.segments = []
+    this.segments = [];
+
+    this.columnDefs = [
+      {
+        headerName: 'Transition',
+        field: 'label'
+      },
+      {
+        headerName: 'Type',
+        field: 'type',
+      }
+    ];
+    this.tableItems = [];
     
   }
 
@@ -36,12 +51,27 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
       'wrong_data': "orange"
     }
 
+    let typeToLabel = {
+      'perfect': "Perfect match",
+      'model_only': "Move only in model",
+      'log_only': "Move only in log",
+      'wrong_data': "Wrong data"
+    }
+
     this.focus = this.focus || false;
     
     this.segments = this.data.list;
+    let tableItems = this.tableItems;
     this.segments = this.segments.map((obj) => {
+      if(obj.type !== "invisible")
+        tableItems.push({
+          "label" : obj.labelMin.join(' '),
+          "type": typeToLabel[obj.type]
+        })
+
       obj.label = obj.labelMin
       obj.alignmentcolor = typeToColor[obj.type]
+      
       return obj
     })
 
@@ -102,5 +132,9 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
     }
     else 
       return LENGTH
+  }
+
+  public onFirstDataRendered(params) {
+    params.api.sizeColumnsToFit();
   }
 }

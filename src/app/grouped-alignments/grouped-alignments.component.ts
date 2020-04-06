@@ -174,14 +174,6 @@ export class GroupedAlignmentsComponent implements OnInit {
       })
 
       let result = this.alignments.reduce((res, current) => {
-        if(res.min == null) {
-          res.min = current.fitnessValue;
-          res.max = current.fitnessValue;
-        }
-        else if(res.min > current.fitnessValue)
-          res.min = current.fitnessValue
-        else if(res.max < current.fitnessValue)
-          res.max = current.fitnessValue
         
         res.traces += current.size
         res.sum += current.fitnessValue
@@ -199,8 +191,6 @@ export class GroupedAlignmentsComponent implements OnInit {
         return res;
       }, {
         traces: 0,
-        min: null,
-        max: null,
         sum: 0,
         values: [],
         perfect: 0,
@@ -210,6 +200,7 @@ export class GroupedAlignmentsComponent implements OnInit {
       })
 
       let half = Math.floor(result.values.length / 2);
+      result.values.sort()
 
       this.statistics = [
         {
@@ -222,7 +213,7 @@ export class GroupedAlignmentsComponent implements OnInit {
         },
         {
           statistic: "Min Fitness",
-          value: this.getPercentage(result.min)
+          value: this.getPercentage(result.values[0])
         },
         {
           statistic: "Average Fitness",
@@ -234,7 +225,7 @@ export class GroupedAlignmentsComponent implements OnInit {
         },
         {
           statistic: "Max Fitness",
-          value: this.getPercentage(result.max)
+          value: this.getPercentage(result.values[result.values.length -1])
         },
         {
           statistic: "Perfect steps",
