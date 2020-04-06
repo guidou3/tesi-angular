@@ -19,6 +19,6 @@
     <text *ngIf="obj.incorrectVariables && obj.type != 'model_only'" [attr.x]="obj.start-25" y="60" font-family="Arial" font-size="8" text-overflow="ellipsis" fill="black" >{{obj.incorrectVariables[0].variable}}</text>
   </svg>
 </svg>
-<div *ngIf="enlarged">
+<div *ngIf="focus">
   <p>Now it is enlarged</p>
 </div>

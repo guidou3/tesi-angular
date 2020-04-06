@@ -15,16 +15,16 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
   @Input() hideInvisible: boolean;
   @Input() highlight: boolean;
   @Input() colorActivities: boolean;
+  @Input() focus: boolean;
 
   private segments;
   private visible_segments;
   private last;
-  private enlarged: boolean;
 
   constructor() { 
     this.visible_segments = [];
-    this.enlarged = false;
     this.segments = []
+    
   }
 
   ngOnInit() {
@@ -36,6 +36,7 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
       'wrong_data': "orange"
     }
 
+    this.focus = this.focus || false;
     
     this.segments = this.data.list;
     this.segments = this.segments.map((obj) => {
@@ -66,12 +67,12 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
       let length = this.getLength(obj)
 
       if(reset)
-        this.enlarged = false
-      else if(this.enlarged) {
+        this.focus = false
+      else if(this.focus) {
         length *= MULTIPLIER
         obj.label = obj.labelMax
       }
-      else if(!this.enlarged)
+      else if(!this.focus)
         obj.label = obj.labelMin
         
 
@@ -87,7 +88,7 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
   }
 
   public enlarge() {
-    this.enlarged = !this.enlarged
+    this.focus = !this.focus
     this.visible_segments = this.generatePaths()
   }
 

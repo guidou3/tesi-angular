@@ -32,7 +32,7 @@
             </ag-grid-angular>
             </div>
             <mat-list>
-              <mat-list-item *ngFor="let alignment of alignments" class="alignment-view-item">
+              <mat-list-item *ngFor="let alignment of alignments; let i = index" class="alignment-view-item" (click)="openDialog(i)">
                 <mat-icon matListIcon [ngClass]="getIconColor(alignment.fitness)">{{getIcon(alignment.fitness)}}</mat-icon>
                 <h2 matLine>Fitness: {{alignment.fitness}}</h2>
                 <p matLine class="secondary-line">Cases: {{alignment.size}}</p>
@@ -81,7 +81,6 @@
             Highlight Deviations
         </mat-checkbox>
       </div>
-      
     </mat-toolbar>
   </footer>
 </div>

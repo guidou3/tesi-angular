@@ -18,7 +18,6 @@ import {
   MatButtonModule,
   MatCardModule,
   MatCheckboxModule,
-  MatDialogModule,
   MatIconModule,
   MatInputModule,
   MatListModule,
@@ -28,6 +27,7 @@ import {
   MatToolbarModule,
   MatTooltipModule,
 } from '@angular/material';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -45,6 +45,7 @@ import { VariablesBoundsComponent } from './variables-bounds/variables-bounds.co
 import { ResultsComponent } from './results/results.component';
 import { GraphComponent } from './graph/graph.component';
 import { GroupedAlignmentsComponent } from './grouped-alignments/grouped-alignments.component';
+import { DialogView } from './grouped-alignments/dialog-view';
 import { AlignmentLegendComponent } from './alignment-legend/alignment-legend.component';
 import { AlignmentStatisticsComponent } from './alignment-statistics/alignment-statistics.component';
 import { SelectedAlignmentsDetailsComponent } from './selected-alignments-details/selected-alignments-details.component';
@@ -77,7 +78,6 @@ import { AlignmentViewComponent } from './alignment-view/alignment-view.componen
     FormsModule,
     ReactiveFormsModule,
     Ng2SearchPipeModule,
-
     MatButtonModule,
     MatCardModule,
     MatCheckboxModule,
@@ -104,6 +104,7 @@ import { AlignmentViewComponent } from './alignment-view/alignment-view.componen
      ResultsComponent,
      GraphComponent,
      GroupedAlignmentsComponent,
+     DialogView,
      AlignmentLegendComponent,
      AlignmentStatisticsComponent,
      SelectedAlignmentsDetailsComponent,
@@ -112,6 +113,9 @@ import { AlignmentViewComponent } from './alignment-view/alignment-view.componen
   bootstrap:    [ 
     AppComponent
     ],
-  providers: [ConfigsService]
+  providers: [ConfigsService],
+  entryComponents: [
+    DialogView
+  ]
 })
 export class AppModule { }

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ConfigsService } from '../configs.service'
 import { Router } from '@angular/router';
+import {MatDialog} from '@angular/material/dialog';
+import { DialogView } from './dialog-view'
 
 import {MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions} from '@angular/material/tooltip';
 
@@ -41,7 +43,7 @@ export class GroupedAlignmentsComponent implements OnInit {
 
   private statistics;
 
-  constructor(private configService: ConfigsService, private router:Router) { 
+  constructor(private configService: ConfigsService, private router:Router, private dialog:MatDialog) { 
     this.approximateMatches = true;
     this.colorActivities = false;
     this.hideInvisible = true;
@@ -369,4 +371,19 @@ export class GroupedAlignmentsComponent implements OnInit {
     else 
       return "worst"
   }
+
+  openDialog(index) {
+    let data = {
+      alignment: this.alignments[index],
+      hightlight: this.highlight
+    }
+
+    const dialogRef = this.dialog.open(DialogView, {
+      width: '80%',
+      data: data
+    });
+  }
 }
+
+
+
