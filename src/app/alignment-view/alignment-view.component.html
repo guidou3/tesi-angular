@@ -19,13 +19,27 @@
     <text *ngIf="obj.incorrectVariables && obj.type != 'model_only'" [attr.x]="obj.start-25" y="60" font-family="Arial" font-size="8" text-overflow="ellipsis" fill="black" >{{obj.incorrectVariables[0].variable}}</text>
   </svg>
 </svg>
-<div *ngIf="focus">
-  <p>Now it is enlarged</p>
+<div *ngIf="focus" fxLayout="row">
   <ag-grid-angular
+    fxFlex="60"
     domLayout='autoHeight'
     class="ag-theme-balham"
     [rowData]="tableItems"
     [columnDefs]="columnDefs"
     (firstDataRendered)="onFirstDataRendered($event)">
   </ag-grid-angular>
+  <div fxLayout="column">
+    <mat-list *ngIf="missingVariables.size > 0">
+      <h5>Missing variables</h5>
+      <mat-list-item *ngFor="let variable of missingVariables">
+        <label>{{variable}}</label>
+      </mat-list-item>
+    </mat-list>
+    <mat-list *ngIf="incorrectVariables.size > 0">
+      <h5>Incorrect variables</h5>
+      <mat-list-item *ngFor="let variable of incorrectVariables">
+        <p>{{variable}}</p>
+      </mat-list-item>
+    </mat-list>
+  </div>
 </div>

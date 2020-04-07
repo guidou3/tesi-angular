@@ -24,6 +24,9 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
   private columnDefs;
   private tableItems;
 
+  private missingVariables: Set<String>;
+  private incorrectVariables: Set<String>;
+
   constructor() { 
     this.visible_segments = [];
     this.segments = [];
@@ -38,6 +41,8 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
         field: 'type',
       }
     ];
+    this.missingVariables = new Set();
+    this.incorrectVariables = new Set();
     this.tableItems = [];
     
   }
@@ -62,19 +67,31 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
     
     this.segments = this.data.list;
     let tableItems = this.tableItems;
+    let missingVariables = this.missingVariables;
+    let incorrectVariables = this.incorrectVariables;
     this.segments = this.segments.map((obj) => {
       if(obj.type !== "invisible")
         tableItems.push({
           "label" : obj.labelMin.join(' '),
           "type": typeToLabel[obj.type]
         })
-
+      if(obj.missingVariables) {
+        obj.missingVariables.forEach((item) => {
+          missingVariables.add(item._1)
+        })
+      }
+      if(obj.incorrectVariables) {
+        obj.incorrectVariables.forEach((item) => {
+          incorrectVariables.add(item.variable)
+        })
+      }
       obj.label = obj.labelMin
       obj.alignmentcolor = typeToColor[obj.type]
       
       return obj
     })
-
+    console.log(missingVariables)
+    console.log(incorrectVariables)
     this.visible_segments = this.generatePaths()
   }
 
