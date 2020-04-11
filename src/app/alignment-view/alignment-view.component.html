@@ -20,10 +20,11 @@
   </svg>
   <svg *ngFor="let obj of constraints">
     <rect width="65" height="23" [attr.fill]="obj.color" [attr.x]="start +10 + obj.x" [attr.y]="obj.y" rx="5" ry="5"/>
-    <text [attr.x]="start +10 + obj.x +5" [attr.y]="obj.y+11.5" font-family="Arial" font-size="8"  fill="black" >{{obj.type}}</text>
+    <text [attr.x]="start +10 + obj.x +5" [attr.y]="obj.y+13" font-family="Arial" font-size="8"  fill="black" >{{obj.type}}</text>
   </svg>
 </svg>
 <div *ngIf="focus" fxLayout="row">
+  <p>{{this.data.fitness}}</p>
   <ag-grid-angular
     fxFlex="60"
     domLayout='autoHeight'
