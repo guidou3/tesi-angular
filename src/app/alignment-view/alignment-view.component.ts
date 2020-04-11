@@ -53,14 +53,16 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
       'model_only': "rgb(224, 176, 255)",
       'invisible': "gray",
       'log_only': "yellow",
-      'wrong_data': "orange"
+      'wrong_data': "orange",
+      'custom': 'blue'
     }
 
     let typeToLabel = {
       'perfect': "Perfect match",
       'model_only': "Move only in model",
       'log_only': "Move only in log",
-      'wrong_data': "Wrong data"
+      'wrong_data': "Wrong data",
+      'custom': 'Custom'
     }
 
     this.focus = this.focus || false;
@@ -70,9 +72,12 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
     let missingVariables = this.missingVariables;
     let incorrectVariables = this.incorrectVariables;
     this.segments = this.segments.map((obj) => {
+      let label = obj.labelMin.join(' ')
+      if(label.includes("TDTrans"))
+        obj.type = 'custom'
       if(obj.type !== "invisible")
         tableItems.push({
-          "label" : obj.labelMin.join(' '),
+          "label" : label,
           "type": typeToLabel[obj.type]
         })
       if(obj.missingVariables) {
