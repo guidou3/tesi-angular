@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges, Input } from '@angular/core';
 
-const LENGTH = 55;
+const LENGTH = 65;
 const OFFSET = 27;
 const MULTIPLIER = 1.5;
 
@@ -19,7 +19,8 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
 
   private segments;
   private visible_segments;
-  private last;
+  private constraints;
+  private start;
 
   private columnDefs;
   private tableItems;
@@ -54,7 +55,8 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
       'invisible': "gray",
       'log_only': "yellow",
       'wrong_data': "orange",
-      'custom': 'blue'
+      'customCorrect': 'lightblue',
+      'customWrong': 'rgb(240,50,10)'
     }
 
     let typeToLabel = {
@@ -62,19 +64,45 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
       'model_only': "Move only in model",
       'log_only': "Move only in log",
       'wrong_data': "Wrong data",
-      'custom': 'Custom'
+      'customCorrect': 'Custom constraint correct',
+      'customWrong': 'Custom constraint wrong'
     }
 
     this.focus = this.focus || false;
-    
+
     this.segments = this.data.list;
+    let up = true;
+    let start = 0
+    
+    if(this.data.constraints != null) {
+      this.constraints = this.data.constraints.map((obj) => {
+        obj.color = obj.result ? "rgb(0, 210, 0)" : "rgb(240,50,10)"
+        if(up) {
+          obj.y = 0
+          obj.x = start
+        }
+        else {
+          obj.y = 27
+          obj.x = start
+          start += LENGTH + 5
+        }
+        up = !up
+        return obj
+      })
+    }
+
     let tableItems = this.tableItems;
     let missingVariables = this.missingVariables;
     let incorrectVariables = this.incorrectVariables;
     this.segments = this.segments.map((obj) => {
       let label = obj.labelMin.join(' ')
-      if(label.includes("TDTrans"))
-        obj.type = 'custom'
+      if(label.includes("Time Distance")) {
+        if(label.includes("Correct"))
+          obj.type = 'customCorrect'
+        else
+          obj.type = 'customWrong'
+      }
+        
       if(obj.type !== "invisible")
         tableItems.push({
           "label" : label,
@@ -95,8 +123,6 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
       
       return obj
     })
-    console.log(missingVariables)
-    console.log(incorrectVariables)
     this.visible_segments = this.generatePaths()
   }
 
@@ -112,7 +138,7 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
 
   generatePaths(reset = false) {
     let start = OFFSET + 7
-    return this.segments.reduce((res, obj) => {
+    let segments = this.segments.reduce((res, obj) => {
       if(this.hideInvisible && obj.type === 'invisible')
         return res
       
@@ -137,6 +163,8 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
       res.push(obj)
       return res
     }, [])
+    this.start = start
+    return segments
   }
 
   public enlarge() {

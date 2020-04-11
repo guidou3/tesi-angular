@@ -142,6 +142,7 @@ export class GroupedAlignmentsComponent implements OnInit {
 
   ngOnInit() {
     this.configService.getAlignmentsGroups().subscribe((groups) => {
+      console.log(groups)
       let labelMap = {}
       
       this.alignments = groups.map((alignment) => {
@@ -150,7 +151,8 @@ export class GroupedAlignmentsComponent implements OnInit {
           size: alignment.size,
           fitness: Math.round(parseFloat(alignment.fitness) * 10000)/100 + "%",
           fitnessValue: alignment.fitness,
-          relevance: alignment.size * (1 - alignment.fitness)
+          relevance: alignment.size * (1 - alignment.fitness),
+          constraints: alignment.constraints
         }
         let list = []
         newObj['list'] = alignment.steps.map((step) => {
@@ -289,8 +291,8 @@ export class GroupedAlignmentsComponent implements OnInit {
     let calc = document.createElement('canvas').getContext("2d");
     calc.font = "8px Arial";
     return {
-      labelMin: this.splitByWidth(label, calc, 50-6),
-      labelMax: this.splitByWidth(label, calc, 75-6)
+      labelMin: this.splitByWidth(label, calc, 60-6),
+      labelMax: this.splitByWidth(label, calc, 90-6)
     }
   }
 

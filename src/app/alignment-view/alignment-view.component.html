@@ -1,4 +1,4 @@
-<svg viewBox="0 0 800 70" (click)="enlarge()" class="alignment-view">
+<svg viewBox="0 0 1000 70" (click)="enlarge()" class="alignment-view">
   <svg>
     <path d="M 2 0 l 25 25 l -25 25 z"  fill="black"/>
     <path d="M 6 10 l 15 15 l -15 15 z"  fill="white"/>
@@ -17,6 +17,10 @@
     </text>
     <text *ngIf="obj.missingVariables && obj.type != 'model_only'" [attr.x]="obj.start-25" y="60" font-family="Arial" font-size="8" text-overflow="ellipsis" fill="black" >{{obj.missingVariables[0]._1}}</text>
     <text *ngIf="obj.incorrectVariables && obj.type != 'model_only'" [attr.x]="obj.start-25" y="60" font-family="Arial" font-size="8" text-overflow="ellipsis" fill="black" >{{obj.incorrectVariables[0].variable}}</text>
+  </svg>
+  <svg *ngFor="let obj of constraints">
+    <rect width="65" height="23" [attr.fill]="obj.color" [attr.x]="start +10 + obj.x" [attr.y]="obj.y" rx="5" ry="5"/>
+    <text [attr.x]="start +10 + obj.x +5" [attr.y]="obj.y+11.5" font-family="Arial" font-size="8"  fill="black" >{{obj.type}}</text>
   </svg>
 </svg>
 <div *ngIf="focus" fxLayout="row">
