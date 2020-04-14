@@ -176,22 +176,33 @@ export class GroupedAlignmentsComponent implements OnInit {
       })
 
       let result = this.alignments.reduce((res, current) => {
-        
+        /*current.constraints.forEach((con) => {
+          if(con.result && con.transitions.length > 1) {
+            res.constraints.correct += current.size
+          }
+          else if(con.result) res.constraints.partial += current.size
+          else res.constraints.incorrect += current.size
+        })*/
         res.traces += current.size
         res.sum += current.fitnessValue
         res.values.push(current.fitnessValue)
         current.list.forEach((obj) => {
           if(obj.type === 'perfect')
-            res.perfect += 1
+            res.perfect += current.size
           else if(obj.type === 'wrong_data')
-            res.wrong_data += 1
+            res.wrong_data += current.size
           else if(obj.type === 'model_only')
-            res.model += 1
+            res.model += current.size
           else if(obj.type === 'log_only')
-            res.log += 1
+            res.log += current.size
         })
         return res;
       }, {
+        /*constraints: {
+          correct: 0,
+          partial: 0,
+          incorrect: 0
+        },*/
         traces: 0,
         sum: 0,
         values: [],
@@ -203,6 +214,8 @@ export class GroupedAlignmentsComponent implements OnInit {
 
       let half = Math.floor(result.values.length / 2);
       result.values.sort()
+
+      let total = result.perfect + result.wrong_data + result.model + result.log;
 
       this.statistics = [
         {
@@ -229,21 +242,37 @@ export class GroupedAlignmentsComponent implements OnInit {
           statistic: "Max Fitness",
           value: this.getPercentage(result.values[result.values.length -1])
         },
+        /*{
+          statistic: "Total Constraints",
+          value: result.constraints.correct + result.constraints.incorrect + result.constraints.partial
+        },
+        {
+          statistic: "Correct Constraints",
+          value: this.getPercentage(result.constraints.correct / (result.constraints.correct + result.constraints.incorrect + result.constraints.partial))
+        },
+        {
+          statistic: "Partial Constraints",
+          value: this.getPercentage(result.constraints.partial / (result.constraints.correct + result.constraints.incorrect + result.constraints.partial))
+        },
+        {
+          statistic: "Wrong Constraints",
+          value: this.getPercentage(result.constraints.incorrect / (result.constraints.correct + result.constraints.incorrect + result.constraints.partial))
+        },*/
         {
           statistic: "Perfect steps",
-          value: result.perfect
+          value: this.getPercentage(result.perfect/total)
         },
         {
           statistic: "Wrong data steps",
-          value: result.wrong_data
+          value: this.getPercentage(result.wrong_data/total)
         },
         {
           statistic: "Model only steps",
-          value: result.model
+          value: this.getPercentage(result.model/total)
         },
         {
           statistic: "Log only steps",
-          value: result.log
+          value: this.getPercentage(result.log/total)
         }
       ]
 
