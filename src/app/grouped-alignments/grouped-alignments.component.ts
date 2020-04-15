@@ -142,7 +142,6 @@ export class GroupedAlignmentsComponent implements OnInit {
 
   ngOnInit() {
     this.configService.getAlignmentsGroups().subscribe((groups) => {
-      console.log(groups)
       let labelMap = {}
       
       this.alignments = groups.map((alignment) => {
@@ -176,16 +175,19 @@ export class GroupedAlignmentsComponent implements OnInit {
       })
 
       let result = this.alignments.reduce((res, current) => {
-        /*current.constraints.forEach((con) => {
+        current.constraints.forEach((con) => {
           if(con.result && con.transitions.length > 1) {
             res.constraints.correct += current.size
           }
           else if(con.result) res.constraints.partial += current.size
           else res.constraints.incorrect += current.size
-        })*/
+        })
         res.traces += current.size
-        res.sum += current.fitnessValue
-        res.values.push(current.fitnessValue)
+        res.sum += current.fitnessValue * current.size
+        res.values.push({
+          fitness: current.fitnessValue,
+          tot: current.size
+        })
         current.list.forEach((obj) => {
           if(obj.type === 'perfect')
             res.perfect += current.size
@@ -198,11 +200,11 @@ export class GroupedAlignmentsComponent implements OnInit {
         })
         return res;
       }, {
-        /*constraints: {
+        constraints: {
           correct: 0,
           partial: 0,
           incorrect: 0
-        },*/
+        },
         traces: 0,
         sum: 0,
         values: [],
@@ -212,10 +214,23 @@ export class GroupedAlignmentsComponent implements OnInit {
         log: 0
       })
 
-      let half = Math.floor(result.values.length / 2);
-      result.values.sort()
+
+      let half = Math.floor(result.traces / 2);
+
+      result.values.sort((a,b) => a.fitness > b.fitness)
+      let median = 0, current=0;
+      while(current < half) {
+        median++;
+        current += result.values[median].tot
+      }
+      if(result.values.length % 2 || half+1 <= current)
+        median = result.values[median].fitness
+      else
+        median = (result.values[median] + result.values[median+1])/ 2.0
 
       let total = result.perfect + result.wrong_data + result.model + result.log;
+
+
 
       this.statistics = [
         {
@@ -228,36 +243,20 @@ export class GroupedAlignmentsComponent implements OnInit {
         },
         {
           statistic: "Min Fitness",
-          value: this.getPercentage(result.values[0])
+          value: this.getPercentage(result.values[0].fitness)
         },
         {
           statistic: "Average Fitness",
-          value: this.getPercentage(result.sum / result.values.length)
+          value: this.getPercentage(result.sum / result.traces)
         },
         {
           statistic: "Median Fitness",
-          value: this.getPercentage(result.values.length % 2 ? result.values[half] : (result.values[half -1] + result.values[half])/ 2.0)
+          value: this.getPercentage(median)
         },
         {
           statistic: "Max Fitness",
-          value: this.getPercentage(result.values[result.values.length -1])
+          value: this.getPercentage(result.values[result.values.length -1].fitness)
         },
-        /*{
-          statistic: "Total Constraints",
-          value: result.constraints.correct + result.constraints.incorrect + result.constraints.partial
-        },
-        {
-          statistic: "Correct Constraints",
-          value: this.getPercentage(result.constraints.correct / (result.constraints.correct + result.constraints.incorrect + result.constraints.partial))
-        },
-        {
-          statistic: "Partial Constraints",
-          value: this.getPercentage(result.constraints.partial / (result.constraints.correct + result.constraints.incorrect + result.constraints.partial))
-        },
-        {
-          statistic: "Wrong Constraints",
-          value: this.getPercentage(result.constraints.incorrect / (result.constraints.correct + result.constraints.incorrect + result.constraints.partial))
-        },*/
         {
           statistic: "Perfect steps",
           value: this.getPercentage(result.perfect/total)
@@ -275,6 +274,26 @@ export class GroupedAlignmentsComponent implements OnInit {
           value: this.getPercentage(result.log/total)
         }
       ]
+
+      if(result.constraints.partial > 0)
+        this.statistics = this.statistics.concat([
+          {
+            statistic: "Total Constraints",
+            value: result.constraints.correct + result.constraints.incorrect
+          },
+          {
+            statistic: "Correct Constraints",
+            value: this.getPercentage(result.constraints.correct / (result.constraints.correct + result.constraints.incorrect))
+          },
+          /*{
+            statistic: "Partial Constraints",
+            value: this.getPercentage(result.constraints.partial / (result.constraints.correct + result.constraints.incorrect))
+          },*/
+          {
+            statistic: "Wrong Constraints",
+            value: this.getPercentage(result.constraints.incorrect / (result.constraints.correct + result.constraints.incorrect))
+          }
+        ])
 
       this.order()
     })
