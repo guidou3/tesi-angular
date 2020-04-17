@@ -55,6 +55,7 @@ export class Parameters1Component implements OnInit {
     this.formGroup = new FormGroup({
       threads: new FormControl(1),
       fitness: new FormControl(this.fitness.defaultValue),
+      evaluation: new FormControl(false),
       search_space: new FormControl(1),
       checked: new FormControl(false),
       unassigned: new FormControl('NULL'),
@@ -84,6 +85,7 @@ export class Parameters1Component implements OnInit {
   }
 
   public postResult() {
+    console.log(this.formGroup.value)
     this.configService.postParameters(this.formGroup.value)
   }
 }
