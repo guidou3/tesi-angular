@@ -56,6 +56,7 @@ export class Parameters1Component implements OnInit {
       threads: new FormControl(1),
       fitness: new FormControl(this.fitness.defaultValue),
       evaluation: new FormControl(false),
+      startComplete: new FormControl(false),
       search_space: new FormControl(1),
       checked: new FormControl(false),
       unassigned: new FormControl('NULL'),

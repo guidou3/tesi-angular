@@ -132,14 +132,24 @@
   </div>
 
   <div fxLayout="row" fxLayoutAlign="start center">
-      <mat-checkbox 
-        fxLayout="row"
-        fxLayoutAlign="start center"
-        labelPosition="after"
-        formControlName="evaluation">
-          Evaluation of constraints
-      </mat-checkbox>
-    </div>
+    <mat-checkbox 
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      labelPosition="after"
+      formControlName="startComplete">
+        If "start" state is missing use "complete" (custom constraints)
+    </mat-checkbox>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <mat-checkbox 
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      labelPosition="after"
+      formControlName="evaluation">
+        Evaluation of constraints
+    </mat-checkbox>
+  </div>
 
   <div *ngIf="formGroup.controls['checked'].value">
     <h5>Expert confgiguration options</h5>
