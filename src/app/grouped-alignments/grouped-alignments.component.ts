@@ -40,6 +40,7 @@ export class GroupedAlignmentsComponent implements OnInit {
   private view: number;
 
   private alignments;
+  private steps;
 
   private statistics;
 
@@ -187,6 +188,9 @@ export class GroupedAlignmentsComponent implements OnInit {
           fitness: current.fitnessValue,
           tot: current.size
         })
+
+        let steps_occurrencies = {}
+        
         current.list.forEach((obj) => {
           if(obj.type === 'perfect')
             res.perfect += current.size
@@ -197,30 +201,35 @@ export class GroupedAlignmentsComponent implements OnInit {
           else if(obj.type === 'log_only')
             res.log += current.size
           
+          let label = obj.labelMin.join(' ')
 
-          if(obj.labelMin.join(' ') === "Insert Fine Notification") {
+          if(obj.type !== 'invisible') {
+            if(res.steps[label] == null)
+              res.steps[label] = {
+                perfect: 0,
+                wrong_data: 0,
+                model: 0,
+                log: 0,
+                occurrencies: 0
+              }
+            
+            steps_occurrencies[label] = steps_occurrencies[label] + 1 || 1;
+            
             if(obj.type === 'perfect')
-            res.ifn.perfect += current.size
-          else if(obj.type === 'wrong_data')
-            res.ifn.wrong_data += current.size
-          else if(obj.type === 'model_only')
-            res.ifn.model += current.size
-          else if(obj.type === 'log_only')
-            res.ifn.log += current.size
-          }
-
-
-          if(obj.labelMin.join(' ') === "Appeal to Judge") {
-            if(obj.type === 'perfect')
-            res.apj.perfect += current.size
-          else if(obj.type === 'wrong_data')
-            res.apj.wrong_data += current.size
-          else if(obj.type === 'model_only')
-            res.apj.model += current.size
-          else if(obj.type === 'log_only')
-            res.apj.log += current.size
+              res.steps[label].perfect += current.size
+            else if(obj.type === 'wrong_data')
+              res.steps[label].wrong_data += current.size
+            else if(obj.type === 'model_only')
+              res.steps[label].model += current.size
+            else if(obj.type === 'log_only')
+              res.steps[label].log += current.size
           }
         })
+
+        Object.keys(steps_occurrencies).forEach(label => {
+          res.steps[label].occurrencies += current.size 
+        })
+
         return res;
       }, {
         constraints: {
@@ -228,6 +237,7 @@ export class GroupedAlignmentsComponent implements OnInit {
           partial: 0,
           incorrect: 0
         },
+        steps: {},
         traces: 0,
         sum: 0,
         values: [],
@@ -235,20 +245,16 @@ export class GroupedAlignmentsComponent implements OnInit {
         wrong_data: 0,
         model: 0,
         log: 0,
-        ifn: {
-          perfect: 0,
-          wrong_data: 0,
-          model: 0,
-          log: 0,
-        },
-        apj: {
-          perfect: 0,
-          wrong_data: 0,
-          model: 0,
-          log: 0,
-        }
       })
-
+      console.log(result)
+      this.steps = Object.keys(result.steps).map(stepLabel => {
+        let step = Object.assign({}, result.steps[stepLabel]);
+        step.label = stepLabel;
+        let total =  step.perfect + step.log + step.model + step.wrong_data;
+        step.fitness = this.getPercentage(step.perfect/total)
+        step.cases = this.getPercentage(step.occurrencies/result.traces)
+        return step
+      })
 
       let half = Math.floor(result.traces / 2);
 
@@ -265,9 +271,8 @@ export class GroupedAlignmentsComponent implements OnInit {
 
       let total = result.perfect + result.wrong_data + result.model + result.log;
 
-      let total_ifn = result.ifn.perfect + result.ifn.wrong_data + result.ifn.model + result.ifn.log;
+      
 
-      let total_apj = result.apj.perfect + result.apj.wrong_data + result.apj.model + result.apj.log;
 
       this.statistics = [
         {
@@ -309,39 +314,7 @@ export class GroupedAlignmentsComponent implements OnInit {
         {
           statistic: "Log only steps",
           value: this.getPercentage(result.log/total)
-        },
-        {
-          statistic: "Perfect ifn steps",
-          value: result.ifn.perfect
-        },
-        {
-          statistic: "Wrong data steps",
-          value: result.ifn.wrong_data
-        },
-        {
-          statistic: "Model only steps",
-          value: result.ifn.model
-        },
-        {
-          statistic: "Log only steps",
-          value: result.ifn.log
-        },
-        {
-          statistic: "Perfect apj steps",
-          value: result.apj.perfect
-        },
-        {
-          statistic: "Wrong data steps",
-          value: result.apj.wrong_data
-        },
-        {
-          statistic: "Model only steps",
-          value: result.apj.model
-        },
-        {
-          statistic: "Log only steps",
-          value: result.apj.log
-        },
+        }
       ]
 
       if(result.constraints.partial > 0)

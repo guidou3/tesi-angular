@@ -16,6 +16,7 @@
       <div class="navigation">
         <button type="button" (click)="page(1)">View 1</button>
         <button type="button" (click)="page(2)">View 2</button>
+        <button type="button" (click)="page(3)">View 3</button>
       </div>
       <div *ngIf="view === 1">
         <mat-card>
@@ -45,6 +46,22 @@
       <div *ngIf="view === 2">
         <p>View 2</p>
         <app-alignment-view *ngFor="let alignment of alignments" [data]="alignment" [hideInvisible]="hideInvisible" [colorActivities] = "colorActivities" [highlight] = "highlight"></app-alignment-view>
+      </div>
+      <div *ngIf="view === 3">
+        <mat-card>
+          <mat-card-header>View 1</mat-card-header>
+          <mat-card-content>
+            <mat-list>
+              <mat-list-item *ngFor="let step of steps; let i = index" class="alignment-view-item">
+                <mat-icon matListIcon [ngClass]="getIconColor(step.fitness)">{{getIcon(step.fitness)}}</mat-icon>
+                <h2 matLine>{{step.label}} - Fitness: {{step.fitness}}</h2>
+                <p matLine class="secondary-line">Cases: {{step.cases}}</p>
+                <p matLine class="secondary-line">Perfect: {{step.perfect}}  -  Wrong data: {{step.wrong_data}}</p>
+                <p matLine class="secondary-line">Log: {{step.log}}  -  Model: {{step.model}}</p>
+              </mat-list-item>
+            </mat-list>
+          </mat-card-content>
+        </mat-card>
       </div>
     </div>
     <div class="side" fxLayout="column" fxFlex="25">
