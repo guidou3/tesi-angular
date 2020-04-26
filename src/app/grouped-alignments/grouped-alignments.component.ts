@@ -35,6 +35,8 @@ export class GroupedAlignmentsComponent implements OnInit {
   private columnDefs;
 
   private orderingValues;
+  private orderingValues_1;
+  private orderingValues_2;
   private orderingFunction;
 
   private view: number;
@@ -66,7 +68,7 @@ export class GroupedAlignmentsComponent implements OnInit {
 
     this.statistics = []
 
-    this.orderingValues = [
+    this.orderingValues_2 = [
       {
         label: "Relevance (Desc)",
         value: "RELEVANCE_DESC"
@@ -90,7 +92,10 @@ export class GroupedAlignmentsComponent implements OnInit {
       {
         label: "Fitness (Asc)",
         value: "FITNESS_ASC"
-      },
+      }
+    ]
+
+    this.orderingValues_1 = this.orderingValues_2.concat([
       {
         label: "Length (Desc)",
         value: "LENGTH_DESC"
@@ -99,7 +104,9 @@ export class GroupedAlignmentsComponent implements OnInit {
         label: "Length (Asc)",
         value: "LENGTH_ASC"
       }
-    ]
+    ])
+
+    this.orderingValues = this.orderingValues_1
 
     this.orderingFunction = {
       "RELEVANCE_DESC": function(a, b) {
@@ -246,13 +253,16 @@ export class GroupedAlignmentsComponent implements OnInit {
         model: 0,
         log: 0,
       })
-      console.log(result)
+      
       this.steps = Object.keys(result.steps).map(stepLabel => {
         let step = Object.assign({}, result.steps[stepLabel]);
         step.label = stepLabel;
         let total =  step.perfect + step.log + step.model + step.wrong_data;
-        step.fitness = this.getPercentage(step.perfect/total)
-        step.cases = this.getPercentage(step.occurrencies/result.traces)
+        step.fitnessValue = step.perfect/total
+        step.fitness = this.getPercentage(step.fitnessValue)
+        step.size = step.occurrencies/result.traces
+        step.cases = this.getPercentage(step.size)
+        step.relevance = step.size * (1 - step.fitnessValue)
         return step
       })
 
@@ -370,7 +380,10 @@ export class GroupedAlignmentsComponent implements OnInit {
 
   order() {
     let fun = this.orderingFunction[this.ordering];
-    this.alignments.sort(fun)
+    if(this.view < 3) 
+      this.alignments.sort(fun)
+    else 
+      this.steps.sort(fun)
   }
 
   updateVisualization() {
@@ -425,6 +438,14 @@ export class GroupedAlignmentsComponent implements OnInit {
 
   page(p) {
     this.view = p;
+    if(this.view < 3)
+      this.orderingValues = this.orderingValues_1
+    else
+      this.orderingValues = this.orderingValues_2
+
+    
+    this.ordering = "RELEVANCE_DESC";
+    this.order()
   }
 
   getIcon(fitness) {
