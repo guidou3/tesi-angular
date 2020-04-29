@@ -9,16 +9,6 @@ import { ConfigsService } from '../configs.service'
 })
 export class GraphComponent implements OnInit {
   title = 'd3-graphviz in Angular';
-  list = [
-    {
-      initial: 'x.svg',
-      final: 'https://svgshare.com/i/JMX.svg'
-    },
-    {
-      initial: 'plus.svg',
-      final: 'https://svgshare.com/i/JKS.svg'
-    }
-  ]
 
   constructor(private configService: ConfigsService) { }
 
@@ -26,10 +16,10 @@ export class GraphComponent implements OnInit {
     this.configService.getGraph().subscribe(file => {
       let graph = graphviz('div')
 
-      this.list.forEach(obj => {
+      /*this.list.forEach(obj => {
         file = file.replace(new RegExp(obj.initial, 'g'), obj.final)
         graph.addImage(obj.final, "25px", "25px")
-      })
+      })*/
 
 
       graph

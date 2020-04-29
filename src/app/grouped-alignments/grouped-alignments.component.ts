@@ -384,6 +384,8 @@ export class GroupedAlignmentsComponent implements OnInit {
       this.alignments.sort(fun)
     else 
       this.steps.sort(fun)
+
+    console.log(this.alignments)
   }
 
   updateVisualization() {
