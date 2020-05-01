@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {host} from '../net.json'
-
+import { timeout } from 'rxjs/operators';
 import {
   HttpClient,
   HttpRequest,
