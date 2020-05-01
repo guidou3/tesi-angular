@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {host} from '../net.json'
+
 import {
   HttpClient,
   HttpRequest,
@@ -84,7 +85,7 @@ export class ConfigsService {
   public doBalancedDataConformance() {
     return this.http.get<any>(host+'/balancedDataConformance', {
       responseType: 'text'
-    })
+    }).pipe(timeout(600000))
   }
 
   public getAlignmentsGroups() {

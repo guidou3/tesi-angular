@@ -13,6 +13,7 @@ export class VariablesBoundsComponent implements OnInit {
 
   private columnDefs;
   private rowData;
+  private customData;
   private gridApi;
   private input;
 
@@ -47,6 +48,7 @@ export class VariablesBoundsComponent implements OnInit {
     ];
 
     this.rowData = [];
+    this.customData = [];
 
     this.frameworkComponents = {
       /* custom cell editor component*/
@@ -56,8 +58,14 @@ export class VariablesBoundsComponent implements OnInit {
 
   ngOnInit() {
     this.configService.getVariableBounds().subscribe(resp => {
-      console.log(resp)
-      this.rowData = resp.list
+      let newRowdata = []
+      for(let obj of resp.list) {
+        if(obj.variable.indexOf("custom") !== 0)
+          newRowdata.push(obj)
+        else
+          this.customData.push(obj)
+      }
+      this.rowData = newRowdata
     })
   }
 
@@ -71,6 +79,7 @@ export class VariablesBoundsComponent implements OnInit {
     this.gridApi.forEachNode(function(node) {
       rowData.push(node.data);
     });
+    rowData = rowData.concat(this.customData)
 
     this.configService.postVariableBounds(rowData).subscribe(resp => {
         console.log(resp)
