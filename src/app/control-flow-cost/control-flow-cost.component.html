@@ -29,8 +29,17 @@
   <input matInput class="input" [formControl]="input2"/>
   <button type="button" (click)="updateValue2()" mat-stroked-button>Set</button>
 </div>
-<div fxLayout="row" fxLayoutAlign="end center">
-  <button type="button" (click)="submit()" 
-  color="primary"
-  mat-raised-button>Submit</button>
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <button 
+    (click)="back()" 
+    mat-stroked-button 
+    color="primary" >
+      Back
+  </button>
+  <button 
+    (click)="submit()" 
+    mat-stroked-button 
+    color="primary" >
+      Next
+  </button>
 </div>

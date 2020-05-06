@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NumericEditorComponent } from '../numeric-editor/numeric-editor.component'
 import { ConfigsService } from '../configs.service'
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class DataDeviationsComponent implements OnInit {
   private rowData;
   private gridApi;
 
-  constructor(private configService: ConfigsService, private router:Router) {
+  constructor(private configService: ConfigsService, private router:Router, private location: Location) {
     this.rowData = [];
     this.columnDefs = [
       {
@@ -134,6 +135,10 @@ export class DataDeviationsComponent implements OnInit {
 
     }
     fileReader.readAsText(file);
+  }
+
+  public back() {
+    this.location.back()
   }
 
   public saveTable() {

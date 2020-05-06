@@ -4,6 +4,7 @@ import { NumericEditorComponent } from '../numeric-editor/numeric-editor.compone
 import { FormControl } from '@angular/forms';
 import { ConfigsService } from '../configs.service'
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class ControlFlowCostComponent implements OnInit {
   private input2;
   
 
-  constructor(private configService: ConfigsService, private router:Router) { 
+  constructor(private configService: ConfigsService, private router:Router, private location: Location) { 
     this.input1 = new FormControl(1);
     this.input2 = new FormControl(1);
     this.invisible = [];
@@ -111,6 +112,10 @@ export class ControlFlowCostComponent implements OnInit {
       obj.cost = value
       api.updateRowData({ update: [obj] });
     })
+  }
+
+  public back() {
+    this.location.back()
   }
 
   public submit() {

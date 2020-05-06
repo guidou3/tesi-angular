@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ConfigsService } from '../configs.service'
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-map-variables',
@@ -15,7 +16,7 @@ export class MapVariablesComponent implements OnInit {
   private list;
   private loading;
 
-  constructor(private configService: ConfigsService, private router:Router) { 
+  constructor(private configService: ConfigsService, private router:Router, private location: Location) { 
     this.formGroup = new FormGroup({})
     this.attention = {}
     this.internalSet = []
@@ -49,6 +50,10 @@ export class MapVariablesComponent implements OnInit {
         })
       }
     )
+  }
+
+  public back() {
+    this.location.back()
   }
 
   public postMapping() {

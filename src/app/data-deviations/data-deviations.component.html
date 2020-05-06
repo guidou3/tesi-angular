@@ -19,6 +19,17 @@
   <button mat-stroked-button type="button" (click)="getTable()" >Load table</button>
 </div>
 <input type="file" #tableInput value="upload" (change)="subTable()"/>
-<div fxLayoutAlign="end center">
-  <button routerLink="/dataCost" color="primary" mat-raised-button type="button" (click)="submit()">Submit</button>
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <button 
+    (click)="back()" 
+    mat-stroked-button 
+    color="primary" >
+      Back
+  </button>
+  <button 
+    (click)="submit()" 
+    mat-stroked-button 
+    color="primary" >
+      Next
+  </button>
 </div>

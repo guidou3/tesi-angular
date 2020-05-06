@@ -30,7 +30,13 @@
       </mat-select>
     </mat-list-item>
   </mat-list>
-  <div fxLayout="row" fxLayoutAlign="end center">
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <button 
+      (click)="back()" 
+      mat-stroked-button 
+      color="primary" >
+        Back
+    </button>
     <button 
       (click)="postMapping()" 
       mat-stroked-button 

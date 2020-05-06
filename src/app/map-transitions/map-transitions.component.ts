@@ -3,6 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { ConfigsService } from '../configs.service'
 import { InitialMapping } from '../Types'
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-map-transitions',
@@ -21,7 +22,7 @@ export class MapTransitionsComponent implements OnInit {
   private invisible;
   private loading;
 
-  constructor(private configService: ConfigsService, private router:Router) { 
+  constructor(private configService: ConfigsService, private router:Router, private location: Location) { 
     this.formGroup = new FormGroup({
       classifier: new FormControl('NULL'),
       approximated: new FormControl(true)
@@ -113,6 +114,10 @@ export class MapTransitionsComponent implements OnInit {
     else list = this.resourceList
 
     return list[index].value
+  }
+
+  public back() {
+    this.location.back()
   }
 
   public postMapping() {

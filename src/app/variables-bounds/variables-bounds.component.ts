@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NumericEditorComponent } from '../numeric-editor/numeric-editor.component'
 import { ConfigsService } from '../configs.service'
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-variables-bounds',
@@ -17,7 +18,7 @@ export class VariablesBoundsComponent implements OnInit {
   private gridApi;
   private input;
 
-  constructor(private configService: ConfigsService, private router:Router) {
+  constructor(private configService: ConfigsService, private router:Router, private location: Location) {
     this.columnDefs = [
       {
         headerName: 'Variable name',
@@ -73,6 +74,7 @@ export class VariablesBoundsComponent implements OnInit {
     this.gridApi = params.api;
     params.api.sizeColumnsToFit();
   }
+  
 
   public submit() {
     var rowData = [];
