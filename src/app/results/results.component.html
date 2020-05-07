@@ -1,6 +1,6 @@
-<div fxLayoutAlign="center center" *ngIf="loading" class="spinner">
-  <p>{{logMessage}}</p>
+<div fxLayoutAlign="center center" *ngIf="loading" fxLayout="column" class="spinner">
   <mat-spinner ></mat-spinner>
+  <p *ngFor="let message of logMessage">{{message}}</p>
 </div>
 <div *ngIf="!loading" fxLayout="row">
   

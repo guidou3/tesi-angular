@@ -19,13 +19,11 @@ export class ResultsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.logMessage = "Initialized query configuration"
+    this.logMessage = ["Initialized query configuration"]
     this.configService.queryConfiguration().subscribe(response1 => {
-      console.log(response1)
-      this.logMessage = "Configuration obtained\nCalculating conformance"
+      this.logMessage = ["Configuration obtained", "Calculating conformance"]
       this.configService.doBalancedDataConformance().subscribe(response2 => {
-        console.log(response2)
-        this.logMessage = "Conformance checking succesfully obtained"
+        this.logMessage = ["Conformance checking succesfully obtained"]
         this.loading = false;
         this.router.navigateByUrl('grouped')
       })

@@ -46,6 +46,8 @@ export class GroupedAlignmentsComponent implements OnInit {
 
   private statistics;
 
+  private transitionToBpmn;
+
   constructor(private configService: ConfigsService, private router:Router, private dialog:MatDialog) { 
     this.approximateMatches = true;
     this.colorActivities = false;
@@ -149,10 +151,13 @@ export class GroupedAlignmentsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.configService.getAlignmentsGroups().subscribe((groups) => {
+    this.configService.getAlignmentsGroups().subscribe((data) => {
       let labelMap = {}
       
-      this.alignments = groups.map((alignment) => {
+      this.transitionToBpmn = data.activityGraphDetails
+      console.log(this.transitionToBpmn)
+
+      this.alignments = data.groups.map((alignment) => {
         let newObj = {
           averageLength: alignment.averageLength,
           size: alignment.size,
@@ -384,8 +389,6 @@ export class GroupedAlignmentsComponent implements OnInit {
       this.alignments.sort(fun)
     else 
       this.steps.sort(fun)
-
-    console.log(this.alignments)
   }
 
   updateVisualization() {
@@ -488,6 +491,16 @@ export class GroupedAlignmentsComponent implements OnInit {
       width: '80%',
       data: data
     });
+  }
+
+  saveJson() {
+    var link = document.createElement('a');
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.setAttribute('download', "graphData.json");
+    link.setAttribute('href', 'data:text/json;charset=UTF-8,' + encodeURIComponent(JSON.stringify(this.transitionToBpmn)));
+    link.click();
+    
   }
 }
 
