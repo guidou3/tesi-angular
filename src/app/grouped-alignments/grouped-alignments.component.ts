@@ -155,7 +155,7 @@ export class GroupedAlignmentsComponent implements OnInit {
       let labelMap = {}
       
       this.transitionToBpmn = data.activityGraphDetails
-      console.log(this.transitionToBpmn)
+      console.log(da)
 
       this.alignments = data.groups.map((alignment) => {
         let newObj = {
