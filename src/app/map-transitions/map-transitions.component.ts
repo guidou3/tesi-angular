@@ -37,18 +37,9 @@ export class MapTransitionsComponent implements OnInit {
     this.loading = true;
   }
 
-  private removeMapEnding(string) {
-    let regex = /[]*_\d*$/
-    if(string.search(regex) !== -1) {
-      string = string.substring(0, string.lastIndexOf("_"))
-    }
-    return string;
-  }
-
   ngOnInit() {
     this.configService.getInitialMapping().subscribe(
       (params) => {
-        console.log(params)
         this.loading = false
         this.classifiers = params.classifiers.map(function (s) {
           return {
@@ -62,16 +53,15 @@ export class MapTransitionsComponent implements OnInit {
         this.resourceList = params.resourceList
         this.list = this.nameList
         
-        const p = this
-        Object.keys(params.transitionNames).forEach(function(key) {
+        Object.keys(params.transitionNames).forEach((key) => {
           if(params.transitionNames[key].length === 1)
-            p.invisible[key] = p.list[params.transitionNames[key][0]].value
+            this.invisible[key] = this.list[params.transitionNames[key][0]].value
           else {
-            let label = p.list[params.transitionNames[key][0]]
-            p.formGroup.addControl(key, new FormControl(label.value))
-            p.transitionMap.set(key, params.transitionNames[key])
-            p.transitions.push({
-              label: p.removeMapEnding(key),
+            let label = this.list[params.transitionNames[key][0]]
+            this.formGroup.addControl(key, new FormControl(label.value))
+            this.transitionMap.set(key, params.transitionNames[key])
+            this.transitions.push({
+              label: this.removeMapEnding(key),
               value: key
             })
           }
@@ -80,18 +70,33 @@ export class MapTransitionsComponent implements OnInit {
     )
   }
 
-  public getIndex() {
+  /**
+   * Removes the index at the end of the label if present
+   *
+   * @param string - The name of the transition
+   * 
+   * @returns The name of the transition without its index
+   */
+
+  private removeMapEnding(string) {
+    let regex = /[]*_\d*$/
+    if(string.search(regex) !== -1) {
+      string = string.substring(0, string.lastIndexOf("_"))
+    }
+    return string;
+  }
+
+  /**
+   * Updates the matching elements depeding on the classifier
+   */
+
+  public updateIndex() {
+    // calculate the index of the classifier
     let index = 0;
     if(this.formGroup.controls['classifier'].value !== this.classifiers[0].value) 
       index += 2
     if(!this.formGroup.controls['approximated'].value)
       index++
-
-    return index
-  }
-
-  public updateIndex() {
-    let index = this.getIndex()
 
     if(index < 2) this.list = this.nameList
     else this.list = this.resourceList
@@ -102,41 +107,23 @@ export class MapTransitionsComponent implements OnInit {
         let label = p.list[val[index]].value
         p.formGroup.controls[key].setValue(label)
       }
-        
     })
   }
 
-  public labelToObj(index) {
-    let n = this.getIndex()
-    let list = []
-
-    if(n < 2) list = this.nameList
-    else list = this.resourceList
-
-    return list[index].value
-  }
-
-  public back() {
-    this.location.back()
-  }
+  /**
+   * Posts the transition mapping
+   */
 
   public postMapping() {
-    let result = {}, obj = {}, copy = this.formGroup.value;
-    result['classifier'] = copy.classifier
-    const p = this
-    Object.keys(copy).forEach(function(key) {
-      if(key === 'classifier' || key === 'approximated') {}
-      else
-        obj[key] = copy[key]
-    })
-    let invisibles = this.invisible
-    Object.keys(invisibles).forEach(function(key) {
-      obj[key] = invisibles[key]
-    })
-    result['list'] = obj
-    this.configService.postMapping(result)
-      .subscribe(resp => {
-        console.log(resp)
+    let obj = Object.assign(this.formGroup.value, this.invisible)
+
+    delete obj.classifier;
+    delete obj.approximated;
+
+    this.configService.postMapping({
+      classifier: this.formGroup.value.classifier,
+      list: obj
+    }).subscribe(resp => {
         this.router.navigateByUrl('flowCost')
       })
   }

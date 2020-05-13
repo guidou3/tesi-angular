@@ -35,7 +35,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { ConfigsService } from './configs.service';
 
-import { Parameters1Component } from './parameters1/parameters1.component';
+import { ConfigurationComponent } from './configuration/configuration.component';
 import { MapTransitionsComponent } from './map-transitions/map-transitions.component';
 import { MapVariablesComponent } from './map-variables/map-variables.component';
 import { ControlFlowCostComponent } from './control-flow-cost/control-flow-cost.component';
@@ -57,7 +57,7 @@ import { AlignmentViewComponent } from './alignment-view/alignment-view.componen
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: '', component: Parameters1Component },
+      { path: '', component: ConfigurationComponent },
       { path: 'grouped', component: GroupedAlignmentsComponent },
       { path: 'graph', component: GraphComponent },
       { path: 'result', component: ResultsComponent },
@@ -66,7 +66,7 @@ import { AlignmentViewComponent } from './alignment-view/alignment-view.componen
       { path: 'flowCost', component: ControlFlowCostComponent },
       { path: 'mapping', component: MapTransitionsComponent },
       { path: 'variablesMapping', component: MapVariablesComponent },
-      { path: 'params', component: Parameters1Component },
+      { path: 'configuration', component: ConfigurationComponent },
       { path: 'upload', component: UploadComponent },
     ]),
     AgGridModule.withComponents([
@@ -94,7 +94,7 @@ import { AlignmentViewComponent } from './alignment-view/alignment-view.componen
   declarations: [ 
      AppComponent,
      InitialComponent,
-     Parameters1Component,
+     ConfigurationComponent,
      MapTransitionsComponent,
      MapVariablesComponent,
      ControlFlowCostComponent,

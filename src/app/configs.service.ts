@@ -30,7 +30,7 @@ export class ConfigsService {
     return this.http.get<any>(host+'/initialMapping')
   }
 
-  public postMapping(mapping: Types.Mapping) {
+  public postMapping(mapping) {
     return this.http.post<Types.Mapping>(host+'/finalMapping', mapping, {
       responseType: 'text'
     })

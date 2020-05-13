@@ -6,11 +6,11 @@ import { DefaultSettings } from '../Types'
 
 
 @Component({
-  selector: 'app-parameters1',
-  templateUrl: './parameters1.component.html',
-  styleUrls: ['./parameters1.component.css']
+  selector: 'app-configuration',
+  templateUrl: './configuration.component.html',
+  styleUrls: ['./configuration.component.css']
 })
-export class Parameters1Component implements OnInit {
+export class ConfigurationComponent implements OnInit {
   unassigned = [
     {value: 'NULL', viewValue: 'NULL'},
     {value: 'DEFAULT', viewValue: 'DEFAULT'},
@@ -86,7 +86,6 @@ export class Parameters1Component implements OnInit {
   }
 
   public postResult() {
-    console.log(this.formGroup.value)
     this.configService.postParameters(this.formGroup.value)
   }
 }

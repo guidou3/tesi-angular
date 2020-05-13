@@ -52,9 +52,9 @@ export class MapVariablesComponent implements OnInit {
     )
   }
 
-  public back() {
-    this.location.back()
-  }
+  /**
+   * Posts the variable mapping
+   */
 
   public postMapping() {
     this.configService.postVariableMapping(this.formGroup.value).subscribe(resp => {
