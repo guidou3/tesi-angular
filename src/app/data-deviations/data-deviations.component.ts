@@ -89,12 +89,22 @@ export class DataDeviationsComponent implements OnInit {
     
   }
 
+  /**
+   * Resize the table to fit the page's width and adds the columns
+   *
+   * @param params - Parameters of the table
+   */
+
   public onFirstDataRendered(params) {
     this.gridApi = params.api;
     params.api.sizeColumnsToFit();
 
     this.gridApi.setColumnDefs(this.columnDefs)
   }
+
+  /**
+   * Inserts a new row in the table with default values
+   */
 
   public insertRow() {
     let newItem = {
@@ -107,11 +117,21 @@ export class DataDeviationsComponent implements OnInit {
     let res = this.gridApi.updateRowData({ add: [newItem] });
   }
 
+  /**
+   * Deletes a row from the table
+   */
+
   public deleteRow() {
     let selected = this.gridApi.getSelectedRows()
     if(this.getRowData().length > 1)
       this.gridApi.updateRowData({ remove: selected });
   }
+
+  /**
+   * Returns the list of the elements in the table
+   * 
+   * @returns The list of the elements inside the table
+   */
 
   public getRowData() {
     let rowData = [];
@@ -121,11 +141,19 @@ export class DataDeviationsComponent implements OnInit {
     return rowData;
   }
 
+  /**
+   * Opens the dialog to upload a file
+   */
+
   public getTable() {
     this.tableInput.nativeElement.click();
   }
 
-  public subTable() {
+  /**
+   * Uploads a json, parse it and add the data to the table
+   */
+
+  public uploadTable() {
     let fileReader = new FileReader();
     let file = this.tableInput.nativeElement.files[0]
 
@@ -137,9 +165,9 @@ export class DataDeviationsComponent implements OnInit {
     fileReader.readAsText(file);
   }
 
-  public back() {
-    this.location.back()
-  }
+  /**
+   * Creates a json containing the data inside the table
+   */
 
   public saveTable() {
     var encodedData = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.getRowData()));
@@ -148,12 +176,14 @@ export class DataDeviationsComponent implements OnInit {
     downloader.setAttribute('href', encodedData);
     downloader.setAttribute('download', 'deviationsCosts.json');
     downloader.click();
-    // console.log(this.getRowData())
   }
+
+  /**
+   * Posts the costs of data deviations
+   */
 
   public submit() {
     this.configService.postVariableMatchCost(this.getRowData()).subscribe(resp => {
-        console.log(resp)
         this.router.navigateByUrl('variableBound')
     })
   }

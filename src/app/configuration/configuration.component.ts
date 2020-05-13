@@ -11,40 +11,17 @@ import { DefaultSettings } from '../Types'
   styleUrls: ['./configuration.component.css']
 })
 export class ConfigurationComponent implements OnInit {
-  unassigned = [
-    {value: 'NULL', viewValue: 'NULL'},
-    {value: 'DEFAULT', viewValue: 'DEFAULT'},
-    {value: 'FREE', viewValue: 'FREE'}
-  ];
-  milp = [
-    {value: 'ILP_LPSOLVE', viewValue: 'LpSolve'},
-    {value: 'ILP_GUROBI', viewValue: 'Gurobi'}
-  ];
-  algorithms = [
-    {value: 'DIJKSTRA', viewValue: 'Dijkstra'},
-    {value: 'ASTAR_TREE', viewValue: 'A* Tree'},
-    {value: 'ASTAR_GRAPH', viewValue: 'A* Graph'}
-  ];
-  moves = [
-    {value: 'NONE', viewValue: 'None'},
-    {value: 'LOGMOVEFIRST', viewValue: 'Log moves first'},
-    {value: 'MODELMOVEFIRST', viewValue: 'Model moves first'},
-  ]
-  queueing = [
-    {value: 'DEPTHFIRST', viewValue: 'Depth first'},
-    {value: 'BREADTHFIRST', viewValue: 'Breadth first'},
-    {value: 'DEPTHFIRSTWITHCERTAINTYPRIORITY', viewValue: 'Depth first with certainty priority'},
-    {value: 'BREADTHFIRSTWITHCERTAINTYPRIORITY', viewValue: 'Breadth first with certainty priority'},
-    {value: 'RANDOM', viewValue: 'Random'}
-  ]
+  private unassigned: {value: string, viewValue: string}[];
+  private milp: {value: string, viewValue: string}[];
+  private algorithms: {value: string, viewValue: string}[];
+  private moves: {value: string, viewValue: string}[];
+  private queueing: {value: string, viewValue: string}[];
 
-  threads: SliderParams
+  private threads: SliderParams
+  private fitness: SliderParams
+  private search_space: SliderParams
 
-  fitness: SliderParams
-
-  search_space: SliderParams
-
-  formGroup: FormGroup
+  private formGroup: FormGroup
 
   constructor(private configService: ConfigsService) {
     this.fitness = new SliderParams(0, 1, 0, 0.01)
@@ -70,6 +47,37 @@ export class ConfigurationComponent implements OnInit {
       moves_ordering: new FormControl('LOGMOVEFIRST'),
       queueing: new FormControl('DEPTHFIRST')
     })
+
+    this.unassigned = [
+      {value: 'NULL', viewValue: 'NULL'},
+      {value: 'DEFAULT', viewValue: 'DEFAULT'},
+      {value: 'FREE', viewValue: 'FREE'}
+    ];
+
+    this.milp = [
+      {value: 'ILP_LPSOLVE', viewValue: 'LpSolve'},
+      {value: 'ILP_GUROBI', viewValue: 'Gurobi'}
+    ];
+
+    this.algorithms = [
+      {value: 'DIJKSTRA', viewValue: 'Dijkstra'},
+      {value: 'ASTAR_TREE', viewValue: 'A* Tree'},
+      {value: 'ASTAR_GRAPH', viewValue: 'A* Graph'}
+    ];
+
+    this.moves = [
+      {value: 'NONE', viewValue: 'None'},
+      {value: 'LOGMOVEFIRST', viewValue: 'Log moves first'},
+      {value: 'MODELMOVEFIRST', viewValue: 'Model moves first'},
+    ];
+
+    this.queueing = [
+      {value: 'DEPTHFIRST', viewValue: 'Depth first'},
+      {value: 'BREADTHFIRST', viewValue: 'Breadth first'},
+      {value: 'DEPTHFIRSTWITHCERTAINTYPRIORITY', viewValue: 'Depth first with certainty priority'},
+      {value: 'BREADTHFIRSTWITHCERTAINTYPRIORITY', viewValue: 'Breadth first with certainty priority'},
+      {value: 'RANDOM', viewValue: 'Random'}
+    ]
   }
 
   ngOnInit() {
@@ -84,6 +92,10 @@ export class ConfigurationComponent implements OnInit {
       }
     )
   }
+
+  /**
+   * Posts the configuration
+   */
 
   public postResult() {
     this.configService.postParameters(this.formGroup.value)

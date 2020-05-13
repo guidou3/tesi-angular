@@ -57,8 +57,8 @@ export class MapVariablesComponent implements OnInit {
    */
 
   public postMapping() {
-    this.configService.postVariableMapping(this.formGroup.value).subscribe(resp => {
-        console.log(resp)
+    this.configService.postVariableMapping(this.formGroup.value)
+      .subscribe(resp => {
         this.router.navigateByUrl('dataCost')
       })
   }

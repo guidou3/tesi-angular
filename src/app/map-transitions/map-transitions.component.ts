@@ -115,7 +115,7 @@ export class MapTransitionsComponent implements OnInit {
    */
 
   public postMapping() {
-    let obj = Object.assign(this.formGroup.value, this.invisible)
+    let obj = Object.assign({}, this.formGroup.value, this.invisible)
 
     delete obj.classifier;
     delete obj.approximated;

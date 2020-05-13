@@ -18,10 +18,10 @@
   <button mat-stroked-button type="button" (click)="saveTable()" >Save table</button>
   <button mat-stroked-button type="button" (click)="getTable()" >Load table</button>
 </div>
-<input type="file" #tableInput value="upload" (change)="subTable()"/>
+<input type="file" #tableInput value="upload" (change)="uploadTable()"/>
 <div fxLayout="row" fxLayoutAlign="space-between center">
   <button 
-    (click)="back()" 
+    (click)="location.back()" 
     mat-stroked-button 
     color="primary" >
       Back

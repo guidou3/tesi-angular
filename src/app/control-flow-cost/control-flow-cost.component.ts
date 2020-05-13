@@ -83,54 +83,60 @@ export class ControlFlowCostComponent implements OnInit {
     })
   }
 
-  public onFirstDataRendered1(params) {
-    this.gridApi1 = params.api;
+  /**
+   * Resize the table to fit the page's width.
+   *
+   * @param params - Parameters of the table
+   * @param i - Index of the table
+   */
+
+  public onFirstDataRendered(params, i) {
+    if(i === 1)
+      this.gridApi1 = params.api;
+    else
+      this.gridApi2 = params.api;
+
     params.api.sizeColumnsToFit();
   }
 
-  public updateValue1() {
-    let api = this.gridApi1
-    let value = this.input1.value
-    console.log(this.rowData1)
-    this.rowData1.forEach(function (obj) {
+  /**
+   * Updates the cost of all the elements of the table
+   *
+   * @param i - Index of the table
+   */
+
+  public updateValue(i) {
+    let api = i === 1 ? this.gridApi1 : this.gridApi2;
+    let value = i === 1 ? this.input1.value : this.input2.value;
+    let rowData = i === 1 ? this.rowData1 : this.rowData2;
+
+    rowData.forEach(function (obj) {
       if(obj.cost != 0)
         obj.cost = value
       api.updateRowData({ update: [obj] });
-      // TODO don't change invisible transitions
     })
   }
 
-  public onFirstDataRendered2(params) {
-    this.gridApi2 = params.api;
-    params.api.sizeColumnsToFit();
-  }
-
-  public updateValue2() {
-    let api = this.gridApi2
-    let value = this.input2.value
-    this.rowData2.forEach(function (obj) {
-      obj.cost = value
-      api.updateRowData({ update: [obj] });
-    })
-  }
-
-  public back() {
-    this.location.back()
-  }
+  /**
+   * Posts the costs of control flow deviations
+   */
 
   public submit() {
-    /*var rowData = [];
-    this.gridApi.forEachNode(function(node) {
-      rowData.push(node.data);
-    });*/
-    let result = {
-      modelTable: this.rowData1.concat(this.invisible),
-      logTable: this.rowData2
-    }
-    console.log(result)
-    this.configService.postControlFlowCost(result).subscribe(resp => {
-        console.log(resp)
-        this.router.navigateByUrl('variablesMapping')
-      })
+    let modelTable = []
+    this.gridApi1.forEachNode(function(node) {
+      modelTable.push(node.data);
+    });
+
+    let logTable = []
+    this.gridApi2.forEachNode(function(node) {
+      logTable.push(node.data);
+    });
+
+    this.configService.postControlFlowCost({
+      modelTable: modelTable.concat(this.invisible),
+      logTable: logTable
+    }).subscribe(resp => {
+      this.router.navigateByUrl('variablesMapping')
+    })
   }
 }

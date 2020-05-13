@@ -7,12 +7,12 @@
   [rowData]="rowData1"
   [columnDefs]="columnDefs1"
   [frameworkComponents]="frameworkComponents"
-  (firstDataRendered)="onFirstDataRendered1($event)">
+  (firstDataRendered)="onFirstDataRendered($event, 1)">
 </ag-grid-angular>
 <div fxLayout="row" fxLayoutAlign="center center" class="setter">
   <label>Set all costs (non invisible only) above to:</label>
   <input matInput class="input" [formControl]="input1"/>
-  <button type="button" (click)="updateValue1()" mat-stroked-button>Set</button>
+  <button type="button" (click)="updateValue(1)" mat-stroked-button>Set</button>
 </div>
 
 <ag-grid-angular
@@ -22,16 +22,16 @@
   [rowData]="rowData2"
   [columnDefs]="columnDefs2"
   [frameworkComponents]="frameworkComponents"
-  (firstDataRendered)="onFirstDataRendered2($event)">
+  (firstDataRendered)="onFirstDataRendered($event, 2)">
 </ag-grid-angular>
 <div fxLayout="row" fxLayoutAlign="center center" class="setter">
   <label>Set all costs (non invisible only) above to:</label>
   <input matInput class="input" [formControl]="input2"/>
-  <button type="button" (click)="updateValue2()" mat-stroked-button>Set</button>
+  <button type="button" (click)="updateValue(2)" mat-stroked-button>Set</button>
 </div>
 <div fxLayout="row" fxLayoutAlign="space-between center">
   <button 
-    (click)="back()" 
+    (click)="location.back()" 
     mat-stroked-button 
     color="primary" >
       Back

@@ -70,11 +70,20 @@ export class VariablesBoundsComponent implements OnInit {
     })
   }
 
+  /**
+   * Resize the table to fit the page's width.
+   *
+   * @param params - Parameters of the table
+   */
+
   public onFirstDataRendered(params) {
     this.gridApi = params.api;
     params.api.sizeColumnsToFit();
   }
   
+  /**
+   * Posts the bounds of the variables
+   */
 
   public submit() {
     var rowData = [];
@@ -84,7 +93,6 @@ export class VariablesBoundsComponent implements OnInit {
     rowData = rowData.concat(this.customData)
 
     this.configService.postVariableBounds(rowData).subscribe(resp => {
-        console.log(resp)
         this.router.navigateByUrl('result')
     })
   }
