@@ -1,29 +1,32 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { ConfigsService } from '../configs.service'
-import { Router } from '@angular/router';
-import {MatDialog} from '@angular/material/dialog';
-import { DialogView } from './dialog-view'
+import { Component, OnInit, Inject } from "@angular/core";
+import { FormControl } from "@angular/forms";
+import { ConfigsService } from "../configs.service";
+import { Router } from "@angular/router";
+import { MatDialog } from "@angular/material/dialog";
+import { DialogView } from "./dialog-view";
 
-import {MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions} from '@angular/material/tooltip';
+import {
+  MAT_TOOLTIP_DEFAULT_OPTIONS,
+  MatTooltipDefaultOptions
+} from "@angular/material/tooltip";
 
 /** Custom options the configure the tooltip's default show/hide delays. */
 export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
   showDelay: 10000,
   hideDelay: 1000,
-  touchendHideDelay: 1000,
+  touchendHideDelay: 1000
 };
 
 @Component({
-  selector: 'app-grouped-alignments',
-  templateUrl: './grouped-alignments.component.html',
-  styleUrls: ['./grouped-alignments.component.css'],
+  selector: "app-grouped-alignments",
+  templateUrl: "./grouped-alignments.component.html",
+  styleUrls: ["./grouped-alignments.component.css"],
   providers: [
     {
-      provide: MAT_TOOLTIP_DEFAULT_OPTIONS, 
+      provide: MAT_TOOLTIP_DEFAULT_OPTIONS,
       useValue: myCustomTooltipDefaults
     }
-  ],
+  ]
 })
 export class GroupedAlignmentsComponent implements OnInit {
   private approximateMatches: boolean;
@@ -48,7 +51,11 @@ export class GroupedAlignmentsComponent implements OnInit {
 
   private transitionToBpmn;
 
-  constructor(private configService: ConfigsService, private router:Router, private dialog:MatDialog) { 
+  constructor(
+    private configService: ConfigsService,
+    private router: Router,
+    private dialog: MatDialog
+  ) {
     this.approximateMatches = true;
     this.colorActivities = false;
     this.hideInvisible = true;
@@ -59,16 +66,16 @@ export class GroupedAlignmentsComponent implements OnInit {
 
     this.columnDefs = [
       {
-        headerName: 'Statistic',
-        field: 'statistic'
+        headerName: "Statistic",
+        field: "statistic"
       },
       {
-        headerName: 'Value',
-        field: 'value',
+        headerName: "Value",
+        field: "value"
       }
     ];
 
-    this.statistics = []
+    this.statistics = [];
 
     this.orderingValues_2 = [
       {
@@ -95,7 +102,7 @@ export class GroupedAlignmentsComponent implements OnInit {
         label: "Fitness (Asc)",
         value: "FITNESS_ASC"
       }
-    ]
+    ];
 
     this.orderingValues_1 = this.orderingValues_2.concat([
       {
@@ -106,74 +113,70 @@ export class GroupedAlignmentsComponent implements OnInit {
         label: "Length (Asc)",
         value: "LENGTH_ASC"
       }
-    ])
+    ]);
 
-    this.orderingValues = this.orderingValues_1
+    this.orderingValues = this.orderingValues_1;
 
     this.orderingFunction = {
-      "RELEVANCE_DESC": function(a, b) {
-        if(a.relevance === b.relevance)
-          return a.size < b.size
-        else 
-          return a.relevance < b.relevance
+      RELEVANCE_DESC: function(a, b) {
+        if (a.relevance === b.relevance) return a.size < b.size;
+        else return a.relevance < b.relevance;
       },
-      "RELEVANCE_ASC": function(a, b) {
-        if(a.relevance === b.relevance)
-          return a.size > b.size
-        else 
-        return a.relevance > b.relevance
+      RELEVANCE_ASC: function(a, b) {
+        if (a.relevance === b.relevance) return a.size > b.size;
+        else return a.relevance > b.relevance;
       },
-      "COUNT_DESC": function(a, b) {
-        return a.size < b.size
+      COUNT_DESC: function(a, b) {
+        return a.size < b.size;
       },
-      "COUNT_ASC": function(a, b) {
-        return a.size > b.size
+      COUNT_ASC: function(a, b) {
+        return a.size > b.size;
       },
-      "FITNESS_DESC": function(a, b) {
-        return a.fitnessValue < b.fitnessValue
+      FITNESS_DESC: function(a, b) {
+        return a.fitnessValue < b.fitnessValue;
       },
-      "FITNESS_ASC": function(a, b) {
-        return a.fitnessValue > b.fitnessValue
+      FITNESS_ASC: function(a, b) {
+        return a.fitnessValue > b.fitnessValue;
       },
-      "LENGTH_DESC": function(a, b) {
-        return a.averageLength < b.averageLength
+      LENGTH_DESC: function(a, b) {
+        return a.averageLength < b.averageLength;
       },
-      "LENGTH_ASC": function(a, b) {
-        return a.averageLength > b.averageLength
+      LENGTH_ASC: function(a, b) {
+        return a.averageLength > b.averageLength;
       }
-    }
+    };
 
-    this.alignments = []
+    this.alignments = [];
 
     // this.createTransitionsColors()
-
-
   }
 
   ngOnInit() {
-    this.configService.getAlignmentsGroups().subscribe((data) => {
-      let labelMap = {}
-      
-      this.transitionToBpmn = data.activityGraphDetails
-      console.log(da)
+    this.configService.getAlignmentsGroups().subscribe(data => {
+      let labelMap = {};
 
-      this.alignments = data.groups.map((alignment) => {
+      this.transitionToBpmn = data.activityGraphDetails;
+
+      this.alignments = data.groups.map(alignment => {
         let newObj = {
           averageLength: alignment.averageLength,
           size: alignment.size,
-          fitness: Math.round(parseFloat(alignment.fitness) * 10000)/100 + "%",
+          fitness: this.getPercentage(alignment.fitness),
           fitnessValue: alignment.fitness,
           relevance: alignment.size * (1 - alignment.fitness),
           constraints: alignment.constraints
-        }
-        let list = []
-        newObj['list'] = alignment.steps.map((step) => {
+        };
+
+        newObj = Object.assign(newObj, this.getIcon(newObj.fitnessValue))
+
+        let list = [];
+        newObj["list"] = alignment.steps.map(step => {
           let labels = labelMap[step.label];
-          if(labels == null) {
-            labels = this.divideText(step.label)
+          if (labels == null) {
+            labels = this.divideText(step.label);
             labelMap[step.label] = labels;
           }
-          
+
           return {
             labelMin: labels.labelMin,
             labelMax: labels.labelMax,
@@ -181,113 +184,109 @@ export class GroupedAlignmentsComponent implements OnInit {
             type: this.getType(step),
             missingVariables: step.missingVariables,
             incorrectVariables: step.incorrectVariables
-          }
-        })
-        
+          };
+        });
+
         return newObj;
-      })
-      let result = this.alignments.reduce((res, current) => {
-        current.constraints.forEach((con) => {
-          if(con.result && con.transitions.length > 1) {
-            res.constraints.correct += current.size
-          }
-          else if(con.result) res.constraints.partial += current.size
-          else res.constraints.incorrect += current.size
-        })
-        res.traces += current.size
-        res.sum += current.fitnessValue * current.size
-        res.values.push({
-          fitness: current.fitnessValue,
-          tot: current.size
-        })
+      });
+      let result = this.alignments.reduce(
+        (res, current) => {
+          current.constraints.forEach(con => {
+            if (con.result && con.transitions.length > 1) {
+              res.constraints.correct += current.size;
+            } else if (con.result) res.constraints.partial += current.size;
+            else res.constraints.incorrect += current.size;
+          });
+          res.traces += current.size;
+          res.sum += current.fitnessValue * current.size;
+          res.values.push({
+            fitness: current.fitnessValue,
+            tot: current.size
+          });
 
-        let steps_occurrencies = {}
-        
-        current.list.forEach((obj) => {
-          if(obj.type === 'perfect')
-            res.perfect += current.size
-          else if(obj.type === 'wrong_data')
-            res.wrong_data += current.size
-          else if(obj.type === 'model_only')
-            res.model += current.size
-          else if(obj.type === 'log_only')
-            res.log += current.size
-          
-          let label = obj.labelMin.join(' ')
+          let steps_occurrencies = {};
 
-          if(obj.type !== 'invisible') {
-            if(res.steps[label] == null)
-              res.steps[label] = {
-                perfect: 0,
-                wrong_data: 0,
-                model: 0,
-                log: 0,
-                occurrencies: 0
-              }
-            
-            steps_occurrencies[label] = steps_occurrencies[label] + 1 || 1;
-            
-            if(obj.type === 'perfect')
-              res.steps[label].perfect += current.size
-            else if(obj.type === 'wrong_data')
-              res.steps[label].wrong_data += current.size
-            else if(obj.type === 'model_only')
-              res.steps[label].model += current.size
-            else if(obj.type === 'log_only')
-              res.steps[label].log += current.size
-          }
-        })
+          current.list.forEach(obj => {
+            if (obj.type === "perfect") res.perfect += current.size;
+            else if (obj.type === "wrong_data") res.wrong_data += current.size;
+            else if (obj.type === "model_only") res.model += current.size;
+            else if (obj.type === "log_only") res.log += current.size;
 
-        Object.keys(steps_occurrencies).forEach(label => {
-          res.steps[label].occurrencies += current.size 
-        })
+            let label = obj.labelMin.join(" ");
 
-        return res;
-      }, {
-        constraints: {
-          correct: 0,
-          partial: 0,
-          incorrect: 0
+            if (obj.type !== "invisible") {
+              if (res.steps[label] == null)
+                res.steps[label] = {
+                  perfect: 0,
+                  wrong_data: 0,
+                  model: 0,
+                  log: 0,
+                  occurrencies: 0
+                };
+
+              steps_occurrencies[label] = steps_occurrencies[label] + 1 || 1;
+
+              if (obj.type === "perfect")
+                res.steps[label].perfect += current.size;
+              else if (obj.type === "wrong_data")
+                res.steps[label].wrong_data += current.size;
+              else if (obj.type === "model_only")
+                res.steps[label].model += current.size;
+              else if (obj.type === "log_only")
+                res.steps[label].log += current.size;
+            }
+          });
+
+          Object.keys(steps_occurrencies).forEach(label => {
+            res.steps[label].occurrencies += current.size;
+          });
+
+          return res;
         },
-        steps: {},
-        traces: 0,
-        sum: 0,
-        values: [],
-        perfect: 0,
-        wrong_data: 0,
-        model: 0,
-        log: 0,
-      })
-      
+        {
+          constraints: {
+            correct: 0,
+            partial: 0,
+            incorrect: 0
+          },
+          steps: {},
+          traces: 0,
+          sum: 0,
+          values: [],
+          perfect: 0,
+          wrong_data: 0,
+          model: 0,
+          log: 0
+        }
+      );
+
       this.steps = Object.keys(result.steps).map(stepLabel => {
         let step = Object.assign({}, result.steps[stepLabel]);
         step.label = stepLabel;
-        let total =  step.perfect + step.log + step.model + step.wrong_data;
-        step.fitnessValue = step.perfect/total
-        step.fitness = this.getPercentage(step.fitnessValue)
-        step.size = step.occurrencies/result.traces
-        step.cases = this.getPercentage(step.size)
-        step.relevance = step.size * (1 - step.fitnessValue)
-        return step
-      })
+        let total = step.perfect + step.log + step.model + step.wrong_data;
+        step.fitnessValue = step.perfect / total;
+        step.fitness = this.getPercentage(step.fitnessValue);
+        step.size = step.occurrencies / result.traces;
+        step.cases = this.getPercentage(step.size);
+        step.relevance = step.size * (1 - step.fitnessValue);
+        return step;
+      });
 
       let half = Math.floor(result.traces / 2);
 
-      result.values.sort((a,b) => a.fitness > b.fitness)
-      let median = 0, current=0;
-      while(current < half) {
+      result.values.sort((a, b) => a.fitness > b.fitness);
+      let median = 0,
+        current = 0;
+      while (current < half) {
         median++;
-        current += result.values[median].tot
+        current += result.values[median].tot;
       }
-      if(result.values.length % 2 || half+1 <= current)
-        median = result.values[median].fitness
-      else
-        median = (result.values[median] + result.values[median+1])/ 2.0
+      if (result.values.length % 2 || half + 1 <= current)
+        median = result.values[median].fitness;
+      else median = (result.values[median] + result.values[median + 1]) / 2.0;
 
-      let total = result.perfect + result.wrong_data + result.model + result.log;
-
-      
-
+      let total =
+        result.perfect + result.wrong_data + result.model + result.log;
 
       this.statistics = [
         {
@@ -312,27 +311,29 @@ export class GroupedAlignmentsComponent implements OnInit {
         },
         {
           statistic: "Max Fitness",
-          value: this.getPercentage(result.values[result.values.length -1].fitness)
+          value: this.getPercentage(
+            result.values[result.values.length - 1].fitness
+          )
         },
         {
           statistic: "Perfect steps",
-          value: this.getPercentage(result.perfect/total)
+          value: this.getPercentage(result.perfect / total)
         },
         {
           statistic: "Wrong data steps",
-          value: this.getPercentage(result.wrong_data/total)
+          value: this.getPercentage(result.wrong_data / total)
         },
         {
           statistic: "Model only steps",
-          value: this.getPercentage(result.model/total)
+          value: this.getPercentage(result.model / total)
         },
         {
           statistic: "Log only steps",
-          value: this.getPercentage(result.log/total)
+          value: this.getPercentage(result.log / total)
         }
-      ]
+      ];
 
-      if(result.constraints.partial > 0)
+      if (result.constraints.partial > 0)
         this.statistics = this.statistics.concat([
           {
             statistic: "Total Constraints",
@@ -340,7 +341,10 @@ export class GroupedAlignmentsComponent implements OnInit {
           },
           {
             statistic: "Correct Constraints",
-            value: this.getPercentage(result.constraints.correct / (result.constraints.correct + result.constraints.incorrect))
+            value: this.getPercentage(
+              result.constraints.correct /
+                (result.constraints.correct + result.constraints.incorrect)
+            )
           },
           /*{
             statistic: "Partial Constraints",
@@ -348,161 +352,225 @@ export class GroupedAlignmentsComponent implements OnInit {
           },*/
           {
             statistic: "Wrong Constraints",
-            value: this.getPercentage(result.constraints.incorrect / (result.constraints.correct + result.constraints.incorrect))
+            value: this.getPercentage(
+              result.constraints.incorrect /
+                (result.constraints.correct + result.constraints.incorrect)
+            )
           }
-        ])
+        ]);
 
-      this.order()
-    })
+      this.order();
+    });
   }
+
+  /**
+   * Returns the value as percentage.
+   *
+   * @param value - The number in input
+   * @returns The percentage to the second decimal of 'value'.
+   */
 
   getPercentage(value) {
-    return Math.round(parseFloat(value) * 10000)/100 + "%"
+    return Math.round(parseFloat(value) * 10000) / 100 + "%";
   }
+
+  /**
+   * Resize the table to fit the page's width.
+   *
+   * @param params - Parameters of the table
+   */
 
   public onFirstDataRendered(params) {
     params.api.sizeColumnsToFit();
   }
 
+  /**
+   * Returns the type of the step.
+   *
+   * @returns The type inferred from the filds of step.
+   */
+
   getType(step) {
-    if(step.moveType.moveType === 'MODEL') {
-      if(step.invisible) {
-        return step.moveType.dataMoveType === 'CORRECT' ? 'invisible' : 'wrong_data'
+    if (step.moveType.moveType === "MODEL") {
+      if (step.invisible) {
+        return step.moveType.dataMoveType === "CORRECT"
+          ? "invisible"
+          : "wrong_data";
       }
-      return 'model_only'
-    }
-    else if(step.moveType.moveType === 'LOG')
-      return 'log_only'
-    else if(step.moveType.moveType === 'SYNCHRONOUS')
-      return step.moveType.dataMoveType === 'CORRECT' ? 'perfect' : 'wrong_data'
-    else
-      return null
+      return "model_only";
+    } else if (step.moveType.moveType === "LOG") return "log_only";
+    else if (step.moveType.moveType === "SYNCHRONOUS")
+      return step.moveType.dataMoveType === "CORRECT"
+        ? "perfect"
+        : "wrong_data";
+    else return null;
   }
 
-  search() {
+  /**
+   * Filter the alignments' groups by searched string.
+   *
+   * @param string - String written in the search box
+   */
+
+  search(string) {
     // called when checkbox sub-string matches or search are called
   }
 
+  /**
+   * Orders the alignments' groups, or the steps, by ordering option.
+   */
+
   order() {
     let fun = this.orderingFunction[this.ordering];
-    if(this.view < 3) 
-      this.alignments.sort(fun)
-    else 
-      this.steps.sort(fun)
+    if (this.view < 3) this.alignments.sort(fun);
+    else this.steps.sort(fun);
   }
 
-  updateVisualization() {
-    // called by 3 right checkboxes
-  }
+  /**
+   * Returns two arrays a label is divided in 'pieces' of a certain width.
+   *
+   * @param label - The text in input
+   * 
+   * @returns An object with two arrays for the representation of the given label depending on the width (used in alignment-view)
+   */
 
   divideText(label) {
-    let calc = document.createElement('canvas').getContext("2d");
+    let calc = document.createElement("canvas").getContext("2d");
     calc.font = "8px Arial";
     return {
-      labelMin: this.splitByWidth(label, calc, 60-6),
-      labelMax: this.splitByWidth(label, calc, 90-6)
-    }
+      labelMin: this.splitByWidth(label, calc, 60 - 6),
+      labelMax: this.splitByWidth(label, calc, 90 - 6)
+    };
   }
+
+  /**
+   * Returns an array where the length of every element is less than the given width
+   *
+   * @param label - The text in input
+   * @param calc - The element that calculates the text width
+   * @param maxWidth - The max width of a fragment
+   * 
+   * @returns An array containing the text divided in substrings smaller than the max width.
+   */
 
   splitByWidth(label, calc, maxWidth) {
-    let lines = []
-    let width = calc.measureText(label).width
-    if(width > maxWidth) {
-      let words = label.split(' ')
-      let text = words[0]
-      for(let i=1; i<words.length; i++) {
-        if(calc.measureText(text + " " + words[i]).width < maxWidth)
-          text += " " + words[i]
+    let lines = [];
+    let width = calc.measureText(label).width;
+    if (width > maxWidth) {
+      let words = label.split(" ");
+      let text = words[0];
+      for (let i = 1; i < words.length; i++) {
+        if (calc.measureText(text + " " + words[i]).width < maxWidth)
+          text += " " + words[i];
         else {
-          lines.push(text)
-          text = words[i]
+          lines.push(text);
+          text = words[i];
         }
       }
-      lines.push(text)
-      return lines
-    }
-    else
-      return [label]
+      lines.push(text);
+      return lines;
+    } else return [label];
   }
 
-  createTransitionsColors() {
-    let labelToColor = {}
-    for(let alignment of this.alignments) {
-      for(let segment of alignment.list) {
-        if(labelToColor[segment.label] == null)
-          labelToColor[segment.label] = this.getRandomColor()
-        segment.transitionColor = labelToColor[segment.label]
+  /*createTransitionsColors() {
+    let labelToColor = {};
+    for (let alignment of this.alignments) {
+      for (let segment of alignment.list) {
+        if (labelToColor[segment.label] == null)
+          labelToColor[segment.label] = this.getRandomColor();
+        segment.transitionColor = labelToColor[segment.label];
       }
     }
-  }
+  }*/
 
-  getRandomColor() {
+  /*getRandomColor() {
     var color = Math.floor(0x1000000 * Math.random()).toString(16);
-    return '#' + ('000000' + color).slice(-6);
-  }
+    return "#" + ("000000" + color).slice(-6);
+  }*/
+
+  /**
+   * Change the currently displayed page
+   *
+   * @param p - The page's index
+   */
 
   page(p) {
     this.view = p;
-    if(this.view < 3)
-      this.orderingValues = this.orderingValues_1
-    else
-      this.orderingValues = this.orderingValues_2
+    if (this.view < 3) this.orderingValues = this.orderingValues_1;
+    else this.orderingValues = this.orderingValues_2;
 
-    
     this.ordering = "RELEVANCE_DESC";
-    this.order()
+    this.order();
   }
+
+  /**
+   * Returns the data for the alignment group's icon depeding on the fitness
+   *
+   * @param fitnnes - The fitness of the current alignment group
+   * 
+   * @returns An object containing the labels for the icon and its color
+   */
 
   getIcon(fitness) {
-    fitness = parseInt(fitness)
-    if(fitness >= 95)
-      return "sentiment_very_satisfied"
-    else if(fitness >= 80)
-      return "sentiment_satisfied"
-    else if(fitness >= 80)
-      return "sentiment_dissatisfied"
-    else if(fitness >= 80)
-      return "sentiment_very_dissatisfied"
+    if (fitness >= 0.95) 
+      return {
+        icon:"sentiment_very_satisfied",
+        color: "good"
+      };
+    else if (fitness >= 0.80) 
+      return {
+        icon:"sentiment_satisfied",
+        color: "not-good"
+      };
+    else if (fitness >= 0.60) 
+      return {
+        icon:"sentiment_dissatisfied",
+        color: "bad"
+      };
+    else if (fitness >= 0.30) 
+      return {
+        icon:"sentiment_very_dissatisfied",
+        color: "very-bad"
+      };
     else 
-      return "mood_bad"
+      return {
+        icon:"mood_bad",
+        color: "worst"
+      };
   }
 
-  getIconColor(fitness) {
-    fitness = parseInt(fitness)
-    if(fitness >= 95)
-      return "good"
-    else if(fitness >= 80)
-      return "not-good"
-    else if(fitness >= 80)
-      return "bad"
-    else if(fitness >= 80)
-      return "very-bad"
-    else 
-      return "worst"
-  }
+  /**
+   * Opens the dialog to the corresponding alignment group
+   *
+   * @param index - The index of the alignment group
+   */
 
   openDialog(index) {
     let data = {
       alignment: this.alignments[index],
       hightlight: this.highlight
-    }
+    };
 
     const dialogRef = this.dialog.open(DialogView, {
-      width: '80%',
+      width: "80%",
       data: data
     });
   }
 
+  /**
+   * Saves the json file containing the data to project the result on the initial bpmn (used to add colors on the editor)
+   */
+
   saveJson() {
-    var link = document.createElement('a');
-    link.style.display = 'none';
+    var link = document.createElement("a");
+    link.style.display = "none";
     document.body.appendChild(link);
-    link.setAttribute('download', "graphData.json");
-    link.setAttribute('href', 'data:text/json;charset=UTF-8,' + encodeURIComponent(JSON.stringify(this.transitionToBpmn)));
+    link.setAttribute("download", "graphData.json");
+    link.setAttribute(
+      "href",
+      "data:text/json;charset=UTF-8," +
+        encodeURIComponent(JSON.stringify(this.transitionToBpmn))
+    );
     link.click();
-    
   }
 }
-
-
-
