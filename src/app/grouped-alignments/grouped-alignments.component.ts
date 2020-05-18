@@ -156,6 +156,7 @@ export class GroupedAlignmentsComponent implements OnInit {
       let labelMap = {};
 
       this.transitionToBpmn = data.activityGraphDetails;
+      console.log(this.transitionToBpmn)
 
       this.alignments = data.groups.map(alignment => {
         let newObj = {
@@ -212,33 +213,10 @@ export class GroupedAlignmentsComponent implements OnInit {
             else if (obj.type === "model_only") res.model += current.size;
             else if (obj.type === "log_only") res.log += current.size;
 
-            let label = obj.labelMin.join(" ");
-
             if (obj.type !== "invisible") {
-              if (res.steps[label] == null)
-                res.steps[label] = {
-                  perfect: 0,
-                  wrong_data: 0,
-                  model: 0,
-                  log: 0,
-                  occurrencies: 0
-                };
-
+              let label = obj.labelMin.join(" ");
               steps_occurrencies[label] = steps_occurrencies[label] + 1 || 1;
-
-              if (obj.type === "perfect")
-                res.steps[label].perfect += current.size;
-              else if (obj.type === "wrong_data")
-                res.steps[label].wrong_data += current.size;
-              else if (obj.type === "model_only")
-                res.steps[label].model += current.size;
-              else if (obj.type === "log_only")
-                res.steps[label].log += current.size;
             }
-          });
-
-          Object.keys(steps_occurrencies).forEach(label => {
-            res.steps[label].occurrencies += current.size;
           });
 
           return res;
@@ -260,15 +238,25 @@ export class GroupedAlignmentsComponent implements OnInit {
         }
       );
 
-      this.steps = Object.keys(result.steps).map(stepLabel => {
-        let step = Object.assign({}, result.steps[stepLabel]);
-        step.label = stepLabel;
-        let total = step.perfect + step.log + step.model + step.wrong_data;
-        step.fitnessValue = step.perfect / total;
+      this.steps = this.transitionToBpmn.map(stepData => {
+        let total = stepData.cases.reduce((res, n) => res+n, 0)
+        let step = {
+          label: stepData.label,
+          perfect: stepData.cases[0],
+          log: stepData.cases[3],
+          model: stepData.cases[3],
+          wrong_data: stepData.cases[1],
+          fitnessValue: stepData.cases[0]/total,
+          size: total / result.traces,
+        }
+
         step.fitness = this.getPercentage(step.fitnessValue);
-        step.size = step.occurrencies / result.traces;
         step.cases = this.getPercentage(step.size);
         step.relevance = step.size * (1 - step.fitnessValue);
+
+        let iconData = this.getIcon(step.fitnessValue)
+        step.icon = iconData.icon;
+        step.color = iconData.color
         return step;
       });
 

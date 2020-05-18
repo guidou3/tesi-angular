@@ -54,7 +54,7 @@
           <mat-card-content>
             <mat-list>
               <mat-list-item *ngFor="let step of steps; let i = index" class="alignment-view-item">
-                <mat-icon matListIcon [ngClass]="getIconColor(step.fitness)">{{getIcon(step.fitness)}}</mat-icon>
+                <mat-icon matListIcon [ngClass]="step.color">{{step.icon}}</mat-icon>
                 <h2 matLine>{{step.label}} - Fitness: {{step.fitness}}</h2>
                 <p matLine class="secondary-line">Cases: {{step.cases}}</p>
                 <p matLine class="secondary-line">Perfect: {{step.perfect}}  -  Wrong data: {{step.wrong_data}}</p>
