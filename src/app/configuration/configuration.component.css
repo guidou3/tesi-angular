@@ -18,3 +18,10 @@
 .slider-input {
   padding-left: 10px;
 }
+
+.expert {
+  border: 1px solid grey;
+  border-radius: 5px;
+  padding: 0 10px;
+  margin: 10px 0;
+}

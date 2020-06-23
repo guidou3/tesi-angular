@@ -9,12 +9,12 @@
       <i>Advanced options</i>
   </mat-checkbox>
   </div>
-  <div fxLayout="row" fxLayoutAlign="center center">
-    <label fxLayoutAlign="end" fxFlex="25" >Concurrent threads </label>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <label fxFlex="25">Concurrent threads </label>
     <mat-icon 
       matTooltip="How many current threads to use (a lower value use less memory)."
       matTooltipPosition="right"
-      matTooltipClass="custom-tooltip">
+      mat-list-icon>
       info
     </mat-icon>
     <div fxFlex="70" fxLayoutAlign="center center">
@@ -151,7 +151,7 @@
     </mat-checkbox>
   </div>
 
-  <div *ngIf="formGroup.controls['checked'].value">
+  <div *ngIf="formGroup.controls['checked'].value" class="expert">
     <h5>Expert confgiguration options</h5>
 
     <div fxLayout="row" fxLayoutAlign="start center">

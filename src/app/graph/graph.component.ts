@@ -20,7 +20,7 @@ export class GraphComponent implements OnInit {
         file = file.replace(new RegExp(obj.initial, 'g'), obj.final)
         graph.addImage(obj.final, "25px", "25px")
       })*/
-
+      console.log(fil)
 
       graph
       .renderDot(file)

@@ -13,3 +13,7 @@ p {
 .spinner {
   padding-top: 40px;
 }
+
+.strong {
+  font-weight: bold;
+}

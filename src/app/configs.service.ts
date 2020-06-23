@@ -93,7 +93,7 @@ export class ConfigsService {
   }
 
   public getGraph() {
-    return this.http.get<String>(host+'/dotInitial', {
+    return this.http.get<String>(host+'/dotCustom', {
       responseType: 'text'
     })
   }

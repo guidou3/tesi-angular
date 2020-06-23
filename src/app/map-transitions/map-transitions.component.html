@@ -4,8 +4,8 @@
     <p>First, select an appropriate classifier. Unmapped transitions will be mapped to a dummy event class. Approximate matches are highlighted and need to be reviewed for correctness.</p>
     <mat-list-item>
       <p fxFlex="50" mat-line>Choose classifier</p>
-      <mat-select formControlName="classifier" (ngModelChange)="updateIndex()">
-        <mat-option *ngFor="let val of classifiers" [value]="val.value">{{val.label}}</mat-option>
+      <mat-select class="strong" formControlName="classifier" (ngModelChange)="updateIndex()">
+        <mat-option class="strong" *ngFor="let val of classifiers" [value]="val.value">{{val.label}}</mat-option>
       </mat-select>
     </mat-list-item>
     <mat-list-item>
