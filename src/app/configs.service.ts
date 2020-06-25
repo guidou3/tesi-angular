@@ -92,10 +92,21 @@ export class ConfigsService {
     return this.http.get<any>(host+'/groups')
   }
 
-  public getGraph() {
-    return this.http.get<String>(host+'/dotCustom', {
+  public getGraphInitial() {
+    return this.http.get<any>(host+'/dotInitial', {
+      responseType: 'text'
+    })
+  }
+
+  public getGraphCustom() {
+    return this.http.get<any>(host+'/dotCustom', {
       responseType: 'text'
     })
   }
   
+  public getGraphFinal() {
+    return this.http.get<any>(host+'/dotFinal', {
+      responseType: 'text'
+    })
+  }
 }
