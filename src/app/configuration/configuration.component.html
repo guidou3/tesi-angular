@@ -169,7 +169,40 @@
           info
       </mat-icon>
     </div>
+
     <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-form-field fxLayout="row">
+        <mat-label>Re-ordering of moves</mat-label>
+        <mat-select formControlName="moves_ordering">
+          <mat-option *ngFor="let val of moves" [value]="val.value">{{val.viewValue}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-icon 
+        class="selectIcon"
+        matTooltip="Whether to search all re-orderings (NONE) or just a single special ordering between log-moves and model-moves."
+        matTooltipPosition="right"
+        mat-list-icon>
+        info
+      </mat-icon>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <mat-form-field fxLayout="row">
+        <mat-label>Queueing Strategy</mat-label>
+        <mat-select formControlName="queueing">
+          <mat-option *ngFor="let val of queueing" [value]="val.value">{{val.viewValue}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-icon 
+        class="selectIcon"
+        matTooltip="Strategy to break ties in the A* search. Random can be useful to get multiple solutions with equal cost."
+        matTooltipPosition="right"
+        mat-list-icon>
+        info
+      </mat-icon>
+    </div>
+    
+    <!--<div fxLayout="row" fxLayoutAlign="start center">
       <mat-checkbox 
         fxLayout="row"
         fxLayoutAlign="start center"
@@ -184,7 +217,7 @@
         mat-list-icon>
           info
       </mat-icon>
-    </div>
+    </div>-->
 
     <div fxLayout="row" fxLayoutAlign="start center">
       <mat-checkbox 
@@ -246,38 +279,6 @@
         matTooltipPosition="right"
         mat-list-icon>
           info
-      </mat-icon>
-    </div>
-
-    <div fxLayout="row" fxLayoutAlign="start center">
-      <mat-form-field fxLayout="row">
-        <mat-label>Re-ordering of moves</mat-label>
-        <mat-select formControlName="moves_ordering">
-          <mat-option *ngFor="let val of moves" [value]="val.value">{{val.viewValue}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-icon 
-        class="selectIcon"
-        matTooltip="Whether to search all re-orderings (NONE) or just a single special ordering between log-moves and model-moves."
-        matTooltipPosition="right"
-        mat-list-icon>
-        info
-      </mat-icon>
-    </div>
-
-    <div fxLayout="row" fxLayoutAlign="start center">
-      <mat-form-field fxLayout="row">
-        <mat-label>Queueing Strategy</mat-label>
-        <mat-select formControlName="queueing">
-          <mat-option *ngFor="let val of queueing" [value]="val.value">{{val.viewValue}}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-icon 
-        class="selectIcon"
-        matTooltip="Strategy to break ties in the A* search. Random can be useful to get multiple solutions with equal cost."
-        matTooltipPosition="right"
-        mat-list-icon>
-        info
       </mat-icon>
     </div>
   </div>

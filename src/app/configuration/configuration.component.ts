@@ -39,7 +39,7 @@ export class ConfigurationComponent implements OnInit {
       unassigned: new FormControl('NULL'),
       milp: new FormControl('ILP_LPSOLVE'),
       algorithm: new FormControl('ASTAR_GRAPH'),
-      balanced: new FormControl(true),
+      //balanced: new FormControl(true),
       keep_control: new FormControl(true),
       keep_data: new FormControl(true),
       cache: new FormControl(true),
@@ -98,6 +98,9 @@ export class ConfigurationComponent implements OnInit {
    */
 
   public postResult() {
-    this.configService.postParameters(this.formGroup.value)
+    let results = this.formGroup.value
+    results.balanced = true
+    console.log(results)
+    this.configService.postParameters(results)
   }
 }
