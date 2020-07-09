@@ -24,6 +24,7 @@ import {
   MatProgressSpinnerModule,
   MatSelectModule,
   MatSliderModule,
+  MatSpinner,
   MatToolbarModule,
   MatTooltipModule,
 } from '@angular/material';

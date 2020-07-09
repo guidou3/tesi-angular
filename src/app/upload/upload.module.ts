@@ -5,6 +5,7 @@ import {
   MatDialogModule,
   MatListModule,
   MatProgressBarModule,
+  MatProgressSpinnerModule,
   MatIconModule
 } from '@angular/material'
 import { DialogComponent } from './dialogue/dialogue.component'
@@ -19,6 +20,7 @@ import { UploadComponent } from './upload.component'
     CommonModule,
     MatButtonModule,
     MatDialogModule,
+    MatProgressSpinnerModule,
     MatListModule,
     FlexLayoutModule,
     HttpClientModule,

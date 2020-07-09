@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material'
 import { DialogComponent } from './dialogue/dialogue.component'
 import { UploadService } from './upload.service'
 import { forkJoin } from 'rxjs/observable/forkJoin'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-upload',
@@ -10,7 +11,8 @@ import { forkJoin } from 'rxjs/observable/forkJoin'
   styleUrls: ['./upload.component.css'],
 })
 export class UploadComponent {
-  constructor(public dialog: MatDialog, public uploadService: UploadService) {}
+  constructor(public dialog: MatDialog, public uploadService: UploadService, private router:Router) {
+  }
 
   @ViewChild('modelInput', {static: false}) modelInput
   @ViewChild('ceInput', {static: false}) ceInput
@@ -18,6 +20,8 @@ export class UploadComponent {
   modelLabel:String = ""
   ceLabel:String = ""
   logLabel:String = ""
+
+  fileToIndex = {}
 
   files:Array<File> = new Array()
 
@@ -31,8 +35,10 @@ export class UploadComponent {
   }
 
   public subModel() {
-    this.files[0] = this.modelInput.nativeElement.files[0]
-    this.modelLabel = this.files[0].name
+    if(this.fileToIndex.model == null)
+      this.fileToIndex.model = Object.keys(this.fileToIndex).length
+    this.files[this.fileToIndex.model] = this.modelInput.nativeElement.files[0]
+    this.modelLabel = this.files[this.fileToIndex.model].name
   }
 
   public getCustomElements() {
@@ -40,8 +46,10 @@ export class UploadComponent {
   }
 
   public subCustomElements() {
-    this.files[1] = this.ceInput.nativeElement.files[0]
-    this.ceLabel = this.files[1].name
+    if(this.fileToIndex.ce == null)
+      this.fileToIndex.ce = Object.keys(this.fileToIndex).length
+    this.files[this.fileToIndex.ce] = this.ceInput.nativeElement.files[0]
+    this.ceLabel = this.files[this.fileToIndex.ce].name
   }
 
   public getLog() {
@@ -49,15 +57,17 @@ export class UploadComponent {
   }
 
   public subLog() {
-    this.files[2] = this.logInput.nativeElement.files[0]
-    this.logLabel = this.files[2].name
+    if(this.fileToIndex.log == null)
+      this.fileToIndex.log = Object.keys(this.fileToIndex).length
+    this.files[this.fileToIndex.log] = this.logInput.nativeElement.files[0]
+    this.logLabel = this.files[this.fileToIndex.log].name
   }
 
   public upload() {
     // set the component state to "uploading"
     this.uploading = true;
     // start the upload and save the progress map
-    this.progress = this.uploadService.upload(new Set(this.files));
+    this.progress = this.uploadService.upload(new Set(this.files), this.fileToIndex);
     // convert the progress map into an array
     let allProgressObservables = [];
     for (let key in this.progress) {
@@ -79,7 +89,7 @@ export class UploadComponent {
 
       // ... and the component is no longer uploading
       this.uploading = false;
-      console.log("here")e
+      this.router.navigateByUrl('configuration')
     });
   }
 

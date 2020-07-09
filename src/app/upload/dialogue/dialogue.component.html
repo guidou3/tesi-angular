@@ -23,12 +23,14 @@
   <mat-dialog-content fxFlex>
     <mat-list>
       <mat-list-item *ngFor="let file of files">
-        <h4 mat-line>{{file.name}}</h4>
-        <mat-progress-bar
-          *ngIf="progress"
-          mode="determinate"
-          [value]="progress[file.name].progress | async"
-        ></mat-progress-bar>
+        <div>
+          <h4 mat-line>{{file.name}}</h4>
+          <mat-progress-bar
+            *ngIf="progress"
+            mode="determinate"
+            [value]="progress[file.name].progress | async"
+          ></mat-progress-bar>
+        </div>
       </mat-list-item>
     </mat-list>
   </mat-dialog-content>

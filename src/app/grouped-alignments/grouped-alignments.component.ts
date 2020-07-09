@@ -154,9 +154,9 @@ export class GroupedAlignmentsComponent implements OnInit {
   ngOnInit() {
     this.configService.getAlignmentsGroups().subscribe(data => {
       let labelMap = {};
-
+      console.log(data)
       this.transitionToBpmn = data.activityGraphDetails;
-      console.log(this.transitionToBpmn)
+      
 
       this.alignments = data.groups.map(alignment => {
         let newObj = {

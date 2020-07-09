@@ -15,7 +15,7 @@ import {host} from '../../net.json'
 export class UploadService {
   constructor(private http: HttpClient) {}
 
-  public upload(files: Set<File>):
+  public upload(files: Set<File>, fileToIndex):
     { [key: string]: { progress: Observable<number> } } {
 
     // this will be the our resulting map
@@ -23,9 +23,9 @@ export class UploadService {
 
     let index=0;
     let url = new Map()
-      .set(0, host + '/uploadModel')
-      .set(1, host + '/uploadCustomElements')
-      .set(2, host + '/uploadLog')
+      .set(fileToIndex.model, host + '/uploadModel')
+      .set(fileToIndex.ce, host + '/uploadCustomElements')
+      .set(fileToIndex.log, host + '/uploadLog')
 
     files.forEach(file => {
       // create a new multipart-form for every file

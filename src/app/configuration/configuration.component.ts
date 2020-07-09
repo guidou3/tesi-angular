@@ -3,6 +3,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { SliderParams} from '../Types'
 import { ConfigsService } from '../configs.service'
 import { DefaultSettings } from '../Types'
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 
 @Component({
@@ -23,7 +25,7 @@ export class ConfigurationComponent implements OnInit {
 
   private formGroup: FormGroup
 
-  constructor(private configService: ConfigsService) {
+  constructor(private configService: ConfigsService, private router:Router, private location: Location) {
     this.fitness = new SliderParams(0, 1, 0, 0.01)
     this.threads = new SliderParams(1, 1, 1, 1)
     this.search_space = new SliderParams(1, 1, 1, 1)
@@ -100,7 +102,8 @@ export class ConfigurationComponent implements OnInit {
   public postResult() {
     let results = this.formGroup.value
     results.balanced = true
-    console.log(results)
-    this.configService.postParameters(results)
+    this.configService.postParameters(results).subscribe(resp => {
+        this.router.navigateByUrl('mapping')
+      })
   }
 }

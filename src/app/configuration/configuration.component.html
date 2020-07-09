@@ -282,7 +282,18 @@
       </mat-icon>
     </div>
   </div>
-  <div fxLayoutAlign="end center">
-    <button routerLink="/mapping" color="primary" mat-raised-button type="button" (click)="postResult()">Submit</button>
+  <div fxLayout="row" fxLayoutAlign="space-between center">
+    <button 
+      (click)="location.back()" 
+      mat-stroked-button 
+      color="primary" >
+        Back
+    </button>
+    <button 
+      (click)="postResult()" 
+      mat-stroked-button 
+      color="primary" >
+        Next
+    </button>
   </div>
 </form>

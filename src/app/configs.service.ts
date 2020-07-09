@@ -20,10 +20,9 @@ export class ConfigsService {
   }
 
   public postParameters(parameters: Types.Parameters) {
-    this.http.post<Types.Parameters>(host+'/params', parameters, {
+    return this.http.post<Types.Parameters>(host+'/params', parameters, {
       responseType: 'text'
     })
-      .subscribe(resp => console.log(resp))
   }
 
   public getInitialMapping() {
