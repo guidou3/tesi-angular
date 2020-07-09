@@ -57,7 +57,6 @@ import { AlignmentViewComponent } from './alignment-view/alignment-view.componen
     BrowserModule,
     HttpClientModule,
     RouterModule.forRoot([
-      { path: '', component: ConfigurationComponent },
       { path: 'grouped', component: GroupedAlignmentsComponent },
       { path: 'graph', component: GraphComponent },
       { path: 'result', component: ResultsComponent },
@@ -67,7 +66,7 @@ import { AlignmentViewComponent } from './alignment-view/alignment-view.componen
       { path: 'mapping', component: MapTransitionsComponent },
       { path: 'variablesMapping', component: MapVariablesComponent },
       { path: 'configuration', component: ConfigurationComponent },
-      { path: 'upload', component: UploadComponent },
+      { path: '', component: UploadComponent },
     ]),
     AgGridModule.withComponents([
       NumericEditorComponent

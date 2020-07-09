@@ -58,7 +58,6 @@ export class UploadComponent {
     this.uploading = true;
     // start the upload and save the progress map
     this.progress = this.uploadService.upload(new Set(this.files));
-    console.log(this.progress["Piano di studi.pdf"].progress.isComplete())
     // convert the progress map into an array
     let allProgressObservables = [];
     for (let key in this.progress) {
@@ -80,6 +79,7 @@ export class UploadComponent {
 
       // ... and the component is no longer uploading
       this.uploading = false;
+      console.log("here")e
     });
   }
 
