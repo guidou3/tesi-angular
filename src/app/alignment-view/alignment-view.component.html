@@ -23,28 +23,30 @@
     <text [attr.x]="start +10 + obj.x +5" [attr.y]="obj.y+13" font-family="Arial" font-size="8"  fill="black" >{{obj.type}}</text>
   </svg>
 </svg>
-<div *ngIf="focus" fxLayout="row">
-  <p>{{this.data.fitness}}</p>
-  <ag-grid-angular
-    fxFlex="60"
-    domLayout='autoHeight'
-    class="ag-theme-balham"
-    [rowData]="tableItems"
-    [columnDefs]="columnDefs"
-    (firstDataRendered)="onFirstDataRendered($event)">
-  </ag-grid-angular>
-  <div fxLayout="column">
-    <mat-list *ngIf="missingVariables.size > 0">
-      <h5>Missing variables</h5>
-      <mat-list-item *ngFor="let variable of missingVariables">
-        <label>{{variable}}</label>
-      </mat-list-item>
-    </mat-list>
-    <mat-list *ngIf="incorrectVariables.size > 0">
-      <h5>Incorrect variables</h5>
-      <mat-list-item *ngFor="let variable of incorrectVariables">
-        <p>{{variable}}</p>
-      </mat-list-item>
-    </mat-list>
+<div *ngIf="focus" fxLayout="column">
+  <p>Fitness: {{this.data.fitness}}</p>
+  <div *ngIf="focus" fxLayout="row">
+    <ag-grid-angular
+      fxFlex="50"
+      domLayout='autoHeight'
+      class="ag-theme-balham"
+      [rowData]="tableItems"
+      [columnDefs]="columnDefs"
+      (firstDataRendered)="onFirstDataRendered($event)">
+    </ag-grid-angular>
+    <div class="variablesList" fxLayout="column" fxFlex="50">
+      <mat-list *ngIf="missingVariables.size > 0">
+        <h5 class="list-header">Missing variables</h5>
+        <mat-list-item *ngFor="let variable of missingVariables">
+          <p class="variablesName">{{variable}}</p>
+        </mat-list-item>
+      </mat-list>
+      <mat-list *ngIf="incorrectVariables.size > 0">
+        <h5 class="list-header">Incorrect variables</h5>
+        <mat-list-item *ngFor="let variable of incorrectVariables">
+          <p class="variablesName">{{variable}}</p>
+        </mat-list-item>
+      </mat-list>
+    </div>
   </div>
 </div>

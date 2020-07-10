@@ -87,6 +87,10 @@ export class ConfigsService {
     }).pipe(timeout(600000))
   }
 
+  public getProgress() {
+    return this.http.get<any>(host+'/progress')
+  }
+
   public getAlignmentsGroups() {
     return this.http.get<any>(host+'/groups')
   }

@@ -5,3 +5,20 @@
 prova {
   color: rgb(rgba(143, 73, 45, 0.3), green, blue)
 }
+
+.list-header {
+  margin: 0 !important;
+}
+
+.variablesName {
+  margin: 0 !important;
+  padding: 0 5px;
+}
+
+.variablesList {
+  padding: 0 10px;
+}
+
+.mat-list-base .mat-list-item {
+  height: 30px;
+}

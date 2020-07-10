@@ -100,3 +100,7 @@ mat-checkbox {
 .worst {
   color: darkred;
 }
+
+.alignment-view-item {
+  padding: 0 20px;
+}
