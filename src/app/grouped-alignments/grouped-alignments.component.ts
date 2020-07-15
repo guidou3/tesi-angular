@@ -243,16 +243,16 @@ export class GroupedAlignmentsComponent implements OnInit {
         let step = {
           label: stepData.label,
           perfect: stepData.cases[0],
-          log: stepData.cases[3],
+          log: stepData.cases[2],
           model: stepData.cases[3],
           wrong_data: stepData.cases[1],
           fitnessValue: stepData.cases[0]/total,
           size: total / result.traces,
         }
 
-        step.fitness = this.getPercentage(step.fitnessValue);
-        step.cases = this.getPercentage(step.size);
-        step.relevance = step.size * (1 - step.fitnessValue);
+        step['fitness'] = this.getPercentage(step.fitnessValue);
+        step['cases'] = this.getPercentage(step.size);
+        step['relevance'] = step.size * (1 - step.fitnessValue);
 
         let iconData = this.getIcon(step.fitnessValue)
         step.icon = iconData.icon;
