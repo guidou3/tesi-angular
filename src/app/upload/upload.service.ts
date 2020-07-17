@@ -24,8 +24,10 @@ export class UploadService {
     let index=0;
     let url = new Map()
       .set(fileToIndex.model, host + '/uploadModel')
-      .set(fileToIndex.ce, host + '/uploadCustomElements')
       .set(fileToIndex.log, host + '/uploadLog')
+
+    if(fileToIndex.ce != null)
+      url.set(fileToIndex.ce, host + '/uploadCustomElements')
 
     files.forEach(file => {
       // create a new multipart-form for every file

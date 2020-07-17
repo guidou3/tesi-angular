@@ -37,6 +37,7 @@ export class ResultsComponent implements OnInit {
       this.lastTime = new Date().getTime()
       setInterval(() => {
         this.configService.getProgress().subscribe(data => {
+          console.log(data)
           let progress = parseFloat(data[0])
           if(progress >= 97 && data[1]) {
             this.loading = false;

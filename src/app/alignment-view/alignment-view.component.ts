@@ -28,6 +28,10 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
   private missingVariables: Set<String>;
   private incorrectVariables: Set<String>;
 
+  private height;
+  private margin;
+  private box;
+
   constructor() { 
     this.visible_segments = [];
     this.segments = [];
@@ -45,7 +49,11 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
     this.missingVariables = new Set();
     this.incorrectVariables = new Set();
     this.tableItems = [];
+
+    this.height = 0;
     
+    this.margin = "10px"
+    this.box = "0 0 1000 70"
   }
 
   ngOnInit() {
@@ -108,22 +116,38 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
           "label" : label,
           "type": typeToLabel[obj.type]
         })
+      
+      let pos = 0
+      obj.variables = []
       if(obj.missingVariables) {
         obj.missingVariables.forEach((item) => {
           missingVariables.add(item._1)
+          obj.variables.push({label: this.getShorterVariableName(item._1), index: pos})
+          pos += 1
         })
       }
+
       if(obj.incorrectVariables) {
+        let newIncorrectVariables = [];
         obj.incorrectVariables.forEach((item) => {
           incorrectVariables.add(item.variable)
+          obj.variables.push({label: this.getShorterVariableName(item.variable), index: pos})
+          pos += 1
         })
       }
+
+      if(pos > this.height)
+        this.height = pos
+
       obj.label = obj.labelMin
       obj.alignmentcolor = typeToColor[obj.type]
       
       return obj
     })
     this.visible_segments = this.generatePaths()
+
+    this.margin = (this.height + 1) *10 + "px"
+    this.box = "0 0 1000 " + (70 + this.height *5)
   }
 
   ngOnChanges(changes) {
@@ -182,6 +206,23 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
     }
     else 
       return LENGTH
+  }
+
+  getShorterVariableName(name: string) {
+    if(name.startsWith('custom:')) {
+      if(name.includes('Resource'))
+        name = 'Resource'
+      else if(name.includes('Role'))
+        name = 'Role'
+      else if(name.includes('Group'))
+        name = 'Group'
+      else if(name.includes('TimeInstance'))
+        name = 'Time Instance'
+      else if(name.includes('TimeVar'))
+        name = 'Time'
+    }
+
+    return name
   }
 
   public onFirstDataRendered(params) {
