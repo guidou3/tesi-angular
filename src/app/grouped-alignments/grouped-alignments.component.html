@@ -14,9 +14,10 @@
   <div fxFlex fxLayout="row">
     <div class="main" fxLayout="column" fxFlex="75">
       <div class="navigation">
-        <button type="button" (click)="page(1)">View 1</button>
-        <button type="button" (click)="page(2)">View 2</button>
-        <button type="button" (click)="page(3)">View 3</button>
+        <button type="button" (click)="page(1)">Grouped</button>
+        <button type="button" (click)="page(2)">Graphic Gruped</button>
+        <button type="button" (click)="page(3)">Activities</button>
+        <button type="button" (click)="page(4)">Data Errors</button>
         <button type="button" (click)="saveJson()">Download graph data</button>
       </div>
       <div *ngIf="view === 1">
@@ -50,7 +51,7 @@
       </div>
       <div *ngIf="view === 3">
         <mat-card>
-          <mat-card-header>View 3</mat-card-header>
+          <mat-card-header>Activities</mat-card-header>
           <mat-card-content>
             <mat-list>
               <mat-list-item *ngFor="let step of steps; let i = index" class="alignment-view-item">
@@ -59,6 +60,22 @@
                 <p matLine class="secondary-line">Cases: {{step.cases}}</p>
                 <p matLine class="secondary-line">Perfect: {{step.perfect}}  -  Wrong data: {{step.wrong_data}}</p>
                 <p matLine class="secondary-line">Log: {{step.log}}  -  Model: {{step.model}}</p>
+              </mat-list-item>
+            </mat-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div *ngIf="view === 4">
+        <mat-card>
+          <mat-card-header>Data Errors</mat-card-header>
+          <mat-card-content>
+            <mat-list>
+              <mat-list-item *ngFor="let obj of variables" class="alignment-view-item variable-list" fxLayout="column">
+                <h2 matLine>{{obj.activity}} - Cases: {{obj.cases}}</h2>
+                <p matLine *ngIf=" obj.missing.length > 0">Missing:</p>
+                <p matLine class="variable-list-item secondary-line" *ngFor="let varObj of obj.missing">- {{varObj.variable}} - {{varObj.percentage}}</p>
+                <p matLine *ngIf=" obj.incorrect.length > 0">Incorrect:</p>
+                <p matLine class="variable-list-item secondary-line" *ngFor="let varObj of obj.incorrect">- {{varObj.variable}} - {{varObj.percentage}}</p>
               </mat-list-item>
             </mat-list>
           </mat-card-content>

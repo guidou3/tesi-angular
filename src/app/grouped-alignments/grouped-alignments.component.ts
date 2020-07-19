@@ -49,6 +49,8 @@ export class GroupedAlignmentsComponent implements OnInit {
 
   private statistics;
 
+  private variables;
+
   private transitionToBpmn;
 
   constructor(
@@ -148,6 +150,8 @@ export class GroupedAlignmentsComponent implements OnInit {
 
     this.alignments = [];
 
+    this.variables = [];
+
     // this.createTransitionsColors()
   }
 
@@ -181,10 +185,11 @@ export class GroupedAlignmentsComponent implements OnInit {
           return {
             labelMin: labels.labelMin,
             labelMax: labels.labelMax,
+            label: step.label,
             transitionColor: step.transitionColor,
             type: this.getType(step),
-            missingVariables: step.missingVariables,
-            incorrectVariables: step.incorrectVariables
+            missingVariables: step.missingVariables || [],
+            incorrectVariables: step.incorrectVariables || []
           };
         });
 
@@ -209,7 +214,27 @@ export class GroupedAlignmentsComponent implements OnInit {
 
           current.list.forEach(obj => {
             if (obj.type === "perfect") res.perfect += current.size;
-            else if (obj.type === "wrong_data") res.wrong_data += current.size;
+            else if (obj.type === "wrong_data") {
+              res.wrong_data += current.size;
+              if(res.variables[obj.label] == null) {
+                res.variables[obj.label] = {
+                  missing: {},
+                  incorrect: {}
+                }
+              }
+              obj.missingVariables.forEach((missing) => {
+                if(res.variables[obj.label].missing[missing._1] != null)
+                  res.variables[obj.label].missing[missing._1] += current.size;
+                else
+                  res.variables[obj.label].missing[missing._1] = current.size;
+              })
+              obj.incorrectVariables.forEach((incorrect) => {
+                if(res.variables[obj.label].incorrect[incorrect.variable] != null)
+                  res.variables[obj.label].incorrect[incorrect.variable] += current.size;
+                else
+                  res.variables[obj.label].incorrect[incorrect.variable] = current.size;
+              })
+            }
             else if (obj.type === "model_only") res.model += current.size;
             else if (obj.type === "log_only") res.log += current.size;
 
@@ -228,6 +253,7 @@ export class GroupedAlignmentsComponent implements OnInit {
             incorrect: 0
           },
           steps: {},
+          variables: {},
           traces: 0,
           sum: 0,
           values: [],
@@ -237,7 +263,9 @@ export class GroupedAlignmentsComponent implements OnInit {
           log: 0
         }
       );
-
+      
+      let activityToWrongData = {}
+      let activityToWrongDataPercentage = {}
       this.steps = this.transitionToBpmn.map(stepData => {
         let total = stepData.cases.reduce((res, n) => res+n, 0)
         let step = {
@@ -249,10 +277,13 @@ export class GroupedAlignmentsComponent implements OnInit {
           fitnessValue: stepData.cases[0]/total,
           size: total / result.traces,
         }
+        activityToWrongData[stepData.label] = stepData.cases[1]
 
         step['fitness'] = this.getPercentage(step.fitnessValue);
         step['cases'] = this.getPercentage(step.size);
         step['relevance'] = step.size * (1 - step.fitnessValue);
+
+        activityToWrongDataPercentage[stepData.label] = this.getPercentage(stepData.cases[1]/total)
 
         let iconData = this.getIcon(step.fitnessValue)
         step.icon = iconData.icon;
@@ -320,6 +351,27 @@ export class GroupedAlignmentsComponent implements OnInit {
           value: this.getPercentage(result.log / total)
         }
       ];
+
+      this.variables = Object.keys(result.variables).map((activity) => {
+        let missing = result.variables[activity].missing
+        let incorrect = result.variables[activity].incorrect
+        return {
+          activity: activity,
+          cases: activityToWrongDataPercentage[activity],
+          missing: Object.keys(missing).map((variable) => {
+            return {
+              variable: this.getShorterVariableName(variable),
+              percentage: this.getPercentage(missing[variable] / activityToWrongData[activity])
+            }
+          }) || [],
+          incorrect: Object.keys(incorrect).map((variable) => {
+            return {
+              variable: this.getShorterVariableName(variable),
+              percentage: this.getPercentage(incorrect[variable] / activityToWrongData[activity])
+            }
+          }) || []
+        }
+      })
 
       if (result.constraints.partial > 0)
         this.statistics = this.statistics.concat([
@@ -560,5 +612,22 @@ export class GroupedAlignmentsComponent implements OnInit {
         encodeURIComponent(JSON.stringify(this.transitionToBpmn))
     );
     link.click();
+  }
+
+  getShorterVariableName(name: string) {
+    if(name.startsWith('custom:')) {
+      if(name.includes('Resource'))
+        name = 'Resource'
+      else if(name.includes('Role'))
+        name = 'Role'
+      else if(name.includes('Group'))
+        name = 'Group'
+      else if(name.includes('TimeInstance'))
+        name = 'Time Instance'
+      else if(name.includes('TimeVar'))
+        name = 'Time'
+    }
+
+    return name
   }
 }

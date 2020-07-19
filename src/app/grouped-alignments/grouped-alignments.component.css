@@ -104,3 +104,11 @@ mat-checkbox {
 .alignment-view-item {
   padding: 0 20px;
 }
+
+.variable-list-item {
+  padding-left: 10px !important;
+}
+
+.variable-list .mat-list-item-content  {
+  height: unset !important;
+}
