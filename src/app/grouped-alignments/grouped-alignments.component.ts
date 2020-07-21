@@ -163,19 +163,11 @@ export class GroupedAlignmentsComponent implements OnInit {
       
 
       this.alignments = data.groups.map(alignment => {
-        let newObj = {
-          averageLength: alignment.averageLength,
-          size: alignment.size,
-          fitness: this.getPercentage(alignment.fitness),
-          fitnessValue: alignment.fitness,
-          relevance: alignment.size * (1 - alignment.fitness),
-          constraints: alignment.constraints
-        };
 
-        newObj = Object.assign(newObj, this.getIcon(newObj.fitnessValue))
+        let newAlignment = Object.assign(alignment, this.getIcon(alignment.fitnessValue))
 
         let list = [];
-        newObj["list"] = alignment.steps.map(step => {
+        newAlignment["list"] = alignment.steps.map(step => {
           let labels = labelMap[step.label];
           if (labels == null) {
             labels = this.divideText(step.label);
@@ -193,7 +185,7 @@ export class GroupedAlignmentsComponent implements OnInit {
           };
         });
 
-        return newObj;
+        return newAlignment;
       });
       let result = this.alignments.reduce(
         (res, current) => {

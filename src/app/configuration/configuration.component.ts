@@ -102,6 +102,7 @@ export class ConfigurationComponent implements OnInit {
   public postResult() {
     let results = this.formGroup.value
     results.balanced = true
+    results.forced = false
     this.configService.postParameters(results).subscribe(resp => {
         this.router.navigateByUrl('mapping')
       })
