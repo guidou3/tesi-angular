@@ -55,6 +55,8 @@ export class GroupedAlignmentsComponent implements OnInit {
 
   private constraintsFile;
 
+  private constraints;
+
   constructor(
     private configService: ConfigsService,
     private router: Router,
@@ -67,6 +69,8 @@ export class GroupedAlignmentsComponent implements OnInit {
     this.ordering = "RELEVANCE_DESC";
 
     this.view = 1;
+
+    this.constraints = []
 
     this.columnDefs = [
       {
@@ -164,6 +168,44 @@ export class GroupedAlignmentsComponent implements OnInit {
       this.transitionToBpmn = data.activityGraphDetails;
       this.constraintsFile = data.customElements;
 
+      let totalConstraintsFitness = 0;
+      let totalConstraints = 0;
+
+      if(data.constraints) {
+        this.constraints = Object.keys(data.constraints).map(key => {
+          let obj = data.constraints[key]
+          let label = obj.type
+          if(label === "Consequence" || label === "ConsequenceTimed" || label === "TimeDistance")
+            label += " from " + obj.source + " to " + obj.target
+          else if(obj.transitions){
+            label += " linking "
+            let first = true
+            obj.transitions.forEach(t => {
+              if(first) 
+                first = false
+              else
+                label += ", "
+              label += t
+            })
+          }
+          totalConstraintsFitness += obj.fitnessValue
+          totalConstraints += obj.correct + obj.wrong
+          let iconData = this.getIcon(obj.fitnessValue)
+          return {
+            label: label,
+            fitness: obj.fitness,
+            fitnessValue: obj.fitnessValue,
+            cases: obj.correct + obj.wrong,
+            icon: iconData.icon,
+            color: iconData.color
+          }
+        })
+
+        console.log()
+        totalConstraintsFitness /= this.constraints.length
+      }
+        
+
       this.alignments = data.groups.map(alignment => {
 
         let newAlignment = Object.assign(alignment, this.getIcon(alignment.fitnessValue))
@@ -191,12 +233,12 @@ export class GroupedAlignmentsComponent implements OnInit {
       });
       let result = this.alignments.reduce(
         (res, current) => {
-          current.constraints.forEach(con => {
+          /*current.constraints.forEach(con => {
             if (con.result && con.transitions.length > 1) {
               res.constraints.correct += current.size;
             } else if (con.result) res.constraints.partial += current.size;
             else res.constraints.incorrect += current.size;
-          });
+          });*/
           res.traces += current.size;
           res.sum += current.fitnessValue * current.size;
           res.values.push({
@@ -241,11 +283,11 @@ export class GroupedAlignmentsComponent implements OnInit {
           return res;
         },
         {
-          constraints: {
+          /*constraints: {
             correct: 0,
             partial: 0,
             incorrect: 0
-          },
+          },*/
           steps: {},
           variables: {},
           traces: 0,
@@ -367,17 +409,16 @@ export class GroupedAlignmentsComponent implements OnInit {
         }
       })
 
-      if (result.constraints.partial > 0)
+      if (this.constraints > 0)
         this.statistics = this.statistics.concat([
           {
             statistic: "Total Constraints",
-            value: result.constraints.correct + result.constraints.incorrect
+            value: totalConstraints
           },
           {
             statistic: "Correct Constraints",
             value: this.getPercentage(
-              result.constraints.correct /
-                (result.constraints.correct + result.constraints.incorrect)
+              totalConstraintsFitness
             )
           },
           /*{
@@ -387,8 +428,7 @@ export class GroupedAlignmentsComponent implements OnInit {
           {
             statistic: "Wrong Constraints",
             value: this.getPercentage(
-              result.constraints.incorrect /
-                (result.constraints.correct + result.constraints.incorrect)
+              1 - totalConstraintsFitness
             )
           }
         ]);
