@@ -53,6 +53,8 @@ export class GroupedAlignmentsComponent implements OnInit {
 
   private transitionToBpmn;
 
+  private constraintsFile;
+
   constructor(
     private configService: ConfigsService,
     private router: Router,
@@ -160,7 +162,7 @@ export class GroupedAlignmentsComponent implements OnInit {
       let labelMap = {};
       console.log(data)
       this.transitionToBpmn = data.activityGraphDetails;
-      
+      this.constraintsFile = data.customElements;
 
       this.alignments = data.groups.map(alignment => {
 
@@ -602,6 +604,19 @@ export class GroupedAlignmentsComponent implements OnInit {
       "href",
       "data:text/json;charset=UTF-8," +
         encodeURIComponent(JSON.stringify(this.transitionToBpmn))
+    );
+    link.click();
+  }
+
+  saveJsonConstraints() {
+    var link = document.createElement("a");
+    link.style.display = "none";
+    document.body.appendChild(link);
+    link.setAttribute("download", "graphData.cbpmn");
+    link.setAttribute(
+      "href",
+      "data:text/json;charset=UTF-8," +
+        encodeURIComponent(JSON.stringify(this.constraintsFile))
     );
     link.click();
   }

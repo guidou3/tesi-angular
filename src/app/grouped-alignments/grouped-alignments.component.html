@@ -17,8 +17,10 @@
         <button type="button" (click)="page(1)">Grouped</button>
         <button type="button" (click)="page(2)">Graphic Gruped</button>
         <button type="button" (click)="page(3)">Activities</button>
-        <button type="button" (click)="page(4)">Data Errors</button>
+        <button type="button" (click)="page(4)">Constraints</button>
+        <button type="button" (click)="page(5)">Data Errors</button>
         <button type="button" (click)="saveJson()">Download graph data</button>
+        <button type="button" (click)="saveJsonConstraints()">Download colored constraints</button>
       </div>
       <div *ngIf="view === 1">
         <mat-card>
@@ -66,6 +68,22 @@
         </mat-card>
       </div>
       <div *ngIf="view === 4">
+        <mat-card>
+          <mat-card-header>Activities</mat-card-header>
+          <mat-card-content>
+            <mat-list>
+              <mat-list-item *ngFor="let step of steps; let i = index" class="alignment-view-item">
+                <mat-icon matListIcon [ngClass]="step.color">{{step.icon}}</mat-icon>
+                <h2 matLine>{{step.label}} - Fitness: {{step.fitness}}</h2>
+                <p matLine class="secondary-line">Cases: {{step.cases}}</p>
+                <p matLine class="secondary-line">Perfect: {{step.perfect}}  -  Wrong data: {{step.wrong_data}}</p>
+                <p matLine class="secondary-line">Log: {{step.log}}  -  Model: {{step.model}}</p>
+              </mat-list-item>
+            </mat-list>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div *ngIf="view === 5">
         <mat-card>
           <mat-card-header>Data Errors</mat-card-header>
           <mat-card-content>
