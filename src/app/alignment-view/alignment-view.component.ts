@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges, Input } from '@angular/core';
 
-const LENGTH = 65;
+const LENGTH = 80;
 const OFFSET = 27;
 const MULTIPLIER = 1.5;
 

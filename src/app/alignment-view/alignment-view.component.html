@@ -20,7 +20,7 @@
     </text>
   </svg>
   <svg *ngFor="let obj of constraints">
-    <rect width="65" height="23" [attr.fill]="obj.color" [attr.x]="start +10 + obj.x" [attr.y]="obj.y" rx="5" ry="5"/>
+    <rect width="80" height="23" [attr.fill]="obj.color" [attr.x]="start +10 + obj.x" [attr.y]="obj.y" rx="5" ry="5"/>
     <text [attr.x]="start +10 + obj.x +5" [attr.y]="obj.y+13" font-family="Arial" font-size="8"  fill="black" >{{obj.type}}</text>
   </svg>
 </svg>
