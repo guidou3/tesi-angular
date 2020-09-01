@@ -146,6 +146,63 @@ export class AlignmentViewComponent implements OnInit, OnChanges {
     })
     this.visible_segments = this.generatePaths()
 
+    let missingVariables2 = new Set()
+    missingVariables.forEach(variable => {
+      if(variable.startsWith('custom:')) {
+        let arr = variable.split('_')
+        let name = "of "
+
+        if(arr[arr.length-1] === "start")
+          name += arr[arr.length-2] + "_"
+
+        name += arr[arr.length-1]
+
+        if(variable.includes('Resource'))
+          name = 'Resource of ' + name
+        else if(variable.includes('Role'))
+          name = 'Role' + name
+        else if(variable.includes('Group'))
+          name = 'Group' + name
+        else if(variable.includes('TimeInstance'))
+          name = 'Time Instance' + name
+        else if(variable.includes('TimeVar'))
+          name = 'Time' + name
+
+        missingVariables2.add(name)
+      }
+      else
+        missingVariables2.add(variable)
+    })
+
+    let incorrectVariables2 = new Set()
+    incorrectVariables.forEach(variable => {
+      if(variable.startsWith('custom:')) {
+        let arr = variable.split('_')
+        let name = " on "
+
+        if(arr[arr.length-1] === "start")
+          name += arr[arr.length-2] + "_"
+
+        name += arr[arr.length-1]
+
+        if(variable.includes('Resource'))
+          name = 'Resource' + name
+        else if(variable.includes('Role'))
+          name = 'Role' + name
+        else if(variable.includes('Group'))
+          name = 'Group' + name
+        else if(variable.includes('TimeInstance'))
+          name = 'Time Instance' + name
+        else if(variable.includes('TimeVar'))
+          name = 'Time' + name
+
+        incorrectVariables2.add(name)
+      }
+      else
+        incorrectVariables2.add(variable)
+    })
+
+    this.incorrectVariables = incorrectVariables2
     this.margin = (this.height + 1) *10 + "px"
     this.box = "0 0 1000 " + (70 + this.height *5)
   }

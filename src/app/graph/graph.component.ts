@@ -28,7 +28,7 @@ export class GraphComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.configService.getGraphCustom().subscribe(graphData => {
+    this.configService.getGraphInitial().subscribe(graphData => {
       let graph = graphviz('div')
       graphData = JSON.parse(graphData)
       console.log(graphData)
@@ -45,12 +45,16 @@ export class GraphComponent implements OnInit {
       .fit(true);
 
       this.txt = graphData.dot
+      let texTable = ""
       this.rowData = graphData.guards.map(obj => {
+        texTable += "\\hline\n"+ obj._1 + " & \\texttt{\\detokenize{" + obj._2 + "}}\\\\ \n"
         return {
           transition: obj._1,
           guard: obj._2
         }
       })
+      console.log(texTable)
+
     })
   }
 
