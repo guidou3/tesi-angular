@@ -189,19 +189,21 @@ export class GroupedAlignmentsComponent implements OnInit {
             })
           }
           totalConstraintsFitness += obj.fitnessValue
-          totalConstraints += obj.correct + obj.wrong
+          totalConstraints += obj.correct + obj.wrong + obj.missing
           let iconData = this.getIcon(obj.fitnessValue)
           return {
             label: label,
             fitness: obj.fitness,
             fitnessValue: obj.fitnessValue,
-            cases: obj.correct + obj.wrong,
+            cases: obj.correct + obj.wrong + obj.missing,
+            correct: obj.correct,
+            wrong: obj.wrong,
+            missing: obj.missing,
             icon: iconData.icon,
             color: iconData.color
           }
         })
-
-        console.log()
+        
         totalConstraintsFitness /= this.constraints.length
       }
         
