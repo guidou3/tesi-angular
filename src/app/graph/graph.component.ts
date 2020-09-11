@@ -28,7 +28,7 @@ export class GraphComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.configService.getGraphInitial().subscribe(graphData => {
+    this.configService.getGraphCust().subscribe(graphData => {
       let graph = graphviz('div')
       graphData = JSON.parse(graphData)
       console.log(graphData)
